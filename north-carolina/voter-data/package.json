@@ -1,0 +1,22 @@
+{
+  "name": "ncsbe-scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@google-cloud/storage": "^5.13.0",
+    "cheerio": "^1.0.0-rc.10",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
+    "path": "^0.12.7",
+    "request": "^2.88.2"
+  }
+}

@@ -1,0 +1,5 @@
+# GCloud Service account
+nc-voter-data-*.json
+
+# Distribution / packagin
+**/.DS_Store
