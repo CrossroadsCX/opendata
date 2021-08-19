@@ -1,4 +1,4 @@
-import request from 'request';
+import axios from 'axios';
 import cheerio from 'cheerio';
 
 export default function pullLinks(targetUrl, _searchTerm) {

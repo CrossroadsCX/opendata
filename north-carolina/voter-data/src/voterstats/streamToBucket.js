@@ -1,23 +1,45 @@
-import https from 'https';
+import request from 'request';
 import path from 'path';
-import { Storage } from '@Google-cloud/storage';
+import logger from '../utils';
 
-export default function streamZippedFileToBucket(targetUrl, bucketName) {
-    const fileName = path.basename(targetUrl)
+import { Storage } from '@google-cloud/storage';
 
-    const storage = new Storage()
-    const bucket = storage.bucket(bucketName);
-    const file = bucket.file(fileName);
+export default async function streamFileToGCS (
+  url, // : any,
+  bucketName, //: string,
+  fileName = '', //: string,
+  options = {}, //: any = {},
+) {
+  if (fileName == '') {
+    fileName = path.basename(url);
+  }
+  
+  const storage = new Storage()
+  const bucket = storage.bucket(bucketName)
+  const file = bucket.file(fileName)
 
-    https.get(targetUrl, function(res) {
-        res.pipe(
-            file.createWriteStream({
-                resumable: false,
-                public: false,
-                metadata: {
-                    contentType: res.headers['content-type']
-                }
-            })
-        );
+  const fileWriteStream = file.createWriteStream(options)
+
+  try {
+    const result = await new Promise((resolve, reject) => {
+      request(url)
+        .on('response', (res) => {
+          logger.log('Download started.', res.statusCode, res.headers['content-type'])
+        })
+        .pipe(fileWriteStream)
+        .on('finish', () => {
+          logger.log('Finished reading file')
+          return resolve(file)
+        })
+        .on('error', (err) => reject(err))
     })
+
+    return result
+  } catch (err) {
+    let message = 'Download Error:\n'
+    message += err.message
+    logger.error(message)
+
+    return message
+  }
 };
