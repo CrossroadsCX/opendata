@@ -122,3 +122,6 @@ nc-voter-data-*.json
 
 # Distribution / packagin
 **/.DS_Store
+
+# Testing files
+test

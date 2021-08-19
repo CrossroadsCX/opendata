@@ -1,18 +1,18 @@
 import request from 'request';
 import path from 'path';
-import logger from '../utils';
+import moment from 'moment';
 
 import { Storage } from '@google-cloud/storage';
 
-export default async function streamFileToGCS (
-  url, // : any,
-  bucketName, //: string,
-  fileName = '', //: string,
-  options = {}, //: any = {},
-) {
-  if (fileName == '') {
-    fileName = path.basename(url);
-  }
+import { logger } from '../utils';
+
+export default async function streamFileToGCS (pubSubMessage, _context) {
+  const decodedData = Buffer.from(pubSubMessage.data, 'base64').toString();
+  const parsedData = JSON.parse(decodedData)
+
+  const { url, bucketName } = parsedData;
+  const fileName = moment().format('YYYY-MM-DD') + "-" + path.basename(url);
+  const options = {}; 
   
   const storage = new Storage()
   const bucket = storage.bucket(bucketName)
@@ -24,11 +24,11 @@ export default async function streamFileToGCS (
     const result = await new Promise((resolve, reject) => {
       request(url)
         .on('response', (res) => {
-          logger.log('Download started.', res.statusCode, res.headers['content-type'])
+          logger.info('Download started.', res.statusCode, res.headers['content-type'])
         })
         .pipe(fileWriteStream)
         .on('finish', () => {
-          logger.log('Finished reading file')
+          logger.info('Finished reading file')
           return resolve(file)
         })
         .on('error', (err) => reject(err))
@@ -40,6 +40,6 @@ export default async function streamFileToGCS (
     message += err.message
     logger.error(message)
 
-    return message
+    return fileWriteStream.fileName
   }
 };
