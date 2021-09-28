@@ -1,0 +1,40 @@
+{
+  "name": "ncsbe-scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "license": "MIT",
+  "engines": {
+    "node": "12"
+  },
+  "scripts": {
+    "start": "nodemon --watch src --exec 'yarn build && functions-framework --target=streamFileToGCS --signature-type=event --verbose'",
+    "build": "ttsc"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^1.9.0",
+    "@google-cloud/logging-winston": "^4.1.0",
+    "@google-cloud/storage": "^5.13.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "moment": "^2.29.1",
+    "path": "^0.12.7",
+    "regenerator-runtime": "^0.13.9",
+    "request": "^2.88.2",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/node": "^7.14.9",
+    "@babel/preset-env": "^7.15.0",
+    "@types/express": "^4.17.13",
+    "@types/node": "^14.11.2",
+    "@types/regenerator-runtime": "^0.13.1",
+    "@types/request": "^2.48.7",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "concurrently": "^6.2.1",
+    "nodemon": "^2.0.12",
+    "ttypescript": "^1.5.12",
+    "typescript": "^4.4.3"
+  }
+}
