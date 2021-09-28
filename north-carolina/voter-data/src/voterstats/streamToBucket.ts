@@ -5,15 +5,26 @@ import moment from 'moment';
 import { Storage } from '@google-cloud/storage';
 
 import { logger } from '../utils';
+import { types } from 'util';
+const { isNativeError } = types
 
-export default async function streamFileToGCS (pubSubMessage, _context) {
+type PubSubMessage = {
+  data: string;
+}
+
+type PubSubContext = Record<string, unknown>
+
+export default async function streamFileToGCS(
+  pubSubMessage: PubSubMessage,
+  _context: PubSubContext
+) {
   const decodedData = Buffer.from(pubSubMessage.data, 'base64').toString();
   const parsedData = JSON.parse(decodedData)
 
   const { url, bucketName } = parsedData;
   const fileName = moment().format('YYYY-MM-DD') + "-" + path.basename(url);
-  const options = {}; 
-  
+  const options = {};
+
   const storage = new Storage()
   const bucket = storage.bucket(bucketName)
   const file = bucket.file(fileName)
@@ -35,11 +46,17 @@ export default async function streamFileToGCS (pubSubMessage, _context) {
     })
 
     return result
-  } catch (err) {
-    let message = 'Download Error:\n'
-    message += err.message
-    logger.error(message)
+  } catch (err: unknown) {
+    if (isNativeError(err)) {
+      let message = 'Download Error:\n'
+      message += err.message
+      logger.error(message)
+    } else {
+      logger.error('Received unkonwn error:')
+      logger.error(err)
+    }
 
-    return fileWriteStream.fileName
   }
+
+  return file.publicUrl()
 };
