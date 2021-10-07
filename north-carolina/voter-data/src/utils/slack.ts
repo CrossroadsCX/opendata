@@ -1,6 +1,6 @@
 const request = require('request');
 
-const webhookURL = 'https://hooks.slack.com/services/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';
+const webhookURL = 'https://hooks.slack.com/services/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';
 
 function slack() {
 
