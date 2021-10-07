@@ -40,7 +40,7 @@ export default async function streamFileToGCS(
         .pipe(fileWriteStream)
         .on('finish', () => {
           logger.info('Finished reading file')
-          slack();
+          slack('New NC Voterfile Uploaded');
           return resolve(file)
         })
         .on('error', (err) => reject(err))

@@ -14,13 +14,13 @@
   "dependencies": {
     "@google-cloud/functions-framework": "^1.9.0",
     "@google-cloud/logging-winston": "^4.1.0",
+    "@google-cloud/secret-manager": "^3.10.1",
     "@google-cloud/storage": "^5.13.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "moment": "^2.29.1",
     "path": "^0.12.7",
     "regenerator-runtime": "^0.13.9",
     "request": "^2.88.2",
-    "slack-node": "^0.1.8",
     "winston": "^3.3.3"
   },
   "devDependencies": {

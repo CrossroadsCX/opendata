@@ -1,17 +1,20 @@
-const request = require('request');
+import request from 'request';
+import { accessSecret } from '.';
 
-const webhookURL = 'https://hooks.slack.com/services/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';
+async function slack(
+  text: string
+  ) {
+  const webhookURL = await accessSecret('slackWebhook', 'nc-voter-data');
 
-function slack() {
-
-const text = 'new NC voterfile written';
-request.post(
-  {
-    headers : { 'Content-type' : 'application/json' },
-    uri: webhookURL,
-    form : {payload: JSON.stringify({ text } )}
-  },
-  (error: any, res: any, body: any) => console.log(error)
-)};
+  if (webhookURL) {
+  const result = request.post(
+    {
+      headers: { 'Content-type': 'application/json' },
+      uri: webhookURL,
+      form: { payload: JSON.stringify({ text }) }
+    },
+    (error: Error) => console.log(error)
+  )
+}};
 
 export default slack;
