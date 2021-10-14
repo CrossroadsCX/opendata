@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { Storage } from '@google-cloud/storage';
 
-import { logger } from '../utils';
+import { logger, slack } from '../utils';
 import { types } from 'util';
 const { isNativeError } = types
 
@@ -40,6 +40,7 @@ export default async function streamFileToGCS(
         .pipe(fileWriteStream)
         .on('finish', () => {
           logger.info('Finished reading file')
+          slack('New NC Voterfile Uploaded');
           return resolve(file)
         })
         .on('error', (err) => reject(err))
