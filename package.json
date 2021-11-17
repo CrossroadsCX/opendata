@@ -4,5 +4,6 @@
   "repository": "git@github.com:crossroadscx/opendata.git",
   "author": "Chris Birk <cmbirk@gmail.com>",
   "license": "MIT",
-  "packageManager": "yarn@3.1.0"
+  "packageManager": "yarn@3.1.0",
+  "workspaces": ["packages/*"]
 }
