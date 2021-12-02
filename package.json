@@ -6,6 +6,6 @@
   "license": "MIT",
   "packageManager": "yarn@3.1.1",
   "workspaces": [
-    "packages/north-carolina/*"
+    "packages/north-carolina/campaign-finance"
   ]
 }
