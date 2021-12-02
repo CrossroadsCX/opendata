@@ -3,3 +3,6 @@ nc-voter-data-*.json
 
 # Distribution / packagin
 **/.DS_Store
+
+# npm
+node_modules
