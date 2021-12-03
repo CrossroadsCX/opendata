@@ -8,6 +8,9 @@
   "engines": {
     "node": ">=14"
   },
+  "scripts": {
+    "build": "yarn workspaces foreach -vpt run build"
+  },
   "workspaces": [
     "packages/north-carolina/campaign-finance",
     "packages/eslint-config",

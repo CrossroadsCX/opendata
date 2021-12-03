@@ -1254,6 +1254,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@crossroadscx/eslint-config@workspace:packages/eslint-config":
+  version: 0.0.0-use.local
+  resolution: "@crossroadscx/eslint-config@workspace:packages/eslint-config"
+  dependencies:
+    "@typescript-eslint/parser": ^5.5.0
+    eslint: ^8.3.0
+    eslint-config-airbnb: ^19.0.2
+    eslint-config-prettier: ^8.3.0
+    eslint-plugin-import: ^2.25.3
+    eslint-plugin-jsx-a11y: ^6.5.1
+    eslint-plugin-prettier: ^4.0.0
+    eslint-plugin-react: ^7.27.1
+    eslint-plugin-react-hooks: ^4.3.0
+    prettier: ^2.5.0
+    typescript: ^4.5.2
+  languageName: unknown
+  linkType: soft
+
 "@crossroadscx/google-cloud@workspace:*, @crossroadscx/google-cloud@workspace:packages/google-cloud":
   version: 0.0.0-use.local
   resolution: "@crossroadscx/google-cloud@workspace:packages/google-cloud"
@@ -2923,24 +2941,6 @@ __metadata:
   checksum: df4cea3032671995bb5ab07e016169072f7fa59f44a53251664d9ca60951b66cdc872683b5c6a3729c91497c11490ca44a79654b395dd6756beb0c3903a37196
   languageName: node
   linkType: hard
-
-"eslint-config@workspace:packages/eslint-config":
-  version: 0.0.0-use.local
-  resolution: "eslint-config@workspace:packages/eslint-config"
-  dependencies:
-    "@typescript-eslint/parser": ^5.5.0
-    eslint: ^8.3.0
-    eslint-config-airbnb: ^19.0.2
-    eslint-config-prettier: ^8.3.0
-    eslint-plugin-import: ^2.25.3
-    eslint-plugin-jsx-a11y: ^6.5.1
-    eslint-plugin-prettier: ^4.0.0
-    eslint-plugin-react: ^7.27.1
-    eslint-plugin-react-hooks: ^4.3.0
-    prettier: ^2.5.0
-    typescript: ^4.5.2
-  languageName: unknown
-  linkType: soft
 
 "eslint-import-resolver-node@npm:^0.3.6":
   version: 0.3.6
