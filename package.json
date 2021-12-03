@@ -10,6 +10,7 @@
   },
   "workspaces": [
     "packages/north-carolina/campaign-finance",
+    "packages/eslint-config",
     "packages/google-cloud"
   ]
 }
