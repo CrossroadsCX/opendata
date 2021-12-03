@@ -3284,6 +3284,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.3.0"],
             ["eslint-config-airbnb-base", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:15.0.0"],
             ["eslint-plugin-import", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:2.25.3"],
+            ["ttypescript", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:1.5.13"],
             ["typescript", "patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=493e53"],
             ["winston", "npm:3.3.3"]
           ],
@@ -7213,6 +7214,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "packagePeers": [
             "@types/typescript",
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["ttypescript", [
+        ["npm:1.5.13", {
+          "packageLocation": "./.yarn/cache/ttypescript-npm-1.5.13-219eabee3b-bd97f05852.zip/node_modules/ttypescript/",
+          "packageDependencies": [
+            ["ttypescript", "npm:1.5.13"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:1.5.13", {
+          "packageLocation": "./.yarn/__virtual__/ttypescript-virtual-cd91acd6b3/0/cache/ttypescript-npm-1.5.13-219eabee3b-bd97f05852.zip/node_modules/ttypescript/",
+          "packageDependencies": [
+            ["ttypescript", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:1.5.13"],
+            ["@types/ts-node", null],
+            ["@types/typescript", null],
+            ["resolve", "patch:resolve@npm%3A1.20.0#~builtin<compat/resolve>::version=1.20.0&hash=07638b"],
+            ["ts-node", null],
+            ["typescript", "patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=493e53"]
+          ],
+          "packagePeers": [
+            "@types/ts-node",
+            "@types/typescript",
+            "ts-node",
             "typescript"
           ],
           "linkType": "HARD",
