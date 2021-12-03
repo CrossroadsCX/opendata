@@ -1,4 +1,4 @@
 {
-  "name": "google-cloud",
+  "name": "@crossroadscx/google-cloud",
   "packageManager": "yarn@3.1.1"
 }

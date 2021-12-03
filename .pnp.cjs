@@ -23,6 +23,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:."
       },
       {
+        "name": "@crossroadscx/google-cloud",
+        "reference": "workspace:packages/google-cloud"
+      },
+      {
         "name": "campaign-finance",
         "reference": "workspace:packages/north-carolina/campaign-finance"
       }
@@ -30,6 +34,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.{1,2}(?:\\/|$))(?:(?:(?!(?:^|\\/)\\.{1,2}(?:\\/|$)).)*?)|$))$)",
     "fallbackExclusionList": [
+      ["@crossroadscx/google-cloud", ["workspace:packages/google-cloud"]],
       ["campaign-finance", ["workspace:packages/north-carolina/campaign-finance"]],
       ["opendata", ["workspace:."]]
     ],
@@ -2149,6 +2154,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@crossroadscx/google-cloud", [
+        ["workspace:packages/google-cloud", {
+          "packageLocation": "./packages/google-cloud/",
+          "packageDependencies": [
+            ["@crossroadscx/google-cloud", "workspace:packages/google-cloud"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@dabh/diagnostics", [
         ["npm:2.0.2", {
           "packageLocation": "./.yarn/cache/@dabh-diagnostics-npm-2.0.2-83eb005a83-4d95cc3124.zip/node_modules/@dabh/diagnostics/",
@@ -3275,6 +3289,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/cli", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:7.16.0"],
             ["@babel/core", "npm:7.16.0"],
             ["@babel/preset-env", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:7.16.4"],
+            ["@crossroadscx/google-cloud", "workspace:packages/google-cloud"],
             ["@google-cloud/functions-framework", "npm:2.0.0"],
             ["@google-cloud/logging-winston", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:4.1.1"],
             ["@google-cloud/secret-manager", "npm:3.10.1"],

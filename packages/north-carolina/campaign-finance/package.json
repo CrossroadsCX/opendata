@@ -14,6 +14,7 @@
     "typescript": "^4.5.2"
   },
   "dependencies": {
+    "@crossroadscx/google-cloud": "workspace:*",
     "@google-cloud/functions-framework": "^2.0.0",
     "@google-cloud/logging-winston": "^4.1.1",
     "@google-cloud/secret-manager": "^3.10.1",

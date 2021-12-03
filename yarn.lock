@@ -1244,6 +1244,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@crossroadscx/google-cloud@workspace:*, @crossroadscx/google-cloud@workspace:packages/google-cloud":
+  version: 0.0.0-use.local
+  resolution: "@crossroadscx/google-cloud@workspace:packages/google-cloud"
+  languageName: unknown
+  linkType: soft
+
 "@dabh/diagnostics@npm:^2.0.2":
   version: 2.0.2
   resolution: "@dabh/diagnostics@npm:2.0.2"
@@ -2131,6 +2137,7 @@ __metadata:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.0
     "@babel/preset-env": ^7.16.4
+    "@crossroadscx/google-cloud": "workspace:*"
     "@google-cloud/functions-framework": ^2.0.0
     "@google-cloud/logging-winston": ^4.1.1
     "@google-cloud/secret-manager": ^3.10.1
