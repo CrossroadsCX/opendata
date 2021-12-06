@@ -11,7 +11,7 @@
   "scripts": {
     "build": "yarn workspaces foreach -vpt run build",
     "clean": "yarn workspaces foreach -vp run clean",
-    "lint": "yarn workspaces foreach -vpt run lint"
+    "lint": "yarn workspaces foreach -vp run lint"
   },
   "workspaces": {
     "packages": [
