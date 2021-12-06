@@ -1254,7 +1254,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@crossroadscx/eslint-config@workspace:packages/eslint-config":
+"@crossroadscx/eslint-config@workspace:*, @crossroadscx/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@crossroadscx/eslint-config@workspace:packages/eslint-config"
   dependencies:
@@ -1292,7 +1292,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@crossroadscx/utils@workspace:packages/utils"
   dependencies:
+    "@crossroadscx/eslint-config": "workspace:*"
     "@types/node": ^16.11.11
+    "@typescript-eslint/eslint-plugin": ^5.5.0
     eslint: ^8.4.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-import: ^2.25.3

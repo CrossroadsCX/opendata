@@ -3,8 +3,8 @@ module.exports = {
     node: true,
     es6: true,
   },
-  extends: ['eslint:recommended', 'prettier', 'plugin:prettier/recommended'],
-  plugins: ['prettier'],
+  extends: ['eslint:recommended',/* 'prettier', 'plugin:prettier/recommended' */],
+  plugins: [/*'prettier'*/],
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
@@ -16,7 +16,12 @@ module.exports = {
         ecmaVersion: 2020,
         sourceType: 'module',
       },
-      plugins: ['react', 'prettier', '@typescript-eslint'],
+      plugins: ['react', '@typescript-eslint'/*, 'prettier' */],
+      rules: {
+        "import/prefer-default-export": "off",
+        "semi": "off",
+        "@typescript-eslint/semi": ['error', 'never'],
+      },
       extends: [
         'airbnb',
         'eslint:recommended',
@@ -25,8 +30,8 @@ module.exports = {
         'plugin:react/recommended',
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
-        'prettier',
-        'plugin:prettier/recommended',
+        // 'prettier',
+        // 'plugin:prettier/recommended',
       ],
       globals: {
         Atomics: 'readonly',
