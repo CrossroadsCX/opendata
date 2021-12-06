@@ -19,5 +19,8 @@
   ],
   "devDependencies": {
     "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0"
   }
 }
