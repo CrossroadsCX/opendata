@@ -50,6 +50,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {
           "packageLocation": "./",
           "packageDependencies": [
+            ["typescript", "patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=493e53"]
           ],
           "linkType": "SOFT",
         }]
@@ -2194,7 +2195,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["workspace:packages/google-cloud", {
           "packageLocation": "./packages/google-cloud/",
           "packageDependencies": [
-            ["@crossroadscx/google-cloud", "workspace:packages/google-cloud"]
+            ["@crossroadscx/google-cloud", "workspace:packages/google-cloud"],
+            ["@google-cloud/functions-framework", "npm:2.0.0"],
+            ["@google-cloud/logging-winston", "virtual:1026b8eb3c478c3860d060a347fd5c13ec7854a3466a6a75e8032ceca538f17b8915b53cce8bf33fdf6a667a2edacda57a9ec37167f362214cefbcc3dbb95f4d#npm:4.1.1"],
+            ["@google-cloud/secret-manager", "npm:3.10.1"],
+            ["@google-cloud/storage", "npm:5.16.1"],
+            ["@types/axios", "npm:0.14.0"],
+            ["@types/node", "npm:16.11.11"],
+            ["axios", "npm:0.24.0"],
+            ["winston", "npm:3.3.3"]
           ],
           "linkType": "SOFT",
         }]
@@ -2322,10 +2331,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:4.1.1", {
-          "packageLocation": "./.yarn/__virtual__/@google-cloud-logging-winston-virtual-cf0bff1dfb/0/cache/@google-cloud-logging-winston-npm-4.1.1-89f65a083a-6022154741.zip/node_modules/@google-cloud/logging-winston/",
+        ["virtual:1026b8eb3c478c3860d060a347fd5c13ec7854a3466a6a75e8032ceca538f17b8915b53cce8bf33fdf6a667a2edacda57a9ec37167f362214cefbcc3dbb95f4d#npm:4.1.1", {
+          "packageLocation": "./.yarn/__virtual__/@google-cloud-logging-winston-virtual-bcb4fc86ae/0/cache/@google-cloud-logging-winston-npm-4.1.1-89f65a083a-6022154741.zip/node_modules/@google-cloud/logging-winston/",
           "packageDependencies": [
-            ["@google-cloud/logging-winston", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:4.1.1"],
+            ["@google-cloud/logging-winston", "virtual:1026b8eb3c478c3860d060a347fd5c13ec7854a3466a6a75e8032ceca538f17b8915b53cce8bf33fdf6a667a2edacda57a9ec37167f362214cefbcc3dbb95f4d#npm:4.1.1"],
             ["@google-cloud/logging", "npm:9.6.3"],
             ["@types/winston", null],
             ["google-auth-library", "npm:7.10.2"],
@@ -2655,6 +2664,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@tsconfig-node16-npm-1.0.2-1f43ab567a-ca94d36397.zip/node_modules/@tsconfig/node16/",
           "packageDependencies": [
             ["@tsconfig/node16", "npm:1.0.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/axios", [
+        ["npm:0.14.0", {
+          "packageLocation": "./.yarn/cache/@types-axios-npm-0.14.0-42f41917ea-12a230b940.zip/node_modules/@types/axios/",
+          "packageDependencies": [
+            ["@types/axios", "npm:0.14.0"],
+            ["axios", "npm:0.24.0"]
           ],
           "linkType": "HARD",
         }]
@@ -3194,6 +3213,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["axios", [
+        ["npm:0.24.0", {
+          "packageLocation": "./.yarn/cache/axios-npm-0.24.0-39e5c1e79e-468cf496c0.zip/node_modules/axios/",
+          "packageDependencies": [
+            ["axios", "npm:0.24.0"],
+            ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.5"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["axobject-query", [
         ["npm:2.2.0", {
           "packageLocation": "./.yarn/cache/axobject-query-npm-2.2.0-6553738f52-96b8c7d807.zip/node_modules/axobject-query/",
@@ -3450,7 +3479,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:7.16.4"],
             ["@crossroadscx/google-cloud", "workspace:packages/google-cloud"],
             ["@google-cloud/functions-framework", "npm:2.0.0"],
-            ["@google-cloud/logging-winston", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:4.1.1"],
+            ["@google-cloud/logging-winston", "virtual:1026b8eb3c478c3860d060a347fd5c13ec7854a3466a6a75e8032ceca538f17b8915b53cce8bf33fdf6a667a2edacda57a9ec37167f362214cefbcc3dbb95f4d#npm:4.1.1"],
             ["@google-cloud/secret-manager", "npm:3.10.1"],
             ["@google-cloud/storage", "npm:5.16.1"],
             ["@types/node", "npm:16.11.11"],
@@ -4878,6 +4907,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/fn.name-npm-1.1.0-b472333184-e357144f48.zip/node_modules/fn.name/",
           "packageDependencies": [
             ["fn.name", "npm:1.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["follow-redirects", [
+        ["npm:1.14.5", {
+          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.14.5-7c681222a0-f004a76b2e.zip/node_modules/follow-redirects/",
+          "packageDependencies": [
+            ["follow-redirects", "npm:1.14.5"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.5", {
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-02c2a4727a/0/cache/follow-redirects-npm-1.14.5-7c681222a0-f004a76b2e.zip/node_modules/follow-redirects/",
+          "packageDependencies": [
+            ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.5"],
+            ["@types/debug", null],
+            ["debug", null]
+          ],
+          "packagePeers": [
+            "@types/debug",
+            "debug"
           ],
           "linkType": "HARD",
         }]
@@ -6512,7 +6563,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["workspace:.", {
           "packageLocation": "./",
           "packageDependencies": [
-            ["opendata", "workspace:."]
+            ["opendata", "workspace:."],
+            ["typescript", "patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=493e53"]
           ],
           "linkType": "SOFT",
         }]
