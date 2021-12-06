@@ -9,7 +9,8 @@
     "node": ">=14"
   },
   "scripts": {
-    "build": "yarn workspaces foreach -vpt run build"
+    "build": "yarn workspaces foreach -vpt run build",
+    "clean": "yarn workspaces foreach -vp run clean"
   },
   "workspaces": {
     "packages": [
