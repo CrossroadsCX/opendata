@@ -1308,7 +1308,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/north-carolina/campaign-finance/",
           "packageDependencies": [
             ["campaign-finance", "workspace:packages/north-carolina/campaign-finance"],
+            ["@crossroadscx/eslint-config", "workspace:packages/eslint-config"],
             ["@crossroadscx/google-cloud", "workspace:packages/google-cloud"],
+            ["@crossroadscx/utils", "workspace:packages/utils"],
             ["@google-cloud/functions-framework", "npm:2.0.0"],
             ["@google-cloud/logging-winston", "virtual:1026b8eb3c478c3860d060a347fd5c13ec7854a3466a6a75e8032ceca538f17b8915b53cce8bf33fdf6a667a2edacda57a9ec37167f362214cefbcc3dbb95f4d#npm:4.1.1"],
             ["@google-cloud/secret-manager", "npm:3.10.1"],
@@ -1319,6 +1321,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.3.0"],
             ["eslint-config-airbnb-base", "virtual:e5d6c18722f74047ac63d59473d7b044a594bf47ac5fe3de8b226c0caaf4418d2848e0b6f06bcb12c24e07416c769e526d81e59735c39b1a21b4d0de40cc3950#npm:15.0.0"],
             ["eslint-plugin-import", "virtual:500766caac2246aaffa3a07813568bdd3a80fcd4e5db6b6e4a8c8920919789e76401f385a93cf46009355dfe3828c4a443d9d4d77081d76672fe6382b2247efb#npm:2.25.3"],
+            ["eslint-plugin-jsx-a11y", "virtual:500766caac2246aaffa3a07813568bdd3a80fcd4e5db6b6e4a8c8920919789e76401f385a93cf46009355dfe3828c4a443d9d4d77081d76672fe6382b2247efb#npm:6.5.1"],
+            ["eslint-plugin-react", "virtual:500766caac2246aaffa3a07813568bdd3a80fcd4e5db6b6e4a8c8920919789e76401f385a93cf46009355dfe3828c4a443d9d4d77081d76672fe6382b2247efb#npm:7.27.1"],
             ["ts-node", "virtual:1d5bb2d9315dc5ccef9d746b30310c6a327b288a3ace5c7570ec5a5914632e980f7d7dcc7d018eeaab6a53e9cbf2e0ad2a187acf7ca6478352a9af70e73fa4dd#npm:10.4.0"],
             ["ttypescript", "virtual:1d5bb2d9315dc5ccef9d746b30310c6a327b288a3ace5c7570ec5a5914632e980f7d7dcc7d018eeaab6a53e9cbf2e0ad2a187acf7ca6478352a9af70e73fa4dd#npm:1.5.13"],
             ["typescript", "patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=493e53"],

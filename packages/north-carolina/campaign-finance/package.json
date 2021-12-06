@@ -13,13 +13,17 @@
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.27.1",
     "ts-node": "^10.4.0",
     "ttypescript": "^1.5.13",
     "typescript": "^4.5.2",
     "typescript-transform-paths": "^3.3.1"
   },
   "dependencies": {
+    "@crossroadscx/eslint-config": "workspace:*",
     "@crossroadscx/google-cloud": "workspace:*",
+    "@crossroadscx/utils": "workspace:*",
     "@google-cloud/functions-framework": "^2.0.0",
     "@google-cloud/logging-winston": "^4.1.1",
     "@google-cloud/secret-manager": "^3.10.1",
