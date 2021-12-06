@@ -14,7 +14,8 @@ These set of packages have been created to interact with various data publicatio
 This package contains a set of cloud functions and infrastructure descriptions to pull, aggregate, clean, and analyze campaign finance data from ncsbe.gov
 
 #### [NC Voter Data](./packages/north-carolina/voter-data)
-__Still on yarn 1__
+__Note: Still on yarn v1.x__
+
 This package contains a cloud function that runs on a scheduler. This cloud function pipes the latest voterfile from ncsbe.gov to a cloud storage bucket.
 
 ### [Google Cloud](./packages/google-cloud)
