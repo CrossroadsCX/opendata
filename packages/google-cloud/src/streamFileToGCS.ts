@@ -14,7 +14,25 @@ export const streamFileToGCS = async (
   const fileWriteStream = file.createWriteStream(options)
 
   try {
-    const result = await axios.
+    const result = await axios(url, { responseType: 'stream' })
+      .then((response) => {
+        return new Promise((resolve, reject) => {
+          response.data.pipe(fileWriteStream)
+          let error = null
+
+          fileWriteStream.on('error', (err) => {
+            error = err
+            fileWriteStream.end()
+            reject(err)
+          })
+
+          fileWriteStream.on('close', () => {
+            if (!error) {
+              resolve(true)
+            }
+          })
+        })
+      })
   } catch (err) {
     let message = 'Download Error: \n'
     message += err.message

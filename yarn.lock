@@ -1276,6 +1276,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@crossroadscx/google-cloud@workspace:packages/google-cloud"
   dependencies:
+    "@crossroadscx/eslint-config": "workspace:*"
     "@crossroadscx/utils": "workspace:*"
     "@google-cloud/functions-framework": ^2.0.0
     "@google-cloud/logging-winston": ^4.1.1
@@ -1283,7 +1284,17 @@ __metadata:
     "@google-cloud/storage": ^5.16.1
     "@types/axios": ^0.14.0
     "@types/node": ^16.11.11
+    "@typescript-eslint/eslint-plugin": ^5.5.0
+    "@typescript-eslint/parser": ^5.5.0
     axios: ^0.24.0
+    eslint: ^8.4.0
+    eslint-import-resolver-node: ^0.3.6
+    eslint-plugin-import: ^2.25.3
+    eslint-plugin-jsx-a11y: ^6.5.1
+    eslint-plugin-react: ^7.27.1
+    ts-node: ^10.4.0
+    ttypescript: ^1.5.13
+    typescript: ^4.5.2
     winston: ^3.3.3
   languageName: unknown
   linkType: soft
@@ -1295,6 +1306,7 @@ __metadata:
     "@crossroadscx/eslint-config": "workspace:*"
     "@types/node": ^16.11.11
     "@typescript-eslint/eslint-plugin": ^5.5.0
+    "@typescript-eslint/parser": ^5.5.0
     eslint: ^8.4.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-import: ^2.25.3

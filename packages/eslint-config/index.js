@@ -3,7 +3,7 @@ module.exports = {
     node: true,
     es6: true,
   },
-  extends: ['eslint:recommended',/* 'prettier', 'plugin:prettier/recommended' */],
+  extends: ['eslint:recommended', 'plugin:import/errors', 'plugin:import/warnings', /* 'prettier', 'plugin:prettier/recommended' */],
   plugins: [/*'prettier'*/],
   overrides: [
     {
@@ -16,7 +16,7 @@ module.exports = {
         ecmaVersion: 2020,
         sourceType: 'module',
       },
-      plugins: ['react', '@typescript-eslint'/*, 'prettier' */],
+      plugins: ['import', 'react', '@typescript-eslint'/*, 'prettier' */],
       rules: {
         "import/prefer-default-export": "off",
         "semi": "off",
