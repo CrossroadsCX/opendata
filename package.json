@@ -11,12 +11,14 @@
   "scripts": {
     "build": "yarn workspaces foreach -vpt run build"
   },
-  "workspaces": [
-    "packages/north-carolina/campaign-finance",
-    "packages/eslint-config",
-    "packages/google-cloud",
-    "packages/utils"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/north-carolina/campaign-finance",
+      "packages/eslint-config",
+      "packages/google-cloud",
+      "packages/utils"
+    ]
+  },
   "devDependencies": {
     "typescript": "^4.5.2"
   },

@@ -1276,6 +1276,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@crossroadscx/google-cloud@workspace:packages/google-cloud"
   dependencies:
+    "@crossroadscx/utils": "workspace:*"
     "@google-cloud/functions-framework": ^2.0.0
     "@google-cloud/logging-winston": ^4.1.1
     "@google-cloud/secret-manager": ^3.10.1
@@ -1283,6 +1284,14 @@ __metadata:
     "@types/axios": ^0.14.0
     "@types/node": ^16.11.11
     axios: ^0.24.0
+    winston: ^3.3.3
+  languageName: unknown
+  linkType: soft
+
+"@crossroadscx/utils@workspace:*, @crossroadscx/utils@workspace:packages/utils":
+  version: 0.0.0-use.local
+  resolution: "@crossroadscx/utils@workspace:packages/utils"
+  dependencies:
     winston: ^3.3.3
   languageName: unknown
   linkType: soft

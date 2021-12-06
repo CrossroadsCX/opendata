@@ -33,6 +33,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "campaign-finance",
         "reference": "workspace:packages/north-carolina/campaign-finance"
+      },
+      {
+        "name": "@crossroadscx/utils",
+        "reference": "workspace:packages/utils"
       }
     ],
     "enableTopLevelFallback": true,
@@ -40,6 +44,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "fallbackExclusionList": [
       ["@crossroadscx/eslint-config", ["workspace:packages/eslint-config"]],
       ["@crossroadscx/google-cloud", ["workspace:packages/google-cloud"]],
+      ["@crossroadscx/utils", ["workspace:packages/utils"]],
       ["campaign-finance", ["workspace:packages/north-carolina/campaign-finance"]],
       ["opendata", ["workspace:."]]
     ],
@@ -2197,6 +2202,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/google-cloud/",
           "packageDependencies": [
             ["@crossroadscx/google-cloud", "workspace:packages/google-cloud"],
+            ["@crossroadscx/utils", "workspace:packages/utils"],
             ["@google-cloud/functions-framework", "npm:2.0.0"],
             ["@google-cloud/logging-winston", "virtual:1026b8eb3c478c3860d060a347fd5c13ec7854a3466a6a75e8032ceca538f17b8915b53cce8bf33fdf6a667a2edacda57a9ec37167f362214cefbcc3dbb95f4d#npm:4.1.1"],
             ["@google-cloud/secret-manager", "npm:3.10.1"],
@@ -2204,6 +2210,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/axios", "npm:0.14.0"],
             ["@types/node", "npm:16.11.11"],
             ["axios", "npm:0.24.0"],
+            ["winston", "npm:3.3.3"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@crossroadscx/utils", [
+        ["workspace:packages/utils", {
+          "packageLocation": "./packages/utils/",
+          "packageDependencies": [
+            ["@crossroadscx/utils", "workspace:packages/utils"],
             ["winston", "npm:3.3.3"]
           ],
           "linkType": "SOFT",
