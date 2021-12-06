@@ -16,7 +16,7 @@ module.exports = {
         ecmaVersion: 2020,
         sourceType: 'module',
       },
-      plugins: ['import', 'react', '@typescript-eslint'/*, 'prettier' */],
+      plugins: ['import', 'react', '@typescript-eslint/eslint-plugin'/*, 'prettier' */],
       rules: {
         "import/prefer-default-export": "off",
         "semi": "off",
