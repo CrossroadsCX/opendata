@@ -1,10 +1,12 @@
 {
   "name": "campaign-finance",
   "packageManager": "yarn@3.1.0",
+  "scripts": {
+    "build": "ttsc --build && ttsc -p tsconfig.cjs.json",
+    "clean": "rimraf ./dist ./tsconfig.tsbuildinfo",
+    "lint": "eslint --ext=tsx,ts,js src"
+  },
   "devDependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
     "@types/node": "^16.11.11",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
