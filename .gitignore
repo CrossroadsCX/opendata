@@ -6,3 +6,9 @@ nc-voter-data-*.json
 
 # npm
 node_modules
+
+# Built files
+**/dist/
+
+# ENV
+.env
