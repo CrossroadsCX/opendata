@@ -4,7 +4,8 @@
   "scripts": {
     "build": "ttsc --build && ttsc -p tsconfig.cjs.json",
     "clean": "rimraf ./dist ./tsconfig.tsbuildinfo",
-    "lint": "eslint --ext=tsx,ts,js src"
+    "lint": "eslint --ext=tsx,ts,js src",
+    "start": "npx @google-cloud/functions-framework --target=transactionsStaging --signature-type=cloudevent"
   },
   "dependencies": {
     "@crossroadscx/eslint-config": "workspace:*",
