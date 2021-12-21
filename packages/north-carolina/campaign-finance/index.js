@@ -1,4 +1,4 @@
-const { someFunction } = require('./dist/cjs/index')
+const { someFunction } = require('./dist/bundle')
 
 module.exports = {
   someFunction,
