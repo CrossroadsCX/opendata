@@ -1,14 +1,28 @@
 import * as puppeteer from 'puppeteer'
+import { isValid, isMatch } from 'date-fns'
+import type { HttpFunction } from '@google-cloud/functions-framework/build/src/functions'
 import { streamFileToGCS } from './streamFileToGCS'
 
-export const scrapTransaction = () => {
+export const scrapTransaction: HttpFunction = (req: Record<string, unknown>, res) => {
   (async () => {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
     await page.goto('https://cf.ncsbe.gov/CFTxnLkup/');
+
+    // Validate params
+    const params: { from?: string, to?: string } = req.query
+
+    if (!isValid(new Date(params.from)) || !isValid(new Date(params.to))) {
+      throw new Error('Invalid Date Parameters - Date Parameters must be from=mm/dd/yyyy and to=mm/dd/yyyy')
+    }
+
+    if (!isMatch(params.from, 'mm/dd/yyyy') || !isMatch(params.to, 'mm/dd/yyyy')) {
+      throw new Error('Invalid Date - Date must be valid and format must be mm/dd/yyyy')
+    }
+
     // Fill out date fields
-    await page.type('#DateFrom', '01/01/2020')
-    await page.type('#DateTo', '01/01/2020')
+    await page.type('#DateFrom', params.from)
+    await page.type('#DateTo', params.to)
     // Start search
     await page.click('#btnSearch')
     // Wait and click Export csv button
@@ -24,16 +38,15 @@ export const scrapTransaction = () => {
       })
     })
 
-    console.log(csvRequest)
-
     // Close the browser
     await browser.close()
     
+    //streamFileToGCS parameters
     const requestOptions = {
       encoding: null,
       method: csvRequest._method,
-      uri: csvRequest._url,
-      body: csvRequest._postData,
+      url: csvRequest._url,
+      data: csvRequest._postData,
       headers: csvRequest._headers,
     }
 
@@ -45,13 +58,13 @@ export const scrapTransaction = () => {
       },
     }
 
-    let filename = `nc-receipts-01-to-01.csv`
+    let filename = `nc-receipts-${params.to}-to-${params.to}.csv`
     filename = filename.replace(/\//g, '')
 
     const bucket = 'dummy-bucket-finance'
 
     //CSVRequest to Bucket Storage
-    console.log(await streamFileToGCS(requestOptions.uri, bucket, filename, options))
-    console.log('finish')
+    await streamFileToGCS(requestOptions, bucket, filename, options)
+    res.send('finish')
   })()
 }

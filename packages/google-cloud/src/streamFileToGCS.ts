@@ -7,7 +7,7 @@ import { storage } from './storage'
 
 
 export const streamFileToGCS = async (
-  url: string,
+  requestOptions: Record<string, unknown>,
   bucketName: string,
   filename: string,
   options: Record<string, unknown>,
@@ -17,7 +17,7 @@ export const streamFileToGCS = async (
   const fileWriteStream = file.createWriteStream(options)
 
   try {
-    const result = await axios(url, { responseType: 'stream' })
+    const result = await axios( {  responseType: 'stream', ...requestOptions })
       .then((response) => {
         return new Promise((resolve, reject) => {
           response.data.pipe(fileWriteStream)
