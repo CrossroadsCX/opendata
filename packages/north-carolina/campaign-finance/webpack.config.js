@@ -35,7 +35,7 @@ const config = {
     plugins: [PnpPlugin.moduleLoader(module)],
   },
   output: {
-    filename: '[name].js',
+    filename: '[name]/function.js',
     libraryTarget: "commonjs",
     path: resolve(__dirname, 'dist'),
   },
