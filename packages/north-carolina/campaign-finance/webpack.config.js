@@ -2,13 +2,16 @@ const { resolve } = require('path')
 const fs = require('fs')
 const PnpPlugin = require('pnp-webpack-plugin')
 
+const fileMap = {};
 const files = fs
   .readdirSync("src")
   .filter((item) => item.match(/\.ts$/))
-  .map((file) => `./src/${file}`)
+  .map((file) => {
+    fileMap[file.replace('.ts', '')] = `./src/${file}`;
+  })
 
 const config = {
-  entry: files,
+  entry: fileMap,
   mode: "development",
   devtool: 'inline-source-map',
   module: {
@@ -32,9 +35,9 @@ const config = {
     plugins: [PnpPlugin.moduleLoader(module)],
   },
   output: {
-    filename: 'bundle.js',
-    libraryTarget: "commonjs2",
-    path: resolve(__dirname),
+    filename: '[name].js',
+    libraryTarget: "commonjs",
+    path: resolve(__dirname, 'dist'),
   },
 };
 

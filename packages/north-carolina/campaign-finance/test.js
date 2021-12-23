@@ -1,3 +1,3 @@
-const bundle = require('./bundle')
+const functions = require('./dist/main')
 
-console.log(Object.keys(bundle))
+console.log(functions)
