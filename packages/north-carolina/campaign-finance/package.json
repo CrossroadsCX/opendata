@@ -6,7 +6,7 @@
     "clean": "rimraf ./dist ./tsconfig.tsbuildinfo",
     "lint": "eslint --ext=tsx,ts,js src",
     "function": "npx @google-cloud/functions-framework --target=someFunction",
-    "_webpack": "webpack-cli --config ./config/webpack.config.ts"
+    "_webpack": "yarn clean && webpack-cli --config webpack.config.ts"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
@@ -29,6 +29,7 @@
     "fork-ts-checker-webpack-plugin": "^6.5.0",
     "os": "^0.1.2",
     "pnp-webpack-plugin": "^1.7.0",
+    "rimraf": "^3.0.2",
     "source-map-loader": "^3.0.0",
     "thread-loader": "^3.0.4",
     "ts-loader": "^9.2.6",
