@@ -45,6 +45,10 @@
     "@google-cloud/logging-winston": "^4.1.1",
     "@google-cloud/secret-manager": "^3.10.1",
     "@google-cloud/storage": "^5.16.1",
+    "axios": "^0.24.0",
+    "date-fn": "^0.0.2",
+    "date-fns": "^2.27.0",
+    "puppeteer": "^13.0.1",
     "util": "^0.12.4",
     "winston": "^3.3.3"
   }
