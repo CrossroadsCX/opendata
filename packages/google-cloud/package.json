@@ -1,8 +1,19 @@
 {
   "name": "@crossroadscx/google-cloud",
   "packageManager": "yarn@3.1.1",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index",
+      "require": "./dist/cjs/index"
+    }
+  },
+  "main": "dist/cjs/index",
+  "module": "dist/esm/index",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "ttsc --build && ttsc -p tsconfig.cjs.json",
+    "build": "yarn clean && ttsc --build && ttsc -p tsconfig.cjs.json",
     "clean": "rimraf ./dist ./tsconfig.tsbuildinfo",
     "lint": "eslint --ext=tsx,ts,js src",
     "start": "npx @google-cloud/functions-framework --target=transactionsStaging --signature-type=cloudevent"

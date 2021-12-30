@@ -1,6 +1,7 @@
 {
   "name": "campaign-finance",
   "packageManager": "yarn@3.1.0",
+  "private": true,
   "scripts": {
     "build": "ttsc --build && ttsc -p tsconfig.cjs.json",
     "clean": "rimraf ./dist ./tsconfig.tsbuildinfo",
@@ -41,10 +42,11 @@
     "@crossroadscx/eslint-config": "workspace:*",
     "@crossroadscx/google-cloud": "workspace:*",
     "@crossroadscx/utils": "workspace:*",
-    "@google-cloud/functions-framework": "^2.0.0",
+    "@google-cloud/functions-framework": "^2.1.0",
     "@google-cloud/logging-winston": "^4.1.1",
     "@google-cloud/secret-manager": "^3.10.1",
     "@google-cloud/storage": "^5.16.1",
+    "fast-crc32c": "^2.0.0",
     "util": "^0.12.4",
     "winston": "^3.3.3"
   }

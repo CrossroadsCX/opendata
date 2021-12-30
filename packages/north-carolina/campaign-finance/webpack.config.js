@@ -5,13 +5,14 @@ const PnpPlugin = require('pnp-webpack-plugin')
 const fileMap = {};
 const files = fs
   .readdirSync("src")
-  .filter((item) => item.match(/\.ts$/))
+  .filter((item) => item.match(/^[a-zA-Z]+(?!\.d)\.ts$/))
   .map((file) => {
-    fileMap[file.replace('.ts', '')] = `./src/${file}`;
+    fileMap[file.replace('.ts', '')] = resolve(`./src/${file}`);
   })
 
 const config = {
   entry: fileMap,
+  target: 'node',
   mode: "development",
   devtool: 'inline-source-map',
   module: {

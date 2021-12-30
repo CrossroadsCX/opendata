@@ -1,15 +1,36 @@
 import { logger } from '@crossroadscx/utils';
-import { streamFileToGCS } from '@crossroadscx/google-cloud/src/streamFileToGCS'
-import { CloudEventFunction, CloudEventsContext } from '@google-cloud/functions-framework';
+import { streamFileToGCS } from '@crossroadscx/google-cloud';
+import type { Context } from '@google-cloud/functions-framework';
 
-export const transactionsStaging = (event: CloudEventFunction, context: CloudEventsContext) => {
+export type PubSubAttributes = {
+  bucketId: string,
+  eventTime: string,
+  eventType: string,
+  notificationConfig: string,
+  objectGeneration: string,
+  objectId: string,
+  payloadFormat: string
+}
+export type PubSubMessage = {
+  data: string, 
+  attributes: PubSubAttributes,
+  messageId: string,
+  publishTime: string,
+  orderingKey: string
+}
+
+export interface PubSubEventFunction {
+  (data: PubSubMessage, context: Context): any
+}
+
+export const transactionsStaging: PubSubEventFunction = async (event, context) => {
   const { projectId } = process.env
-  const massageAttributes = event.arguments.attributes;
+  const massageAttributes = event.attributes;
   const originBucketName = massageAttributes.bucketId;
   const fileName = massageAttributes.objectId;
   const destBucketName = "staged-transactions";
   const options = { start: 'w'}
-  console.log('bucketName ' + originBucketName);
+  logger.log('bucketName ' + originBucketName);
   logger.log('fileName ' + fileName);
 
   if(originBucketName && fileName){
@@ -19,5 +40,4 @@ export const transactionsStaging = (event: CloudEventFunction, context: CloudEve
     streamFileToGCS(url, destBucketName, fileName, options)
     logger.log('File copied successfully');
   }
-  
 };
