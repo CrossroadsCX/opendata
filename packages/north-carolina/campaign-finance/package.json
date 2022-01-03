@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "build": "ttsc --build && ttsc -p tsconfig.cjs.json",
+    "deploy": "gcloud functions deploy transactionsStaging --source=dist/transactionsStaging",
     "clean": "rimraf ./dist ./tsconfig.tsbuildinfo",
     "lint": "eslint --ext=tsx,ts,js src",
     "function": "npx @google-cloud/functions-framework --target=someFunction",
-    "_webpack": "yarn clean && webpack-cli --config webpack.config.ts"
+    "_webpack": "yarn clean && webpack-cli --config ./webpack.config.js --stats-error-details"
   },
   "devDependencies": {
     "@types/node": "^17.0.2",
@@ -32,7 +33,6 @@
     "thread-loader": "^3.0.4",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
-    "tslib": "^2.3.1",
     "ttypescript": "^1.5.13",
     "typescript": "^4.5.2",
     "typescript-transform-paths": "^3.3.1",
@@ -40,9 +40,6 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@crossroadscx/eslint-config": "workspace:*",
-    "@crossroadscx/google-cloud": "workspace:*",
-    "@crossroadscx/utils": "workspace:*",
     "@google-cloud/functions-framework": "^2.1.0",
     "@google-cloud/logging-winston": "^4.1.1",
     "@google-cloud/secret-manager": "^3.10.1",
@@ -53,6 +50,8 @@
     "fast-crc32c": "^2.0.0",
     "puppeteer": "^13.0.1",
     "request": "^2.88.2",
+    "retry-request": "^4.2.2",
+    "tslib": "^2.3.1",
     "util": "^0.12.4",
     "winston": "^3.3.3"
   }

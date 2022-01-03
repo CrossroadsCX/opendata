@@ -1,6 +1,6 @@
-import { logger } from '@crossroadscx/utils';
-import { streamFileToGCS } from '@crossroadscx/google-cloud';
 import type { Context } from '@google-cloud/functions-framework';
+import { logger } from './logger';
+import { streamFileToGCS } from './streamFileToGCS';
 
 export type PubSubAttributes = {
   bucketId: string,
@@ -12,7 +12,7 @@ export type PubSubAttributes = {
   payloadFormat: string
 }
 export type PubSubMessage = {
-  data: string, 
+  data: string,
   attributes: PubSubAttributes,
   messageId: string,
   publishTime: string,
@@ -35,9 +35,14 @@ export const transactionsStaging: PubSubEventFunction = async (event, context) =
 
   if(originBucketName && fileName){
     logger.log('Coping file to staged-transactions bucket');
-    const url = 'https://console.cloud.google.com/storage/browser/_details/' + originBucketName + '/' + 
+    const url = 'https://console.cloud.google.com/storage/browser/_details/' + originBucketName + '/' +
       fileName + ';tab=live_object?project=' + projectId;
-    streamFileToGCS(url, destBucketName, fileName, options)
+    try {
+      await streamFileToGCS(url, destBucketName, fileName, options)
+    } catch (err) {
+      logger.error(err)
+    }
+
     logger.log('File copied successfully');
   }
 };
