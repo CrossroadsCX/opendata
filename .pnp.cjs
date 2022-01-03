@@ -787,7 +787,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "bufferutil",
-        "npm:4.0.5"
+        "npm:4.0.6"
       ],
       [
         "bytes",
@@ -2871,7 +2871,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "utf-8-validate",
-        "npm:5.0.7"
+        "npm:5.0.8"
       ],
       [
         "util",
@@ -5457,10 +5457,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["bufferutil", [
-        ["npm:4.0.5", {
-          "packageLocation": "./.yarn/unplugged/bufferutil-npm-4.0.5-88cc521694/node_modules/bufferutil/",
+        ["npm:4.0.6", {
+          "packageLocation": "./.yarn/unplugged/bufferutil-npm-4.0.6-b93c8a5e05/node_modules/bufferutil/",
           "packageDependencies": [
-            ["bufferutil", "npm:4.0.5"],
+            ["bufferutil", "npm:4.0.6"],
             ["node-gyp", "npm:8.4.1"],
             ["node-gyp-build", "npm:4.3.0"]
           ],
@@ -12396,10 +12396,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["utf-8-validate", [
-        ["npm:5.0.7", {
-          "packageLocation": "./.yarn/unplugged/utf-8-validate-npm-5.0.7-88d731f8ad/node_modules/utf-8-validate/",
+        ["npm:5.0.8", {
+          "packageLocation": "./.yarn/unplugged/utf-8-validate-npm-5.0.8-a36435e0ec/node_modules/utf-8-validate/",
           "packageDependencies": [
-            ["utf-8-validate", "npm:5.0.7"],
+            ["utf-8-validate", "npm:5.0.8"],
             ["node-gyp", "npm:8.4.1"],
             ["node-gyp-build", "npm:4.3.0"]
           ],
@@ -12825,8 +12825,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ws", "virtual:ae1ede61120f1102b66e9933c5bde4673b2641150a285d817ccd56055513c4da12d0dfb6e8bced0f36007eb9bcda2219b2db3cc694c2448e3cd63e404456e413#npm:8.2.3"],
             ["@types/bufferutil", null],
             ["@types/utf-8-validate", null],
-            ["bufferutil", "npm:4.0.5"],
-            ["utf-8-validate", "npm:5.0.7"]
+            ["bufferutil", "npm:4.0.6"],
+            ["utf-8-validate", "npm:5.0.8"]
           ],
           "packagePeers": [
             "@types/bufferutil",
