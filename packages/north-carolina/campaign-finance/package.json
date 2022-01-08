@@ -40,6 +40,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
+    "@crossroadscx/google-cloud": "^0.0.1",
     "@google-cloud/functions-framework": "^2.1.0",
     "@google-cloud/logging-winston": "^4.1.1",
     "@google-cloud/secret-manager": "^3.10.1",

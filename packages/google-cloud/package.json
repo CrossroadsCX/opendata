@@ -1,6 +1,13 @@
 {
   "name": "@crossroadscx/google-cloud",
   "packageManager": "yarn@3.1.1",
+  "author": "Chris Birk <cmbirk@gmail.com>",
+  "license": "MIT",
+  "version": "0.0.1",
+  "repository": {
+    "url": "git@github.com:CrossroadsCX/opendata.git",
+    "type": "git"
+  },
   "exports": {
     ".": {
       "import": "./dist/esm/index",
