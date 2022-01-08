@@ -26,8 +26,8 @@
     "start": "npx @google-cloud/functions-framework --target=transactionsStaging --signature-type=cloudevent"
   },
   "dependencies": {
-    "@crossroadscx/eslint-config": "workspace:*",
-    "@crossroadscx/utils": "workspace:*",
+    "@crossroadscx/eslint-config": "^0.0.1",
+    "@crossroadscx/utils": "^0.0.1",
     "@google-cloud/functions-framework": "^2.0.0",
     "@google-cloud/logging-winston": "^4.1.1",
     "@google-cloud/secret-manager": "^3.10.1",

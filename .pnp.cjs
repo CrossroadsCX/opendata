@@ -89,6 +89,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/helper-validator-identifier", "npm:7.15.7"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:7.16.7", {
+          "packageLocation": "./.yarn/cache/@babel-helper-validator-identifier-npm-7.16.7-8599fb00fc-dbb3db9d18.zip/node_modules/@babel/helper-validator-identifier/",
+          "packageDependencies": [
+            ["@babel/helper-validator-identifier", "npm:7.16.7"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@babel/highlight", [
@@ -99,6 +106,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/helper-validator-identifier", "npm:7.15.7"],
             ["chalk", "npm:2.4.2"],
             ["js-tokens", "npm:4.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@babel/parser", [
+        ["npm:7.16.7", {
+          "packageLocation": "./.yarn/cache/@babel-parser-npm-7.16.7-276b590a17-e664ff1edd.zip/node_modules/@babel/parser/",
+          "packageDependencies": [
+            ["@babel/parser", "npm:7.16.7"],
+            ["@babel/types", "npm:7.16.7"]
           ],
           "linkType": "HARD",
         }]
@@ -120,6 +137,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/runtime-corejs3", "npm:7.16.3"],
             ["core-js-pure", "npm:3.19.2"],
             ["regenerator-runtime", "npm:0.13.9"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@babel/types", [
+        ["npm:7.16.7", {
+          "packageLocation": "./.yarn/cache/@babel-types-npm-7.16.7-fa27eee382-df92107232.zip/node_modules/@babel/types/",
+          "packageDependencies": [
+            ["@babel/types", "npm:7.16.7"],
+            ["@babel/helper-validator-identifier", "npm:7.16.7"],
+            ["to-fast-properties", "npm:2.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -2556,6 +2584,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/north-carolina/campaign-finance/",
           "packageDependencies": [
             ["campaign-finance", "workspace:packages/north-carolina/campaign-finance"],
+            ["@babel/parser", "npm:7.16.7"],
             ["@crossroadscx/google-cloud", "workspace:packages/google-cloud"],
             ["@google-cloud/functions-framework", "npm:2.1.0"],
             ["@google-cloud/logging-winston", "virtual:1026b8eb3c478c3860d060a347fd5c13ec7854a3466a6a75e8032ceca538f17b8915b53cce8bf33fdf6a667a2edacda57a9ec37167f362214cefbcc3dbb95f4d#npm:4.1.1"],
@@ -8776,6 +8805,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["tinylogic", "npm:1.0.3"],
             ["chevrotain", "npm:9.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["to-fast-properties", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/to-fast-properties-npm-2.0.0-0dc60cc481-be2de62fe5.zip/node_modules/to-fast-properties/",
+          "packageDependencies": [
+            ["to-fast-properties", "npm:2.0.0"]
           ],
           "linkType": "HARD",
         }]

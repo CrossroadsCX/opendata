@@ -30,6 +30,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-validator-identifier@npm:^7.16.7":
+  version: 7.16.7
+  resolution: "@babel/helper-validator-identifier@npm:7.16.7"
+  checksum: dbb3db9d184343152520a209b5684f5e0ed416109cde82b428ca9c759c29b10c7450657785a8b5c5256aa74acc6da491c1f0cf6b784939f7931ef82982051b69
+  languageName: node
+  linkType: hard
+
 "@babel/highlight@npm:^7.16.0":
   version: 7.16.0
   resolution: "@babel/highlight@npm:7.16.0"
@@ -38,6 +45,15 @@ __metadata:
     chalk: ^2.0.0
     js-tokens: ^4.0.0
   checksum: abf244c48fcff20ec87830e8b99c776f4dcdd9138e63decc195719a94148da35339639e0d8045eb9d1f3e67a39ab90a9c3f5ce2d579fb1a0368d911ddf29b4e5
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.16.7":
+  version: 7.16.7
+  resolution: "@babel/parser@npm:7.16.7"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: e664ff1edda164ab3f3c97fc1dd1a8930b0fba9981cbf873d3f25a22d16d50e2efcfaf81daeefa978bff2c4f268d34832f6817c8bc4e03594c3f43beba92fb68
   languageName: node
   linkType: hard
 
@@ -60,6 +76,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/types@npm:^7.8.3":
+  version: 7.16.7
+  resolution: "@babel/types@npm:7.16.7"
+  dependencies:
+    "@babel/helper-validator-identifier": ^7.16.7
+    to-fast-properties: ^2.0.0
+  checksum: df9210723259df9faea8c7e5674a59e57ead82664aab9f54daae887db5a50a956f30f57ed77a2d6cbb89b908d520cf8d883267c4e9098e31bc74649f2f714654
+  languageName: node
+  linkType: hard
+
 "@chevrotain/types@npm:^9.1.0":
   version: 9.1.0
   resolution: "@chevrotain/types@npm:9.1.0"
@@ -74,7 +100,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@crossroadscx/eslint-config@workspace:*, @crossroadscx/eslint-config@workspace:packages/eslint-config":
+"@crossroadscx/eslint-config@^0.0.1, @crossroadscx/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@crossroadscx/eslint-config@workspace:packages/eslint-config"
   dependencies:
@@ -96,8 +122,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@crossroadscx/google-cloud@workspace:packages/google-cloud"
   dependencies:
-    "@crossroadscx/eslint-config": "workspace:*"
-    "@crossroadscx/utils": "workspace:*"
+    "@crossroadscx/eslint-config": ^0.0.1
+    "@crossroadscx/utils": ^0.0.1
     "@google-cloud/functions-framework": ^2.0.0
     "@google-cloud/logging-winston": ^4.1.1
     "@google-cloud/secret-manager": ^3.10.1
@@ -120,11 +146,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@crossroadscx/utils@workspace:*, @crossroadscx/utils@workspace:packages/utils":
+"@crossroadscx/utils@^0.0.1, @crossroadscx/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@crossroadscx/utils@workspace:packages/utils"
   dependencies:
-    "@crossroadscx/eslint-config": "workspace:*"
+    "@crossroadscx/eslint-config": ^0.0.1
     "@types/node": ^16.11.11
     "@typescript-eslint/eslint-plugin": ^5.5.0
     "@typescript-eslint/parser": ^5.5.0
@@ -2020,6 +2046,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "campaign-finance@workspace:packages/north-carolina/campaign-finance"
   dependencies:
+    "@babel/parser": ^7.16.7
     "@crossroadscx/google-cloud": ^0.0.1
     "@google-cloud/functions-framework": ^2.1.0
     "@google-cloud/logging-winston": ^4.1.1
@@ -7232,6 +7259,13 @@ __metadata:
   dependencies:
     chevrotain: ^9.1.0
   checksum: fdf7fcc170050889b210fd035b1eb2ac81a68d1324010a427eeee53ac49613ecaa3fbd33b41adb1264dfb02b4d500b3f442da1db3ffc53834c654345c1658afa
+  languageName: node
+  linkType: hard
+
+"to-fast-properties@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "to-fast-properties@npm:2.0.0"
+  checksum: be2de62fe58ead94e3e592680052683b1ec986c72d589e7b21e5697f8744cdbf48c266fa72f6c15932894c10187b5f54573a3bcf7da0bfd964d5caf23d436168
   languageName: node
   linkType: hard
 

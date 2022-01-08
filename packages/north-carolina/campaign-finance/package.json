@@ -2,15 +2,22 @@
   "name": "campaign-finance",
   "packageManager": "yarn@3.1.0",
   "private": true,
+  "targets": {
+    "functions": {
+      "source": "src/transactionsStaging.ts"
+    }
+  },
   "scripts": {
     "build": "ttsc --build && ttsc -p tsconfig.cjs.json",
     "deploy": "gcloud functions deploy transactionsStaging --source=dist/transactionsStaging",
     "clean": "rimraf ./dist ./tsconfig.tsbuildinfo",
     "lint": "eslint --ext=tsx,ts,js src",
     "function": "npx @google-cloud/functions-framework --target=someFunction",
-    "_webpack": "yarn clean && webpack-cli --config ./webpack.config.js --stats-error-details"
+    "_webpack": "yarn clean && webpack-cli --config ./webpack.config.js --stats-error-details",
+    "parcel": "parcel build --dist-dir output"
   },
   "devDependencies": {
+    "@babel/parser": "^7.16.7",
     "@types/node": "^17.0.2",
     "@types/puppeteer": "^5.4.4",
     "@types/webpack": "^5.28.0",
