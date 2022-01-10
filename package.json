@@ -15,10 +15,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/north-carolina/campaign-finance",
-      "packages/eslint-config",
-      "packages/google-cloud",
-      "packages/utils"
+      "packages/north-carolina/campaign-finance"
     ]
   },
   "devDependencies": {
