@@ -1,6 +1,6 @@
 import type { Context } from '@google-cloud/functions-framework';
 import { logger } from './logger';
-import { streamFileToGCS } from '@crossroadscx/google-cloud';
+import { streamFileToGCS } from './streamFileToGCS';
 
 export type PubSubAttributes = {
   bucketId: string,

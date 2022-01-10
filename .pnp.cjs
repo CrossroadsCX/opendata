@@ -79,10 +79,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:0.0.2"
       ],
       [
-        "@crossroadscx/google-cloud",
-        "npm:0.0.4"
-      ],
-      [
         "@crossroadscx/utils",
         "npm:0.0.2"
       ],
@@ -124,7 +120,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "@google-cloud/logging-winston",
-        "virtual:4ca5a5c0eaf9c2fdd461f7277587659c1488b719d55cc8970b0453d81b6f4393c88b4d67b16e3b686d3038b3ad4693a7f28dac5bc89eef3d71b067cea9dd39f5#npm:4.1.1"
+        "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:4.1.1"
       ],
       [
         "@google-cloud/paginator",
@@ -249,10 +245,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       [
         "@tsconfig/node16",
         "npm:1.0.2"
-      ],
-      [
-        "@types/axios",
-        "npm:0.14.0"
       ],
       [
         "@types/body-parser",
@@ -1428,7 +1420,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "follow-redirects",
-        "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.7"
+        "virtual:a313c479c5c7e54d9ec8fbeeea69ff640f56b8989ea2dff42351a3fa5c4061fb80a52d8ede0f0826a181a216820c2d2c3f15da881e7fdf31cef1c446e42f0c45#npm:1.14.7"
       ],
       [
         "foreach",
@@ -3350,23 +3342,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@crossroadscx/google-cloud", [
-        ["npm:0.0.4", {
-          "packageLocation": "./.yarn/cache/@crossroadscx-google-cloud-npm-0.0.4-4ca5a5c0ea-4bf4ce65b8.zip/node_modules/@crossroadscx/google-cloud/",
-          "packageDependencies": [
-            ["@crossroadscx/google-cloud", "npm:0.0.4"],
-            ["@crossroadscx/utils", "npm:0.0.2"],
-            ["@google-cloud/functions-framework", "npm:2.1.0"],
-            ["@google-cloud/logging-winston", "virtual:4ca5a5c0eaf9c2fdd461f7277587659c1488b719d55cc8970b0453d81b6f4393c88b4d67b16e3b686d3038b3ad4693a7f28dac5bc89eef3d71b067cea9dd39f5#npm:4.1.1"],
-            ["@google-cloud/secret-manager", "npm:3.10.1"],
-            ["@google-cloud/storage", "npm:5.16.1"],
-            ["@types/axios", "npm:0.14.0"],
-            ["axios", "npm:0.24.0"],
-            ["winston", "npm:3.3.4"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["@crossroadscx/utils", [
         ["npm:0.0.2", {
           "packageLocation": "./.yarn/cache/@crossroadscx-utils-npm-0.0.2-274f4913a7-886c315236.zip/node_modules/@crossroadscx/utils/",
@@ -3513,10 +3488,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:4ca5a5c0eaf9c2fdd461f7277587659c1488b719d55cc8970b0453d81b6f4393c88b4d67b16e3b686d3038b3ad4693a7f28dac5bc89eef3d71b067cea9dd39f5#npm:4.1.1", {
-          "packageLocation": "./.yarn/__virtual__/@google-cloud-logging-winston-virtual-202c6e0f2a/0/cache/@google-cloud-logging-winston-npm-4.1.1-89f65a083a-6022154741.zip/node_modules/@google-cloud/logging-winston/",
+        ["virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:4.1.1", {
+          "packageLocation": "./.yarn/__virtual__/@google-cloud-logging-winston-virtual-cf0bff1dfb/0/cache/@google-cloud-logging-winston-npm-4.1.1-89f65a083a-6022154741.zip/node_modules/@google-cloud/logging-winston/",
           "packageDependencies": [
-            ["@google-cloud/logging-winston", "virtual:4ca5a5c0eaf9c2fdd461f7277587659c1488b719d55cc8970b0453d81b6f4393c88b4d67b16e3b686d3038b3ad4693a7f28dac5bc89eef3d71b067cea9dd39f5#npm:4.1.1"],
+            ["@google-cloud/logging-winston", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:4.1.1"],
             ["@google-cloud/logging", "npm:9.6.6"],
             ["@types/winston", null],
             ["google-auth-library", "npm:7.11.0"],
@@ -3856,16 +3831,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@tsconfig-node16-npm-1.0.2-1f43ab567a-ca94d36397.zip/node_modules/@tsconfig/node16/",
           "packageDependencies": [
             ["@tsconfig/node16", "npm:1.0.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@types/axios", [
-        ["npm:0.14.0", {
-          "packageLocation": "./.yarn/cache/@types-axios-npm-0.14.0-42f41917ea-12a230b940.zip/node_modules/@types/axios/",
-          "packageDependencies": [
-            ["@types/axios", "npm:0.14.0"],
-            ["axios", "npm:0.24.0"]
           ],
           "linkType": "HARD",
         }]
@@ -5447,7 +5412,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/axios-npm-0.24.0-39e5c1e79e-468cf496c0.zip/node_modules/axios/",
           "packageDependencies": [
             ["axios", "npm:0.24.0"],
-            ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.7"]
+            ["follow-redirects", "virtual:a313c479c5c7e54d9ec8fbeeea69ff640f56b8989ea2dff42351a3fa5c4061fb80a52d8ede0f0826a181a216820c2d2c3f15da881e7fdf31cef1c446e42f0c45#npm:1.14.7"]
           ],
           "linkType": "HARD",
         }]
@@ -5778,10 +5743,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["campaign-finance", "workspace:packages/north-carolina/campaign-finance"],
             ["@babel/parser", "npm:7.16.8"],
             ["@crossroadscx/eslint-config", "npm:0.0.2"],
-            ["@crossroadscx/google-cloud", "npm:0.0.4"],
             ["@crossroadscx/utils", "npm:0.0.2"],
             ["@google-cloud/functions-framework", "npm:2.1.0"],
-            ["@google-cloud/logging-winston", "virtual:4ca5a5c0eaf9c2fdd461f7277587659c1488b719d55cc8970b0453d81b6f4393c88b4d67b16e3b686d3038b3ad4693a7f28dac5bc89eef3d71b067cea9dd39f5#npm:4.1.1"],
+            ["@google-cloud/logging-winston", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:4.1.1"],
             ["@google-cloud/secret-manager", "npm:3.10.1"],
             ["@google-cloud/storage", "npm:5.16.1"],
             ["@types/node", "npm:17.0.8"],
@@ -7804,10 +7768,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.7", {
-          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-833d276bdc/0/cache/follow-redirects-npm-1.14.7-c87c16ed59-f6d03e5e30.zip/node_modules/follow-redirects/",
+        ["virtual:a313c479c5c7e54d9ec8fbeeea69ff640f56b8989ea2dff42351a3fa5c4061fb80a52d8ede0f0826a181a216820c2d2c3f15da881e7fdf31cef1c446e42f0c45#npm:1.14.7", {
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-29ad70c5bf/0/cache/follow-redirects-npm-1.14.7-c87c16ed59-f6d03e5e30.zip/node_modules/follow-redirects/",
           "packageDependencies": [
-            ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.7"],
+            ["follow-redirects", "virtual:a313c479c5c7e54d9ec8fbeeea69ff640f56b8989ea2dff42351a3fa5c4061fb80a52d8ede0f0826a181a216820c2d2c3f15da881e7fdf31cef1c446e42f0c45#npm:1.14.7"],
             ["@types/debug", null],
             ["debug", "virtual:bd5ac53f2a4d13161e4becd2185852df3b4231ea7460becce6b80faf113589c84e6d5a7592f2b45846dcda321b203d871f080c12cd9638e02938ccdf6bfbd6ee#npm:4.3.3"]
           ],
@@ -8480,7 +8444,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["http-proxy", "npm:1.18.1"],
             ["eventemitter3", "npm:4.0.7"],
-            ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.7"],
+            ["follow-redirects", "virtual:a313c479c5c7e54d9ec8fbeeea69ff640f56b8989ea2dff42351a3fa5c4061fb80a52d8ede0f0826a181a216820c2d2c3f15da881e7fdf31cef1c446e42f0c45#npm:1.14.7"],
             ["requires-port", "npm:1.0.0"]
           ],
           "linkType": "HARD",

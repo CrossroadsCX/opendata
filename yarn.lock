@@ -131,22 +131,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@crossroadscx/google-cloud@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "@crossroadscx/google-cloud@npm:0.0.4"
-  dependencies:
-    "@crossroadscx/utils": ^0.0.2
-    "@google-cloud/functions-framework": ^2.0.0
-    "@google-cloud/logging-winston": ^4.1.1
-    "@google-cloud/secret-manager": ^3.10.1
-    "@google-cloud/storage": ^5.16.1
-    "@types/axios": ^0.14.0
-    axios: ^0.24.0
-    winston: ^3.3.3
-  checksum: 4bf4ce65b8c0c82af22131cf80fbb1d0a9401c28f9008dde538d0e150c52677a1172cb98138e60edd7d01c51a3fc73123837e8a937d689405605e77db77be230
-  languageName: node
-  linkType: hard
-
 "@crossroadscx/utils@npm:^0.0.2":
   version: 0.0.2
   resolution: "@crossroadscx/utils@npm:0.0.2"
@@ -232,7 +216,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/functions-framework@npm:^2.0.0, @google-cloud/functions-framework@npm:^2.1.0":
+"@google-cloud/functions-framework@npm:^2.1.0":
   version: 2.1.0
   resolution: "@google-cloud/functions-framework@npm:2.1.0"
   dependencies:
@@ -565,15 +549,6 @@ __metadata:
   version: 1.0.2
   resolution: "@tsconfig/node16@npm:1.0.2"
   checksum: ca94d3639714672bbfd55f03521d3f56bb6a25479bd425da81faf21f13e1e9d15f40f97377dedbbf477a5841c5b0c8f4cd1b391f33553d750b9202c54c2c07aa
-  languageName: node
-  linkType: hard
-
-"@types/axios@npm:^0.14.0":
-  version: 0.14.0
-  resolution: "@types/axios@npm:0.14.0"
-  dependencies:
-    axios: "*"
-  checksum: 12a230b9404055d81804cb57fe4739b2317111b28a39e2477b2513250e8b85725e6f6ce509fc2a9494a6da60facb8d80df875fcd747f62f6c3abebc7db60ae66
   languageName: node
   linkType: hard
 
@@ -1818,7 +1793,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:*, axios@npm:^0.24.0":
+"axios@npm:^0.24.0":
   version: 0.24.0
   resolution: "axios@npm:0.24.0"
   dependencies:
@@ -2111,7 +2086,6 @@ __metadata:
   dependencies:
     "@babel/parser": ^7.16.7
     "@crossroadscx/eslint-config": ^0.0.2
-    "@crossroadscx/google-cloud": ^0.0.4
     "@crossroadscx/utils": ^0.0.2
     "@google-cloud/functions-framework": ^2.1.0
     "@google-cloud/logging-winston": ^4.1.1
