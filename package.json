@@ -18,6 +18,9 @@
       "packages/north-carolina/campaign-finance"
     ]
   },
+  "nohoist": [
+    "packages/north-carolina/campaign-finance"
+  ],
   "devDependencies": {
     "@types/node": "^17.0.2",
     "typescript": "^4.5.2"
