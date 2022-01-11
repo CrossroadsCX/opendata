@@ -34,7 +34,7 @@ export const transactionsStaging: PubSubEventFunction = async (event, context) =
   logger.log('fileName ' + fileName);
 
   if(originBucketName && fileName){
-    logger.log('Coping file to staged-transactions bucket');
+    logger.log('Copying file to staged-transactions bucket');
     const url = 'https://console.cloud.google.com/storage/browser/_details/' + originBucketName + '/' +
       fileName + ';tab=live_object?project=' + projectId;
     try {
@@ -45,4 +45,6 @@ export const transactionsStaging: PubSubEventFunction = async (event, context) =
 
     logger.log('File copied successfully');
   }
+
+
 };
