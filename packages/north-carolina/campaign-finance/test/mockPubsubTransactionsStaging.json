@@ -1,0 +1,13 @@
+{
+    "@type": "type.googleapis.com/google.pubsub.v1.PubsubMessage",
+    "attributes" : {
+        "bucketId": "dummy-bucket-finance",
+        "eventTime": "2021-12-16T19:20:07.200616Z",
+        "eventType": "OBJECT_FINALIZE",
+        "notificationConfig": "projects/_/buckets/dummy-bucket-finance/notificationConfigs/6",
+        "objectGeneration": "1639682407130255",
+        "objectId": "inactive_active_org.csv",
+        "payloadFormat": "JSON_API_V1"
+    },
+    "data": "ewogICJraW5kIjogInN0b3JhZ2Ujb2JqZWN0IiwKICAiaWQiOiAiZHVtbXktYnVja2V0LWZpbmFuY2UvaW5hY3RpdmVfYWN0aXZlX29yZy5jc3YvMTYzOTY4MjQwNzEzMDI1NSIsCiAgInNlbGZMaW5rIjogImh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL3N0b3JhZ2UvdjEvYi9kdW1teS1idWNrZXQtZmluYW5jZS9vL2luYWN0aXZlX2FjdGl2ZV9vcmcuY3N2IiwKICAibmFtZSI6ICJpbmFjdGl2ZV9hY3RpdmVfb3JnLmNzdiIsCiAgImJ1Y2tldCI6ICJkdW1teS1idWNrZXQtZmluYW5jZSIsCiAgImdlbmVyYXRpb24iOiAiMTYzOTY4MjQwNzEzMDI1NSIsCiAgIm1ldGFnZW5lcmF0aW9uIjogIjEiLAogICJjb250ZW50VHlwZSI6ICJ0ZXh0L2NzdiIsCiAgInRpbWVDcmVhdGVkIjogIjIwMjEtMTItMTZUMTk6MjA6MDcuMjAwWiIsCiAgInVwZGF0ZWQiOiAiMjAyMS0xMi0xNlQxOToyMDowNy4yMDBaIiwKICAic3RvcmFnZUNsYXNzIjogIlNUQU5EQVJEIiwKICAidGltZVN0b3JhZ2VDbGFzc1VwZGF0ZWQiOiAiMjAyMS0xMi0xNlQxOToyMDowNy4yMDBaIiwKICAic2l6ZSI6ICI1ODEzMTMiLAogICJtZDVIYXNoIjogIiszMWt5ZVZvc2kreGpvL3dsS3ZSZ2c9PSIsCiAgIm1lZGlhTGluayI6ICJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9kb3dubG9hZC9zdG9yYWdlL3YxL2IvZHVtbXktYnVja2V0LWZpbmFuY2Uvby9pbmFjdGl2ZV9hY3RpdmVfb3JnLmNzdj9nZW5lcmF0aW9uPTE2Mzk2ODI0MDcxMzAyNTUmYWx0PW1lZGlhIiwKICAiY3JjMzJjIjogIm55YzlHdz09IiwKICAiZXRhZyI6ICJDSS9Kci91RTZmUUNFQUU9Igp9Cg=="
+}
