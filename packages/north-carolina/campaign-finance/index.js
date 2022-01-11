@@ -1,3 +1,3 @@
-const { transactionsStaging } = require('./dist/cjs/transactionsStaging')
+const { scrapTransaction } = require('./dist/esm/transactionsScraper')
 
-module.exports = { transactionsStaging }
+module.exports = { scrapTransaction }
