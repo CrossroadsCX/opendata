@@ -1,10 +1,10 @@
 import axios from 'axios'
+import { types } from 'util'
 
-import { logger } from '@crossroadscx/utils'
-
+import { logger } from './logger'
 import { storage } from './storage'
 
-
+const { isNativeError } = types
 
 export const streamFileToGCS = async (
   requestOptions: Record<string, unknown>,
@@ -21,7 +21,7 @@ export const streamFileToGCS = async (
       .then((response) => {
         return new Promise((resolve, reject) => {
           response.data.pipe(fileWriteStream)
-          let error: Error | null = null 
+          let error: Error | null = null
 
           fileWriteStream.on('error', (err) => {
             error = err
@@ -36,11 +36,16 @@ export const streamFileToGCS = async (
           })
         })
       })
-  } catch (err: any) {
+  } catch (err: unknown) {
     let message = 'Download Error: \n'
-    message += err?.message as string
-
-    logger.error(message)
+    if (isNativeError(err)) {
+      message += err.message
+      logger.error(message)
+    } else {
+      message += 'Received unknown error... \n'
+      logger.error(message)
+      logger.error(err)
+    }
 
     return
   }
