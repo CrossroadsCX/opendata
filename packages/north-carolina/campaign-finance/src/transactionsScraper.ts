@@ -4,7 +4,7 @@ import type { HttpFunction } from '@google-cloud/functions-framework/build/src/f
 import { streamFileToGCS } from './streamFileToGCS'
 
 type queryParameters = { from?: string, to?: string }
-export const scrapTransaction: HttpFunction = (req: any, res) => {
+export const transactionsScraper: HttpFunction = (req, res) => {
 
   (async () => {
     const browser = await puppeteer.launch()
@@ -45,7 +45,7 @@ export const scrapTransaction: HttpFunction = (req: any, res) => {
 
     // Close the browser
     await browser.close()
-    
+
     //streamFileToGCS parameters
     const requestOptions = {
       encoding: null,
