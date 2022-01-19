@@ -38,7 +38,7 @@ export const transactionsStaging: PubSubEventFunction = async (event, context) =
     const url = 'https://console.cloud.google.com/storage/browser/_details/' + originBucketName + '/' +
       fileName + ';tab=live_object?project=' + projectId;
     try {
-      await streamFileToGCS(url, destBucketName, fileName, options)
+      await streamFileToGCS({ url }, destBucketName, fileName, options)
     } catch (err) {
       logger.error(err)
     }
