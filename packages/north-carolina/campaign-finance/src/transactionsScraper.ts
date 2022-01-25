@@ -1,11 +1,9 @@
 import puppeteer, { HTTPRequest } from 'puppeteer'
 import { isValid, isMatch } from 'date-fns'
-import { Request } from 'express'
-import type { Data, HttpFunction, EventFunction, CloudFunctionsContext, Context } from '@google-cloud/functions-framework/build/src/functions'
-import { LegacyEvent } from '@google-cloud/functions-framework/build/src/functions'
+import type { CloudFunctionsContext } from '@google-cloud/functions-framework/build/src/functions'
+
 import { streamFileToGCS } from './streamFileToGCS'
 import { logger } from './logger'
-import { assert } from 'console'
 
 const ncsbeTransactionsSearchUrl = 'https://cf.ncsbe.gov/CFTxnLkup/'
 
@@ -31,8 +29,13 @@ interface ScraperEventFunction {
 
 export const transactionsScraper: ScraperEventFunction = async (message, context) => {
   try {
+    logger.info(message)
     const { attributes } = message
-    const { to, from, type = 'all' } = attributes
+    logger.info(attributes)
+    //const { to = '01/05/2021', from = '01/01/2021', type = 'all' } = attributes
+    const to = '01/05/2021'
+    const from = '01/01/2021'
+    const type = 'rec'
 
     if (!transactionTypes.includes(type)) {
       throw new Error(`Transaction type must be one of 'rec' | 'exp' | 'all'. Received ${type}`)
@@ -69,10 +72,10 @@ export const transactionsScraper: ScraperEventFunction = async (message, context
     // Intercept the generated file
     await page.setRequestInterception(true)
 
-    const csvRequest: HTTPRequest = await new Promise((resolve) => {
+    const csvRequest: HTTPRequest = await new Promise((resolve, reject) => {
       page.on('request', (interceptedRequest) => {
         interceptedRequest.abort()
-        resolve(interceptedRequest)
+        return resolve(interceptedRequest)
       })
     })
 
@@ -90,17 +93,20 @@ export const transactionsScraper: ScraperEventFunction = async (message, context
       headers: csvRequest.headers(),
     }
 
+    logger.info("Request Options", requestOptions)
+
     const options = {
       contentType: 'text/csv',
-      metadata: {
-        prefix: 'ncreceipt',
-        tags: ['ncreceipt', 'ncfinance'],
-      },
     }
 
-    logger.info(requestOptions)
+    const metadata = {
+      prefix: type,
+      tags: [type],
+    }
 
-    let filename = `nc-receipts-${from}-to-${to}.csv`
+    logger.info("Metadata", metadata)
+
+    let filename = `nc-${type}-${from}-to-${to}.csv`
     filename = filename.replace(/\//g, '')
 
     logger.info(`Starting stream for file ${filename}`)
@@ -108,10 +114,10 @@ export const transactionsScraper: ScraperEventFunction = async (message, context
     const bucket = 'dummy-bucket-finance'
 
     //CSVRequest to Bucket Storage
-    const result = await streamFileToGCS(requestOptions, bucket, filename, options)
+    const result = await streamFileToGCS(requestOptions, bucket, filename, options, metadata)
     logger.info(result)
   } catch (err) {
-    logger.error(err)
+    logger.error('TransactionsScraper Function Error', err)
     throw err
   }
 

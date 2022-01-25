@@ -10,8 +10,12 @@ const ncsbeTransactionsSearchUrl = 'https://cf.ncsbe.gov/CFTxnLkup/';
 const transactionTypes = ['rec', 'exp', 'all'];
 const transactionsScraper = (message, context) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     try {
+        logger_1.logger.info(message);
         const { attributes } = message;
-        const { to, from, type = 'all' } = attributes;
+        logger_1.logger.info(attributes);
+        const to = '01/05/2021';
+        const from = '01/01/2021';
+        const type = 'rec';
         if (!transactionTypes.includes(type)) {
             throw new Error(`Transaction type must be one of 'rec' | 'exp' | 'all'. Received ${type}`);
         }
@@ -32,10 +36,10 @@ const transactionsScraper = (message, context) => (0, tslib_1.__awaiter)(void 0,
         yield page.waitForSelector('#btnExportResults', { visible: true, timeout: 0 });
         yield page.click('#btnExportResults');
         yield page.setRequestInterception(true);
-        const csvRequest = yield new Promise((resolve) => {
+        const csvRequest = yield new Promise((resolve, reject) => {
             page.on('request', (interceptedRequest) => {
                 interceptedRequest.abort();
-                resolve(interceptedRequest);
+                return resolve(interceptedRequest);
             });
         });
         yield browser.close();
@@ -47,23 +51,24 @@ const transactionsScraper = (message, context) => (0, tslib_1.__awaiter)(void 0,
             data: csvRequest.postData(),
             headers: csvRequest.headers(),
         };
+        logger_1.logger.info("Request Options", requestOptions);
         const options = {
             contentType: 'text/csv',
-            metadata: {
-                prefix: 'ncreceipt',
-                tags: ['ncreceipt', 'ncfinance'],
-            },
         };
-        logger_1.logger.info(requestOptions);
-        let filename = `nc-receipts-${from}-to-${to}.csv`;
+        const metadata = {
+            prefix: type,
+            tags: [type],
+        };
+        logger_1.logger.info("Metadata", metadata);
+        let filename = `nc-${type}-${from}-to-${to}.csv`;
         filename = filename.replace(/\//g, '');
         logger_1.logger.info(`Starting stream for file ${filename}`);
         const bucket = 'dummy-bucket-finance';
-        const result = yield (0, streamFileToGCS_1.streamFileToGCS)(requestOptions, bucket, filename, options);
+        const result = yield (0, streamFileToGCS_1.streamFileToGCS)(requestOptions, bucket, filename, options, metadata);
         logger_1.logger.info(result);
     }
     catch (err) {
-        logger_1.logger.error(err);
+        logger_1.logger.error('TransactionsScraper Function Error', err);
         throw err;
     }
     return;

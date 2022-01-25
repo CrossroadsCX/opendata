@@ -8,6 +8,25 @@ export declare type PubSubAttributes = {
     objectId: string;
     payloadFormat: string;
 };
+export declare type StorageBackgroundEventData = {
+    kind: string;
+    id: string;
+    selfLink: string;
+    name: string;
+    bucket: string;
+    generation: string;
+    metageneration: string;
+    contentType: string;
+    timeCreated: string;
+    updated: string;
+    storageClass: string;
+    timeStorageClassUpdated: string;
+    size: string;
+    md5Hash: string;
+    mediaLink: string;
+    crc32c: string;
+    etag: string;
+};
 export declare type PubSubMessage = {
     data: string;
     attributes: PubSubAttributes;
@@ -16,6 +35,6 @@ export declare type PubSubMessage = {
     orderingKey: string;
 };
 export interface PubSubEventFunction {
-    (data: PubSubMessage, context: Context): any;
+    (event: PubSubMessage, context: Context): any;
 }
 export declare const transactionsStaging: PubSubEventFunction;

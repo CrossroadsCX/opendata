@@ -6,20 +6,25 @@ import { storage } from './storage'
 
 const { isNativeError } = types
 
+type FileOptions = {
+  contentType: string;
+}
+
 export const streamFileToGCS = async (
   requestOptions: Record<string, unknown>,
   bucketName: string,
   filename: string,
-  options: Record<string, unknown>,
+  options: FileOptions,
+  metadata: Record<string, unknown> = {}
 ) => {
-  const bucket = storage.bucket(bucketName)
-  const file = bucket.file(filename)
-  const fileWriteStream = file.createWriteStream(options)
-
-  let result
-
   try {
-    result = await axios( {  responseType: 'stream', ...requestOptions })
+    const bucket = storage.bucket(bucketName)
+    const file = bucket.file(filename)
+    // file.setMetadata({ metadata })
+    logger.info('Inside streamFileToGCS')
+    const fileWriteStream = file.createWriteStream(options)
+
+    const result = await axios( {  responseType: 'stream', ...requestOptions })
       .then((response) => {
         return new Promise((resolve, reject) => {
           response.data.pipe(fileWriteStream)
@@ -28,7 +33,7 @@ export const streamFileToGCS = async (
 
           fileWriteStream.on('error', (err) => {
             error = err
-            logger.error(error)
+            logger.error('Error in file write stream', error)
             fileWriteStream.end()
             reject(err)
           })
@@ -40,20 +45,20 @@ export const streamFileToGCS = async (
           })
         })
       })
+
+    logger.info("Result", result)
   } catch (err: unknown) {
-    let message = 'Download Error: \n'
     if (isNativeError(err)) {
-      message += err.message
-      logger.error(message)
+      logger.error('Download Error', err)
     } else {
-      message += 'Received unknown error... \n'
-      logger.error(message)
-      logger.error(err)
+      logger.error('Unknown Error', err)
     }
+
+    throw err
 
     return
   }
 
   logger.info('End of stream function reached.')
-  return result
+  return
 }

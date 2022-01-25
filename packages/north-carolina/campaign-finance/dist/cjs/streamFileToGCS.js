@@ -7,13 +7,13 @@ const util_1 = require("util");
 const logger_1 = require("./logger");
 const storage_1 = require("./storage");
 const { isNativeError } = util_1.types;
-const streamFileToGCS = (requestOptions, bucketName, filename, options) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
-    const bucket = storage_1.storage.bucket(bucketName);
-    const file = bucket.file(filename);
-    const fileWriteStream = file.createWriteStream(options);
-    let result;
+const streamFileToGCS = (requestOptions, bucketName, filename, options, metadata = {}) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     try {
-        result = yield (0, axios_1.default)(Object.assign({ responseType: 'stream' }, requestOptions))
+        const bucket = storage_1.storage.bucket(bucketName);
+        const file = bucket.file(filename);
+        logger_1.logger.info('Inside streamFileToGCS');
+        const fileWriteStream = file.createWriteStream(options);
+        const result = yield (0, axios_1.default)(Object.assign({ responseType: 'stream' }, requestOptions))
             .then((response) => {
             return new Promise((resolve, reject) => {
                 response.data.pipe(fileWriteStream);
@@ -21,7 +21,7 @@ const streamFileToGCS = (requestOptions, bucketName, filename, options) => (0, t
                 logger_1.logger.info('Piping data results from stream function.');
                 fileWriteStream.on('error', (err) => {
                     error = err;
-                    logger_1.logger.error(error);
+                    logger_1.logger.error('Error in file write stream', error);
                     fileWriteStream.end();
                     reject(err);
                 });
@@ -32,22 +32,20 @@ const streamFileToGCS = (requestOptions, bucketName, filename, options) => (0, t
                 });
             });
         });
+        logger_1.logger.info("Result", result);
     }
     catch (err) {
-        let message = 'Download Error: \n';
         if (isNativeError(err)) {
-            message += err.message;
-            logger_1.logger.error(message);
+            logger_1.logger.error('Download Error', err);
         }
         else {
-            message += 'Received unknown error... \n';
-            logger_1.logger.error(message);
-            logger_1.logger.error(err);
+            logger_1.logger.error('Unknown Error', err);
         }
+        throw err;
         return;
     }
     logger_1.logger.info('End of stream function reached.');
-    return result;
+    return;
 });
 exports.streamFileToGCS = streamFileToGCS;
 //# sourceMappingURL=streamFileToGCS.js.map

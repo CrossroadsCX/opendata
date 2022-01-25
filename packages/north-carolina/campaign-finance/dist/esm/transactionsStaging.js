@@ -1,31 +1,32 @@
 import { __awaiter } from "tslib";
 import { logger } from './logger';
-import { streamFileToGCS } from './streamFileToGCS';
-export const transactionsStaging = (event, context) => __awaiter(void 0, void 0, void 0, function* () {
-    logger.info({ event, context });
-    const { projectId } = process.env;
-    const massageAttributes = event.attributes;
-    const originBucketName = massageAttributes.bucketId;
-    const fileName = massageAttributes.objectId;
-    const destBucketName = "staged-transactions";
-    const options = { start: 'w' };
-    logger.info('bucketName ' + originBucketName);
-    logger.info('fileName ' + fileName);
-    if (originBucketName && fileName) {
-        logger.info('Copying file to staged-transactions bucket');
-        const url = 'https://console.cloud.google.com/storage/browser/_details/' + originBucketName + '/' +
-            fileName + ';tab=live_object?project=' + projectId;
-        try {
-            yield streamFileToGCS({ url }, destBucketName, fileName, options);
-        }
-        catch (err) {
-            logger.error(err);
-            throw err;
-        }
-        logger.info('File copied successfully');
+import { storage } from './storage';
+const destBucketName = 'staged-transactions';
+export const transactionsStaging = (event) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { data } = event;
+        const stringDecoded = Buffer.from(data, 'base64').toString();
+        const eventData = JSON.parse(stringDecoded);
+        const { bucket: originBucketName, name: originFilename } = eventData;
+        logger.info("Bucket Information", { originBucketName, originFilename });
+        const sourceBucket = storage.bucket(originBucketName);
+        const sourceFile = sourceBucket.file(originFilename);
+        logger.info("Source file metadata", sourceFile.metadata);
+        const destBucket = storage.bucket(destBucketName);
+        const destFile = destBucket.file(originFilename);
+        destFile.setMetadata(sourceFile.metadata);
+        const streamPromise = new Promise((resolve, reject) => {
+            sourceFile.createReadStream()
+                .on('error', (err) => reject(err))
+                .on('finish', () => resolve())
+                .pipe(destFile.createWriteStream());
+        });
+        yield streamPromise;
+        return;
     }
-    else {
-        logger.error('Could not find bucket name or filename');
+    catch (err) {
+        logger.error(err);
+        throw err;
     }
     return;
 });
