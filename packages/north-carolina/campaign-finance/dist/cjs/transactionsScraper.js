@@ -8,9 +8,8 @@ const streamFileToGCS_1 = require("./streamFileToGCS");
 const logger_1 = require("./logger");
 const ncsbeTransactionsSearchUrl = 'https://cf.ncsbe.gov/CFTxnLkup/';
 const transactionTypes = ['rec', 'exp', 'all'];
-const transactionsScraper = ({ message }, context) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
+const transactionsScraper = (message, context) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     try {
-        logger_1.logger.info(message, context);
         const { attributes } = message;
         const { to, from, type = 'all' } = attributes;
         if (!transactionTypes.includes(type)) {

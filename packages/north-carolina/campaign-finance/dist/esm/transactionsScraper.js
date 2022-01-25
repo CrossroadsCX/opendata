@@ -5,9 +5,8 @@ import { streamFileToGCS } from './streamFileToGCS';
 import { logger } from './logger';
 const ncsbeTransactionsSearchUrl = 'https://cf.ncsbe.gov/CFTxnLkup/';
 const transactionTypes = ['rec', 'exp', 'all'];
-export const transactionsScraper = ({ message }, context) => __awaiter(void 0, void 0, void 0, function* () {
+export const transactionsScraper = (message, context) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        logger.info(message, context);
         const { attributes } = message;
         const { to, from, type = 'all' } = attributes;
         if (!transactionTypes.includes(type)) {

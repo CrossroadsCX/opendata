@@ -1,2 +1,3 @@
-/// <reference types="node" />
-export declare const logger: Console;
+import winston from 'winston';
+declare const logger: winston.Logger;
+export { logger };

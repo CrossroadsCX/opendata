@@ -18,6 +18,7 @@ type ScraperAttributes = {
 }
 
 type ScraperInput = {
+  attributes: ScraperAttributes;
   message: {
     attributes: ScraperAttributes;
     data: string;
@@ -28,9 +29,8 @@ interface ScraperEventFunction {
   (data: ScraperInput, context: CloudFunctionsContext): Promise<void>
 }
 
-export const transactionsScraper: ScraperEventFunction = async ({ message }, context) => {
+export const transactionsScraper: ScraperEventFunction = async (message, context) => {
   try {
-    logger.info(message, context)
     const { attributes } = message
     const { to, from, type = 'all' } = attributes
 

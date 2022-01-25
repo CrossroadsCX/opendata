@@ -24,27 +24,31 @@ export interface PubSubEventFunction {
 }
 
 export const transactionsStaging: PubSubEventFunction = async (event, context) => {
+  logger.info({ event, context })
   const { projectId } = process.env
   const massageAttributes = event.attributes;
   const originBucketName = massageAttributes.bucketId;
   const fileName = massageAttributes.objectId;
   const destBucketName = "staged-transactions";
   const options = { start: 'w'}
-  logger.log('bucketName ' + originBucketName);
-  logger.log('fileName ' + fileName);
+  logger.info('bucketName ' + originBucketName);
+  logger.info('fileName ' + fileName);
 
   if(originBucketName && fileName){
-    logger.log('Copying file to staged-transactions bucket');
+    logger.info('Copying file to staged-transactions bucket');
     const url = 'https://console.cloud.google.com/storage/browser/_details/' + originBucketName + '/' +
       fileName + ';tab=live_object?project=' + projectId;
     try {
       await streamFileToGCS({ url }, destBucketName, fileName, options)
     } catch (err) {
       logger.error(err)
+      throw err
     }
 
-    logger.log('File copied successfully');
+    logger.info('File copied successfully');
+  } else {
+    logger.error('Could not find bucket name or filename')
   }
 
-
+  return
 };

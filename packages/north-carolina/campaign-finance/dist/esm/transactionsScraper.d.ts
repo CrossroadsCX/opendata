@@ -5,6 +5,7 @@ declare type ScraperAttributes = {
     type: 'rec' | 'exp' | 'all';
 };
 declare type ScraperInput = {
+    attributes: ScraperAttributes;
     message: {
         attributes: ScraperAttributes;
         data: string;
