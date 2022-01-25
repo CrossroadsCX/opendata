@@ -4,7 +4,7 @@
 All infrastructure in this repository is built on Google Cloud Platform and is mostly utilizing its Pub/Sub Topics and Cloud Functions. The Pub/Sub topics serve as a message queue that the cloud functions are subscribed to to kick off events. The current implementation is described below.
 
 ### _Topic_ - `scrape-transactions`
-Messages in the form of `{"attributes": {"from": "mm/dd/yyyy", "to": "mm/dd/yyyy", "type": "'rec' | 'exp' | 'all': }}` are sent to this topic describing the start date, end date, and transaction type that should be pulled from the NC State Board of Elections transactions search interface - `https://cf.ncsbe.gov/CFTxnLkup/`
+Messages in the form of `{"attributes": {"from": "mm/dd/yyyy", "to": "mm/dd/yyyy", "type": "'rec' | 'exp' | 'all': }}` are sent to this topic describing the start date, end date, and transaction type that should be pulled from the NC State Board of Elections transactions search interface - `https://cf.ncsbe.gov/CFTxnLkup/`. Messages to this topic can be published manually or set up in a Cloud Scheduler to run as a cron job.
 
 ### _Cloud Function_ - `transactionsScraper`
 This function is triggered by the `scrape-transactions` topic and uses the provided attributes to fill the NC State Board of Elections transactions search interface. When the page loads and the download csv link is rendered it pulls the resulting CSV and stores it in the `dummy-bucket-finance` _( to be renamed )_ bucket.
