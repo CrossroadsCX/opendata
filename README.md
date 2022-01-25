@@ -18,15 +18,6 @@ __Note: Still on yarn v1.x__
 
 This package contains a cloud function that runs on a scheduler. This cloud function pipes the latest voterfile from ncsbe.gov to a cloud storage bucket.
 
-### [Google Cloud](./packages/google-cloud)
-This package contains utility tools to assist all packages interacting with GCP infrastructure.
-
-### [Utils](./packages/utils)
-This package contains utility tools shared across all packages. These tools serve purposes such as logging, data transformation, etc. They are intended to be domain-agnostic.
-
-### Eslint Config
-This package contains the eslint configuration for all packages.
-
 ## Development
 This project utilizes standard development tools such as eslint, yarn ( berry ), and typescript. All contributors are welcome whether you are technical or not. Please feel free to open issues for bug reports, feature suggestions, etc.
 
