@@ -1,0 +1,19 @@
+{
+  "kind": "storage#object",
+  "id": "dummy-bucket-finance/nc-receipts-01012021-to-01022021.csv/1643088412523858",
+  "selfLink": "https://www.googleapis.com/storage/v1/b/dummy-bucket-finance/o/nc-receipts-01012021-to-01022021.csv",
+  "name": "nc-receipts-01012021-to-01022021.csv",
+  "bucket": "dummy-bucket-finance",
+  "generation": "1643088412523858",
+  "metageneration": "1",
+  "contentType": "text/csv",
+  "timeCreated": "2022-01-25T05:26:52.603Z",
+  "updated": "2022-01-25T05:26:52.603Z",
+  "storageClass": "STANDARD",
+  "timeStorageClassUpdated": "2022-01-25T05:26:52.603Z",
+  "size": "143193",
+  "md5Hash": "t4sm54XkadZRIQNIhe+MKA==",
+  "mediaLink": "https://www.googleapis.com/download/storage/v1/b/dummy-bucket-finance/o/nc-receipts-01012021-to-01022021.csv?generation=1643088412523858&alt=media",
+  "crc32c": "UeYDZA==",
+  "etag": "CNL6pqmVzPUCEAE="
+}
