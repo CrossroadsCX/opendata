@@ -3,6 +3,8 @@
 ## Infrastructure
 All infrastructure in this repository is built on Google Cloud Platform and is mostly utilizing its Pub/Sub Topics and Cloud Functions. The Pub/Sub topics serve as a message queue that the cloud functions are subscribed to to kick off events. The current implementation is described below.
 
+<img src="./docs/nc_campaign_finance.png" style="width: 75%;" />
+
 ### _Topic_ - `scrape-transactions`
 Messages in the form of `{"attributes": {"from": "mm/dd/yyyy", "to": "mm/dd/yyyy", "type": "'rec' | 'exp' | 'all': }}` are sent to this topic describing the start date, end date, and transaction type that should be pulled from the NC State Board of Elections transactions search interface - `https://cf.ncsbe.gov/CFTxnLkup/`. Messages to this topic can be published manually or set up in a Cloud Scheduler to run as a cron job.
 
