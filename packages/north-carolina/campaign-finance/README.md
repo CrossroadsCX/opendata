@@ -19,6 +19,10 @@ This cloud functions listens for file save events from the previous cloud storag
 
 ## Development
 
+Running functions locally requires authorizing as a service account on the platform. To do this download your service account credentials as a json file and run
+
+`export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-credentials.json` before running locally.
+
 ### Building Functions
 Each function is build using typescript and lives in the `src` directory. The functions are bundled separately using webpack into `dist`.
 
