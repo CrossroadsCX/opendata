@@ -3,7 +3,7 @@ import { isValid, isMatch } from 'date-fns'
 import type { CloudFunctionsContext } from '@google-cloud/functions-framework/build/src/functions'
 
 import { streamFileToGCS } from './streamFileToGCS'
-import { logger } from './logger'
+import { logger, createSlackLogger } from './logger'
 
 const ncsbeTransactionsSearchUrl = 'https://cf.ncsbe.gov/CFTxnLkup/'
 
@@ -29,13 +29,16 @@ interface ScraperEventFunction {
 
 export const transactionsScraper: ScraperEventFunction = async (message, context) => {
   try {
-    logger.info(message)
+
+    const slackLogger = await createSlackLogger()
+
+    logger.info('Message', message)
+    logger.info('Context', context)
+
     const { attributes } = message
-    logger.info(attributes)
-    //const { to = '01/05/2021', from = '01/01/2021', type = 'all' } = attributes
-    const to = '01/05/2021'
-    const from = '01/01/2021'
-    const type = 'rec'
+    const { to, from, type = 'all' } = attributes
+
+    slackLogger.info(`Starting scraper for transactions ${from} - ${to} for type ${type}`)
 
     if (!transactionTypes.includes(type)) {
       throw new Error(`Transaction type must be one of 'rec' | 'exp' | 'all'. Received ${type}`)
@@ -83,6 +86,7 @@ export const transactionsScraper: ScraperEventFunction = async (message, context
     await browser.close()
 
     logger.info('Received CSV file information')
+    slackLogger.info('Received CSV file information successfully')
 
     //streamFileToGCS parameters
     const requestOptions = {
@@ -110,16 +114,20 @@ export const transactionsScraper: ScraperEventFunction = async (message, context
     filename = filename.replace(/\//g, '')
 
     logger.info(`Starting stream for file ${filename}`)
+    slackLogger.info(`Starting stream for file ${filename}`)
 
     const bucket = 'dummy-bucket-finance'
 
     //CSVRequest to Bucket Storage
     const result = await streamFileToGCS(requestOptions, bucket, filename, options, metadata)
     logger.info(result)
+    slackLogger.info('Stream finished successfully.')
   } catch (err) {
     logger.error('TransactionsScraper Function Error', err)
     throw err
   }
+
+
 
   return
 }

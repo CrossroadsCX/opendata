@@ -10,12 +10,12 @@ const ncsbeTransactionsSearchUrl = 'https://cf.ncsbe.gov/CFTxnLkup/';
 const transactionTypes = ['rec', 'exp', 'all'];
 const transactionsScraper = (message, context) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     try {
-        logger_1.logger.info(message);
+        const slackLogger = yield (0, logger_1.createSlackLogger)();
+        logger_1.logger.info('Message', message);
+        logger_1.logger.info('Context', context);
         const { attributes } = message;
-        logger_1.logger.info(attributes);
-        const to = '01/05/2021';
-        const from = '01/01/2021';
-        const type = 'rec';
+        const { to, from, type = 'all' } = attributes;
+        slackLogger.info(`Starting scraper for transactions ${from} - ${to} for type ${type}`);
         if (!transactionTypes.includes(type)) {
             throw new Error(`Transaction type must be one of 'rec' | 'exp' | 'all'. Received ${type}`);
         }
@@ -44,6 +44,7 @@ const transactionsScraper = (message, context) => (0, tslib_1.__awaiter)(void 0,
         });
         yield browser.close();
         logger_1.logger.info('Received CSV file information');
+        slackLogger.info('Received CSV file information successfully');
         const requestOptions = {
             encoding: null,
             method: csvRequest.method(),
@@ -63,9 +64,11 @@ const transactionsScraper = (message, context) => (0, tslib_1.__awaiter)(void 0,
         let filename = `nc-${type}-${from}-to-${to}.csv`;
         filename = filename.replace(/\//g, '');
         logger_1.logger.info(`Starting stream for file ${filename}`);
+        slackLogger.info(`Starting stream for file ${filename}`);
         const bucket = 'dummy-bucket-finance';
         const result = yield (0, streamFileToGCS_1.streamFileToGCS)(requestOptions, bucket, filename, options, metadata);
         logger_1.logger.info(result);
+        slackLogger.info('Stream finished successfully.');
     }
     catch (err) {
         logger_1.logger.error('TransactionsScraper Function Error', err);
