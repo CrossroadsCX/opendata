@@ -7,8 +7,9 @@
     "deploy": "gcloud functions deploy transactionsStaging --source=dist/transactionsStaging",
     "clean": "rimraf ./dist ./tsconfig.tsbuildinfo",
     "lint": "eslint --ext=tsx,ts,js src",
-    "function": "npx @google-cloud/functions-framework --target=transactionsScraper --signature-type=event",
-    "_webpack": "yarn clean && webpack-cli --config ./webpack.config.js --stats-error-details"
+    "function": "npx @google-cloud/functions-framework --target=triggerTransactionsScraper --signature-type=event",
+    "_webpack": "yarn clean && webpack-cli --config ./webpack.config.js --stats-error-details",
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/parser": "^7.16.7",
@@ -29,6 +30,7 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.27.1",
     "fork-ts-checker-webpack-plugin": "^6.5.0",
+    "jest": "^27.4.7",
     "os": "^0.1.2",
     "pnp-webpack-plugin": "^1.7.0",
     "rimraf": "^3.0.2",
@@ -46,6 +48,7 @@
     "@crossroadscx/utils": "^0.0.2",
     "@google-cloud/functions-framework": "^2.1.0",
     "@google-cloud/logging-winston": "^4.1.1",
+    "@google-cloud/pubsub": "^2.18.5",
     "@google-cloud/secret-manager": "^3.10.1",
     "@google-cloud/storage": "^5.16.1",
     "axios": "^0.24.0",
