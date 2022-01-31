@@ -3,28 +3,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.transactionsStaging = void 0;
 const tslib_1 = require("tslib");
 const logger_1 = require("./logger");
-const storage_1 = require("./storage");
+const copyGCSFile_1 = require("./copyGCSFile");
 const destBucketName = 'staged-transactions';
 const transactionsStaging = (event) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     try {
+        const slackLogger = yield (0, logger_1.createSlackLogger)();
         const { data } = event;
         const stringDecoded = Buffer.from(data, 'base64').toString();
         const eventData = JSON.parse(stringDecoded);
         const { bucket: originBucketName, name: originFilename } = eventData;
+        slackLogger.info(`Streaming ${originFilename} from ${originBucketName} to ${destBucketName}`);
+        const sourceFileInfo = {
+            bucketName: originBucketName,
+            fileName: originFilename,
+        };
+        const destFileInfo = {
+            bucketName: destBucketName,
+            fileName: originFilename,
+        };
         logger_1.logger.info("Bucket Information", { originBucketName, originFilename });
-        const sourceBucket = storage_1.storage.bucket(originBucketName);
-        const sourceFile = sourceBucket.file(originFilename);
-        logger_1.logger.info("Source file metadata", sourceFile.metadata);
-        const destBucket = storage_1.storage.bucket(destBucketName);
-        const destFile = destBucket.file(originFilename);
-        destFile.setMetadata(sourceFile.metadata);
-        const streamPromise = new Promise((resolve, reject) => {
-            sourceFile.createReadStream()
-                .on('error', (err) => reject(err))
-                .on('finish', () => resolve())
-                .pipe(destFile.createWriteStream());
-        });
-        yield streamPromise;
+        yield (0, copyGCSFile_1.copyGCSFile)(sourceFileInfo, destFileInfo);
+        slackLogger.info(`${originFilename} stream finished`);
         return;
     }
     catch (err) {

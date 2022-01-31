@@ -1,27 +1,26 @@
 import { __awaiter } from "tslib";
-import { logger } from './logger';
-import { storage } from './storage';
+import { logger, createSlackLogger } from './logger';
+import { copyGCSFile } from './copyGCSFile';
 const destBucketName = 'staged-transactions';
 export const transactionsStaging = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const slackLogger = yield createSlackLogger();
         const { data } = event;
         const stringDecoded = Buffer.from(data, 'base64').toString();
         const eventData = JSON.parse(stringDecoded);
         const { bucket: originBucketName, name: originFilename } = eventData;
+        slackLogger.info(`Streaming ${originFilename} from ${originBucketName} to ${destBucketName}`);
+        const sourceFileInfo = {
+            bucketName: originBucketName,
+            fileName: originFilename,
+        };
+        const destFileInfo = {
+            bucketName: destBucketName,
+            fileName: originFilename,
+        };
         logger.info("Bucket Information", { originBucketName, originFilename });
-        const sourceBucket = storage.bucket(originBucketName);
-        const sourceFile = sourceBucket.file(originFilename);
-        logger.info("Source file metadata", sourceFile.metadata);
-        const destBucket = storage.bucket(destBucketName);
-        const destFile = destBucket.file(originFilename);
-        destFile.setMetadata(sourceFile.metadata);
-        const streamPromise = new Promise((resolve, reject) => {
-            sourceFile.createReadStream()
-                .on('error', (err) => reject(err))
-                .on('finish', () => resolve())
-                .pipe(destFile.createWriteStream());
-        });
-        yield streamPromise;
+        yield copyGCSFile(sourceFileInfo, destFileInfo);
+        slackLogger.info(`${originFilename} stream finished`);
         return;
     }
     catch (err) {

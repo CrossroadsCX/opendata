@@ -1,7 +1,8 @@
 import type { CloudFunctionsContext, LegacyEvent, Context } from '@google-cloud/functions-framework';
-import { logger } from './logger';
+import { logger, createSlackLogger } from './logger';
 import { streamFileToGCS } from './streamFileToGCS';
 import { storage } from './storage'
+import { copyGCSFile } from './copyGCSFile'
 
 export type PubSubAttributes = {
   bucketId: string;
@@ -49,6 +50,7 @@ const destBucketName = 'staged-transactions'
 
 export const transactionsStaging: PubSubEventFunction = async (event /*, context */) => {
   try {
+    const slackLogger = await createSlackLogger()
     const { data } = event
     const stringDecoded = Buffer.from(data, 'base64').toString()
     const eventData: StorageBackgroundEventData = JSON.parse(stringDecoded)
@@ -58,26 +60,23 @@ export const transactionsStaging: PubSubEventFunction = async (event /*, context
       name: originFilename
     } = eventData
 
+    slackLogger.info(`Streaming ${originFilename} from ${originBucketName} to ${destBucketName}`);
+
+    const sourceFileInfo = {
+      bucketName: originBucketName,
+      fileName: originFilename,
+    }
+
+    const destFileInfo = {
+      bucketName: destBucketName,
+      fileName: originFilename,
+    }
+
     logger.info("Bucket Information", { originBucketName, originFilename })
 
-    const sourceBucket = storage.bucket(originBucketName)
-    const sourceFile = sourceBucket.file(originFilename)
+    await copyGCSFile(sourceFileInfo, destFileInfo)
 
-    logger.info("Source file metadata", sourceFile.metadata)
-
-    const destBucket = storage.bucket(destBucketName)
-    const destFile = destBucket.file(originFilename)
-    destFile.setMetadata(sourceFile.metadata)
-
-    const streamPromise = new Promise<void>((resolve, reject) => {
-      sourceFile.createReadStream()
-        .on('error', (err) => reject(err))
-        .on('finish', () => resolve())
-        .pipe(destFile.createWriteStream())
-    })
-
-    await streamPromise
-    // await sourceFile.delete()
+    slackLogger.info(`${originFilename} stream finished`)
 
     return
   } catch (err) {
