@@ -46,7 +46,8 @@ export interface PubSubEventFunction {
   (event: PubSubMessage, context: Context): any
 }
 
-const destBucketName = 'staged-transactions'
+const destBucketName = 'campaign-finance-snowpipe'
+const directory = 'staging'
 
 export const transactionsStaging: PubSubEventFunction = async (event /*, context */) => {
   try {
@@ -69,7 +70,7 @@ export const transactionsStaging: PubSubEventFunction = async (event /*, context
 
     const destFileInfo = {
       bucketName: destBucketName,
-      fileName: originFilename,
+      fileName: `${directory}/${originFilename}`,
     }
 
     logger.info("Bucket Information", { originBucketName, originFilename })

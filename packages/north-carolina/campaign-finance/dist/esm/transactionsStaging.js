@@ -1,7 +1,8 @@
 import { __awaiter } from "tslib";
 import { logger, createSlackLogger } from './logger';
 import { copyGCSFile } from './copyGCSFile';
-const destBucketName = 'staged-transactions';
+const destBucketName = 'campaign-finance-snowpipe';
+const directory = 'staging';
 export const transactionsStaging = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const slackLogger = yield createSlackLogger();
@@ -16,7 +17,7 @@ export const transactionsStaging = (event) => __awaiter(void 0, void 0, void 0, 
         };
         const destFileInfo = {
             bucketName: destBucketName,
-            fileName: originFilename,
+            fileName: `${directory}/${originFilename}`,
         };
         logger.info("Bucket Information", { originBucketName, originFilename });
         yield copyGCSFile(sourceFileInfo, destFileInfo);
