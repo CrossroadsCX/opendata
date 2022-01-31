@@ -1,1 +1,5 @@
-export declare const triggerTransactionsScraper: () => void;
+export declare const triggerTransactionsScraper: ({ attributes: { year } }: {
+    attributes: {
+        year: string;
+    };
+}) => void;
