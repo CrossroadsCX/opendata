@@ -11,14 +11,12 @@ const streamFileToGCS = (requestOptions, bucketName, filename, options, metadata
     try {
         const bucket = storage_1.storage.bucket(bucketName);
         const file = bucket.file(filename);
-        logger_1.logger.info('Inside streamFileToGCS');
         const fileWriteStream = file.createWriteStream(options);
         const result = yield (0, axios_1.default)(Object.assign({ responseType: 'stream' }, requestOptions))
             .then((response) => {
             return new Promise((resolve, reject) => {
                 response.data.pipe(fileWriteStream);
                 let error = null;
-                logger_1.logger.info('Piping data results from stream function.');
                 fileWriteStream.on('error', (err) => {
                     error = err;
                     logger_1.logger.error('Error in file write stream', error);
@@ -32,7 +30,6 @@ const streamFileToGCS = (requestOptions, bucketName, filename, options, metadata
                 });
             });
         });
-        logger_1.logger.info("Result", result);
     }
     catch (err) {
         if (isNativeError(err)) {
@@ -44,7 +41,6 @@ const streamFileToGCS = (requestOptions, bucketName, filename, options, metadata
         throw err;
         return;
     }
-    logger_1.logger.info('End of stream function reached.');
     return;
 });
 exports.streamFileToGCS = streamFileToGCS;

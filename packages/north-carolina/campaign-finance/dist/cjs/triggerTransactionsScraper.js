@@ -74,6 +74,7 @@ const triggerTransactionsScraper = ({ attributes: { year } }) => {
             const messageId = yield batchPublisher.publish(Buffer.from(''), request);
             logger_1.logger.info(`Message id ${messageId} published.`);
         }));
+        return `Running batches for ${requests.length} requests`;
     }
     catch (err) {
         logger_1.logger.error(err);

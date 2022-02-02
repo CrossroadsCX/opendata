@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.transactionsStaging = void 0;
+exports.transactionsSnowpipe = void 0;
 const tslib_1 = require("tslib");
 const logger_1 = require("./logger");
 const copyGCSFile_1 = require("./copyGCSFile");
-const destBucketName = 'transactions-public';
-const transactionsStaging = (event) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
+const destBucketName = 'campaign-finance-snowpipe';
+const directory = 'staging';
+const transactionsSnowpipe = (event) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     try {
         const slackLogger = yield (0, logger_1.createSlackLogger)();
         const { data } = event;
@@ -19,7 +20,7 @@ const transactionsStaging = (event) => (0, tslib_1.__awaiter)(void 0, void 0, vo
         };
         const destFileInfo = {
             bucketName: destBucketName,
-            fileName: `${originFilename}`,
+            fileName: `${directory}/${originFilename}`,
         };
         logger_1.logger.info("Bucket Information", { originBucketName, originFilename });
         yield (0, copyGCSFile_1.copyGCSFile)(sourceFileInfo, destFileInfo);
@@ -32,5 +33,5 @@ const transactionsStaging = (event) => (0, tslib_1.__awaiter)(void 0, void 0, vo
     }
     return;
 });
-exports.transactionsStaging = transactionsStaging;
-//# sourceMappingURL=transactionsStaging.js.map
+exports.transactionsSnowpipe = transactionsSnowpipe;
+//# sourceMappingURL=transactionsSnowpipe.js.map

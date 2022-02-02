@@ -4,12 +4,11 @@ import { isValid, isMatch } from 'date-fns';
 import { streamFileToGCS } from './streamFileToGCS';
 import { logger, createSlackLogger } from './logger';
 const ncsbeTransactionsSearchUrl = 'https://cf.ncsbe.gov/CFTxnLkup/';
+const bucketName = 'raw-transactions';
 const transactionTypes = ['rec', 'exp', 'all'];
 export const transactionsScraper = (message, context) => __awaiter(void 0, void 0, void 0, function* () {
+    const slackLogger = yield createSlackLogger();
     try {
-        const slackLogger = yield createSlackLogger();
-        logger.info('Message', message);
-        logger.info('Context', context);
         const { attributes } = message;
         const { to, from, type = 'all' } = attributes;
         slackLogger.info(`Starting scraper for transactions ${from} - ${to} for type ${type}`);
@@ -25,7 +24,7 @@ export const transactionsScraper = (message, context) => __awaiter(void 0, void 
         if (!isMatch(from, 'mm/dd/yyyy') || !isMatch(to, 'mm/dd/yyyy')) {
             throw new Error('Invalid Date - Date must be valid and format must be mm/dd/yyyy');
         }
-        logger.info(`Pulling transaction records for dates ${from} :: ${to}`);
+        logger.info(`Pulling transaction records for dates ${from} :: ${to} of type ${type}`);
         yield page.select('#TransType', type);
         yield page.type('#DateFrom', from);
         yield page.type('#DateTo', to);
@@ -40,8 +39,6 @@ export const transactionsScraper = (message, context) => __awaiter(void 0, void 
             });
         });
         yield browser.close();
-        logger.info('Received CSV file information');
-        slackLogger.info('Received CSV file information successfully');
         const requestOptions = {
             encoding: null,
             method: csvRequest.method(),
@@ -49,7 +46,6 @@ export const transactionsScraper = (message, context) => __awaiter(void 0, void 
             data: csvRequest.postData(),
             headers: csvRequest.headers(),
         };
-        logger.info("Request Options", requestOptions);
         const options = {
             contentType: 'text/csv',
         };
@@ -57,18 +53,18 @@ export const transactionsScraper = (message, context) => __awaiter(void 0, void 
             prefix: type,
             tags: [type],
         };
-        logger.info("Metadata", metadata);
         let filename = `nc-${type}-${from}-to-${to}.csv`;
         filename = filename.replace(/\//g, '');
         logger.info(`Starting stream for file ${filename}`);
         slackLogger.info(`Starting stream for file ${filename}`);
-        const bucket = 'dummy-bucket-finance';
-        const result = yield streamFileToGCS(requestOptions, bucket, filename, options, metadata);
+        const result = yield streamFileToGCS(requestOptions, bucketName, filename, options, metadata);
         logger.info(result);
-        slackLogger.info('Stream finished successfully.');
+        slackLogger.info(`Stream ${filename} finished successfully.`);
+        return;
     }
     catch (err) {
         logger.error('TransactionsScraper Function Error', err);
+        slackLogger.error('TransactionsScraper Function Error', err);
         throw err;
     }
     return;
