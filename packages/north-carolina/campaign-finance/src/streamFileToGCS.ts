@@ -21,7 +21,7 @@ export const streamFileToGCS = async (
     const bucket = storage.bucket(bucketName)
     const file = bucket.file(filename)
     // file.setMetadata({ metadata })
-    logger.info('Inside streamFileToGCS')
+    // logger.info('Inside streamFileToGCS')
     const fileWriteStream = file.createWriteStream(options)
 
     const result = await axios( {  responseType: 'stream', ...requestOptions })
@@ -29,7 +29,7 @@ export const streamFileToGCS = async (
         return new Promise((resolve, reject) => {
           response.data.pipe(fileWriteStream)
           let error: Error | null = null
-          logger.info('Piping data results from stream function.')
+          // logger.info('Piping data results from stream function.')
 
           fileWriteStream.on('error', (err) => {
             error = err
@@ -46,7 +46,7 @@ export const streamFileToGCS = async (
         })
       })
 
-    logger.info("Result", result)
+    // logger.info("Result", result)
   } catch (err: unknown) {
     if (isNativeError(err)) {
       logger.error('Download Error', err)
@@ -59,6 +59,6 @@ export const streamFileToGCS = async (
     return
   }
 
-  logger.info('End of stream function reached.')
+  // logger.info('End of stream function reached.')
   return
 }

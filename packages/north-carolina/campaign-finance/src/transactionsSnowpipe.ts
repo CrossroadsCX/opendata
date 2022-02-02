@@ -46,9 +46,10 @@ export interface PubSubEventFunction {
   (event: PubSubMessage, context: Context): any
 }
 
-const destBucketName = 'transactions-public'
+const destBucketName = 'campaign-finance-snowpipe'
+const directory = 'staging'
 
-export const transactionsStaging: PubSubEventFunction = async (event /*, context */) => {
+export const transactionsSnowpipe: PubSubEventFunction = async (event /*, context */) => {
   try {
     const slackLogger = await createSlackLogger()
     const { data } = event
@@ -69,7 +70,7 @@ export const transactionsStaging: PubSubEventFunction = async (event /*, context
 
     const destFileInfo = {
       bucketName: destBucketName,
-      fileName: `${originFilename}`,
+      fileName: `${directory}/${originFilename}`,
     }
 
     logger.info("Bucket Information", { originBucketName, originFilename })

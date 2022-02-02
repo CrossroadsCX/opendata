@@ -82,6 +82,8 @@ export const triggerTransactionsScraper = ({ attributes: { year } }: { attribute
       const messageId = await batchPublisher.publish(Buffer.from(''), request)
       logger.info(`Message id ${messageId} published.`)
     })
+
+    return `Running batches for ${requests.length} requests`
   } catch (err) {
     logger.error(err)
     throw err

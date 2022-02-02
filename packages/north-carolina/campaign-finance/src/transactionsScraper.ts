@@ -6,6 +6,7 @@ import { streamFileToGCS } from './streamFileToGCS'
 import { logger, createSlackLogger } from './logger'
 
 const ncsbeTransactionsSearchUrl = 'https://cf.ncsbe.gov/CFTxnLkup/'
+const bucketName = 'raw-transactions'
 
 const transactionTypes = ['rec', 'exp', 'all']
 
@@ -28,12 +29,10 @@ interface ScraperEventFunction {
 }
 
 export const transactionsScraper: ScraperEventFunction = async (message, context) => {
+  const slackLogger = await createSlackLogger()
   try {
-
-    const slackLogger = await createSlackLogger()
-
-    logger.info('Message', message)
-    logger.info('Context', context)
+    // logger.info('Message', message)
+    // logger.info('Context', context)
 
     const { attributes } = message
     const { to, from, type = 'all' } = attributes
@@ -56,7 +55,7 @@ export const transactionsScraper: ScraperEventFunction = async (message, context
       throw new Error('Invalid Date - Date must be valid and format must be mm/dd/yyyy')
     }
 
-    logger.info(`Pulling transaction records for dates ${from} :: ${to}`)
+    logger.info(`Pulling transaction records for dates ${from} :: ${to} of type ${type}`)
 
     // Select transaction type
     await page.select('#TransType', type)
@@ -85,8 +84,8 @@ export const transactionsScraper: ScraperEventFunction = async (message, context
     // Close the browser
     await browser.close()
 
-    logger.info('Received CSV file information')
-    slackLogger.info('Received CSV file information successfully')
+    // logger.info('Received CSV file information')
+    // slackLogger.info('Received CSV file information successfully')
 
     //streamFileToGCS parameters
     const requestOptions = {
@@ -97,7 +96,7 @@ export const transactionsScraper: ScraperEventFunction = async (message, context
       headers: csvRequest.headers(),
     }
 
-    logger.info("Request Options", requestOptions)
+    // logger.info("Request Options", requestOptions)
 
     const options = {
       contentType: 'text/csv',
@@ -108,7 +107,7 @@ export const transactionsScraper: ScraperEventFunction = async (message, context
       tags: [type],
     }
 
-    logger.info("Metadata", metadata)
+    // logger.info("Metadata", metadata)
 
     let filename = `nc-${type}-${from}-to-${to}.csv`
     filename = filename.replace(/\//g, '')
@@ -116,18 +115,16 @@ export const transactionsScraper: ScraperEventFunction = async (message, context
     logger.info(`Starting stream for file ${filename}`)
     slackLogger.info(`Starting stream for file ${filename}`)
 
-    const bucket = 'dummy-bucket-finance'
-
     //CSVRequest to Bucket Storage
-    const result = await streamFileToGCS(requestOptions, bucket, filename, options, metadata)
+    const result = await streamFileToGCS(requestOptions, bucketName, filename, options, metadata)
     logger.info(result)
-    slackLogger.info('Stream finished successfully.')
+    slackLogger.info(`Stream ${filename} finished successfully.`)
+    return
   } catch (err) {
     logger.error('TransactionsScraper Function Error', err)
+    slackLogger.error('TransactionsScraper Function Error', err)
     throw err
   }
-
-
 
   return
 }
