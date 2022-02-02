@@ -46,7 +46,7 @@ export interface PubSubEventFunction {
   (event: PubSubMessage, context: Context): any
 }
 
-const destBucketName = 'transactions-public'
+const destBucketName = 'public-transactions'
 
 export const transactionsStaging: PubSubEventFunction = async (event /*, context */) => {
   try {

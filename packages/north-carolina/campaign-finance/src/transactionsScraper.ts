@@ -28,6 +28,37 @@ interface ScraperEventFunction {
   (data: ScraperInput, context: CloudFunctionsContext): Promise<void>
 }
 
+// const params = {
+//   "ReceiptType": "'GEN ','OTLN','IND ','PPTY','CPCM','LOAN','RFND','INT ','NFPC','OUTS','GNS ','FRLN','CNRE','LEFO','EPPS','DEBT','DON ','BFND'",
+//   "ExpenditureType": "'BFND','CCPC','CPE ','DEBT','IEXP','INTR','LNRP','NMG ','OPER','RFND'",
+//   "CommitteeType": "",
+//   "PartyType": "",
+//   "OfficeType": "",
+//   "CommitteeIDs": null,
+//   "CommitteeName": "",
+//   "Cities": "",
+//   "Counties": "",
+//   "State": "",
+//   "ZipCodes": "",
+//   "DateFrom": "01/01/2021",
+//   "DateTo": "01/10/2021",
+//   "OrganizationName": "",
+//   "FirstName": "",
+//   "LastName": "",
+//   "NameSoundsLike": false,
+//   "NameIsOrg": false,
+//   "Purpose": "",
+//   "AmountFrom": "",
+//   "AmountTo": "",
+//   "JobProfession": "",
+//   "JobProfSoundsLike": false,
+//   "Employer": "",
+//   "EmployerSoundsLike": false,
+//   "PaymentType": "",
+//   "Page": 0,
+//   "Debug": false
+// }
+
 export const transactionsScraper: ScraperEventFunction = async (message, context) => {
   const slackLogger = await createSlackLogger()
   try {

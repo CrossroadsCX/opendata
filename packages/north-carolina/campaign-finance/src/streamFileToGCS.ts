@@ -55,8 +55,6 @@ export const streamFileToGCS = async (
     }
 
     throw err
-
-    return
   }
 
   // logger.info('End of stream function reached.')

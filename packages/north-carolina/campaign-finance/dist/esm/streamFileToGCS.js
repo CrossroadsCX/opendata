@@ -36,7 +36,6 @@ export const streamFileToGCS = (requestOptions, bucketName, filename, options, m
             logger.error('Unknown Error', err);
         }
         throw err;
-        return;
     }
     return;
 });

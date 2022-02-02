@@ -4,7 +4,7 @@ exports.transactionsStaging = void 0;
 const tslib_1 = require("tslib");
 const logger_1 = require("./logger");
 const copyGCSFile_1 = require("./copyGCSFile");
-const destBucketName = 'transactions-public';
+const destBucketName = 'public-transactions';
 const transactionsStaging = (event) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     try {
         const slackLogger = yield (0, logger_1.createSlackLogger)();

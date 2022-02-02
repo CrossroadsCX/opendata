@@ -1,7 +1,7 @@
 import { __awaiter } from "tslib";
 import { logger, createSlackLogger } from './logger';
 import { copyGCSFile } from './copyGCSFile';
-const destBucketName = 'transactions-public';
+const destBucketName = 'public-transactions';
 export const transactionsStaging = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const slackLogger = yield createSlackLogger();
