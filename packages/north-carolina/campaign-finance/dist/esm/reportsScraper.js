@@ -21,10 +21,11 @@ const reportCodes = [
     'RPQTR3', 'RP30D', 'RP35D', 'RP12D', 'IRVEQ', 'RPWK',
     'RPYESA'
 ];
-const year = '2021';
-export const reportsScraper = () => __awaiter(void 0, void 0, void 0, function* () {
+export const reportsScraper = (message) => __awaiter(void 0, void 0, void 0, function* () {
     const slackLogger = yield createSlackLogger();
     try {
+        const { attributes } = message;
+        const { year } = attributes;
         logger.info('Starting reports scraper', { year, reportCodes });
         slackLogger.info('Starting reports scraper');
         const reportsString = createArrayString(reportCodes);
@@ -41,7 +42,7 @@ export const reportsScraper = () => __awaiter(void 0, void 0, void 0, function* 
         const options = {
             contentType: 'text/csv'
         };
-        const filename = `nc-reports-${year}-${reportsString}.csv`;
+        const filename = `nc-reports-${year}.csv`;
         const result = yield streamFileToGCS(requestOptions, bucket, filename, options);
         logger.info('Reports scraper finished successfully');
         slackLogger.info('Reports scraper finished successfully');

@@ -6,6 +6,19 @@ import { streamFileToGCS } from './streamFileToGCS'
 const ncsbeReportsSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/ExportSearchResults/'
 const bucket = 'raw-reports'
 
+type ScraperInput = {
+  attributes: {
+    year: string;
+  };
+  message: {
+    data: string;
+  }
+}
+
+interface ScraperEventFunction {
+  (data: ScraperInput): Promise<void>
+}
+
 const reportCodes = [
   'CIAUL',  'COAUL',  'COCMRP', 'CTCDCF', 'CTINST', 'CTIPC',
   'CTRAST', 'CTTHLD', 'CTTREA', 'CTCLSC', 'CTCBAS', 'CICRUU',
@@ -24,12 +37,15 @@ const reportCodes = [
   'RPYESA'
 ]
 
-const year = '2021'
+// const year = '2019'
 
-export const reportsScraper = async () => {
+export const reportsScraper: ScraperEventFunction = async (message) => {
   const slackLogger = await createSlackLogger()
 
   try {
+    const { attributes } = message
+    const { year } = attributes
+
     logger.info('Starting reports scraper', { year, reportCodes })
     slackLogger.info('Starting reports scraper')
 
@@ -52,7 +68,7 @@ export const reportsScraper = async () => {
       contentType: 'text/csv'
     }
 
-    const filename = `nc-reports-${year}-${reportsString}.csv`
+    const filename = `nc-reports-${year}.csv`
 
     const result = await streamFileToGCS(requestOptions, bucket, filename, options)
     logger.info('Reports scraper finished successfully')
