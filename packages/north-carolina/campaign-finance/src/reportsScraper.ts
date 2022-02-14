@@ -7,13 +7,21 @@ const ncsbeReportsSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/ExportSearchResult
 const bucket = 'raw-reports'
 
 const reportCodes = [
-  'RPQTR1',
-  'RPQTR2',
-  'RPWTR3',
-  'RPQTR4',
-  'RPANN',
-  'RPMYSA',
-  'RPYESA',
+  'CIAUL',  'COAUL',  'COCMRP', 'CTCDCF', 'CTINST', 'CTIPC',
+  'CTRAST', 'CTTHLD', 'CTTREA', 'CTCLSC', 'CTCBAS', 'CICRUU',
+  'CTDOI',  'CODN',   'CIDAL',  'CODAL',  'CIEMAL', 'COEMAL',
+  'CTFLS',  'CTIXPC', 'CTLPS',  'COMEMO', 'CIMISC', 'COMISC',
+  'CINCL',  'CONCL',  'CINOC',  'CINTAS', 'CONTAS', 'CONCRS',
+  'OT',     'CIPPAF', 'CIPA',   'COPAD',  'COPA30', 'COPA60',
+  'COPARC', 'CIPAL',  'COPAL',  'CIPRAE', 'COPRAP', 'CIPWL',
+  'COPWL',  'CIPWR',  'CTPESP', 'CORESL', 'CISPWA', 'SO',
+  'IRECR',  'IR48H',  'RPANN',  'RPCSC',  'RPECRD', 'RPMDYR',
+  'RPYRND', 'RPFIN',  'RPQTR1', 'RPQTR4', 'IRIEX',  'IRCIX',
+  'RPIER',  'RPINTM', 'IRJQY',  'RPMYSA', 'RPMNTH', 'IRMVEQ',
+  'IRNPC',  'RPORG',  'RPPGEN', 'RPPPRI', 'RPPREE', 'RPPREP',
+  'RPPRER', 'RPPREO', 'RPQTR2', 'RPSPC',  'RPSFIN', 'RP10D',
+  'RPQTR3', 'RP30D',  'RP35D',  'RP12D',  'IRVEQ',  'RPWK',
+  'RPYESA'
 ]
 
 const year = '2021'
