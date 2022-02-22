@@ -1,10 +1,10 @@
-const { buildNotifications } = require('./dist/cjs/buildNotifications')
-const { reportImagesScraper } = require('./dist/cjs/reportImagesScraper')
-const { reportsScraper } = require('./dist/cjs/reportsScraper')
-const { transactionsScraper } = require('./dist/cjs/transactionsScraper')
-const { transactionsSnowpipe } = require('./dist/cjs/transactionsSnowpipe')
-const { transactionsStaging } = require('./dist/cjs/transactionsStaging')
-const { triggerTransactionsScraper } = require('./dist/cjs/triggerTransactionsScraper')
+const { buildNotifications } = require('./dist/cjs/functions/buildNotifications')
+const { reportImagesScraper } = require('./dist/cjs/functions/reportImagesScraper')
+const { reportsScraper } = require('./dist/cjs/functions/reportsScraper')
+const { transactionsScraper } = require('./dist/cjs/functions/transactionsScraper')
+const { transactionsSnowpipe } = require('./dist/cjs/functions/transactionsSnowpipe')
+const { transactionsStaging } = require('./dist/cjs/functions/transactionsStaging')
+const { triggerTransactionsScraper } = require('./dist/cjs/functions/triggerTransactionsScraper')
 
 module.exports = {
   buildNotifications,
