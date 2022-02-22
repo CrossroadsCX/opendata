@@ -1,7 +1,8 @@
 import { __awaiter } from "tslib";
 import { PubSub } from '@google-cloud/pubsub';
+import { formatISO9075 } from 'date-fns';
 import puppeteer from 'puppeteer';
-import { closeConnection, getConnection } from 'src/utils/snowflake';
+import { closeConnection, getConnection } from '..//utils/snowflake';
 import { logger } from '../utils/logger';
 const baseUrl = 'https://cf.ncsbe.gov';
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/';
@@ -64,7 +65,7 @@ export const reportImagesScraper = (message) => __awaiter(void 0, void 0, void 0
         }
     });
     const connection = yield getConnection();
-    results.forEach((request) => __awaiter(void 0, void 0, void 0, function* () {
+    const publishPromises = results.map((request) => __awaiter(void 0, void 0, void 0, function* () {
         const requestBuffer = Buffer.from(JSON.stringify(request));
         const messageId = yield batchPublisher.publish(requestBuffer);
         const queryArgs = [
@@ -74,21 +75,27 @@ export const reportImagesScraper = (message) => __awaiter(void 0, void 0, void 0
             request.committeeName,
             request.reportType,
             request.reportYear,
-            Date.now(),
-            Date.now(),
+            formatISO9075(Date.now()),
+            formatISO9075(Date.now()),
         ];
-        connection === null || connection === void 0 ? void 0 : connection.execute({
-            sqlText: INSERT_QUERY,
-            binds: queryArgs,
-            complete: (err, stmt, rows) => {
-                if (err)
-                    logger.error(err);
-                logger.info(`Message ${messageId} logged.`);
-                logger.info(rows);
-            }
+        yield new Promise((resolve, reject) => {
+            connection === null || connection === void 0 ? void 0 : connection.execute({
+                sqlText: INSERT_QUERY,
+                binds: queryArgs,
+                complete: (err, stmt, rows) => {
+                    if (err) {
+                        logger.error(err);
+                        return reject(err);
+                    }
+                    logger.info(`Message ${messageId} logged.`);
+                    logger.info(rows);
+                    resolve(err);
+                }
+            });
         });
         logger.info(`Message id ${messageId} published.`);
     }));
+    yield Promise.all(publishPromises);
     yield closeConnection();
     return results;
 });

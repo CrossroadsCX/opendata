@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.reportImagesScraper = void 0;
 const tslib_1 = require("tslib");
 const pubsub_1 = require("@google-cloud/pubsub");
+const date_fns_1 = require("date-fns");
 const puppeteer_1 = (0, tslib_1.__importDefault)(require("puppeteer"));
-const snowflake_1 = require("src/utils/snowflake");
+const snowflake_1 = require("..//utils/snowflake");
 const logger_1 = require("../utils/logger");
 const baseUrl = 'https://cf.ncsbe.gov';
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/';
@@ -67,7 +68,7 @@ const reportImagesScraper = (message) => (0, tslib_1.__awaiter)(void 0, void 0, 
         }
     });
     const connection = yield (0, snowflake_1.getConnection)();
-    results.forEach((request) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
+    const publishPromises = results.map((request) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
         const requestBuffer = Buffer.from(JSON.stringify(request));
         const messageId = yield batchPublisher.publish(requestBuffer);
         const queryArgs = [
@@ -77,21 +78,27 @@ const reportImagesScraper = (message) => (0, tslib_1.__awaiter)(void 0, void 0, 
             request.committeeName,
             request.reportType,
             request.reportYear,
-            Date.now(),
-            Date.now(),
+            (0, date_fns_1.formatISO9075)(Date.now()),
+            (0, date_fns_1.formatISO9075)(Date.now()),
         ];
-        connection === null || connection === void 0 ? void 0 : connection.execute({
-            sqlText: INSERT_QUERY,
-            binds: queryArgs,
-            complete: (err, stmt, rows) => {
-                if (err)
-                    logger_1.logger.error(err);
-                logger_1.logger.info(`Message ${messageId} logged.`);
-                logger_1.logger.info(rows);
-            }
+        yield new Promise((resolve, reject) => {
+            connection === null || connection === void 0 ? void 0 : connection.execute({
+                sqlText: INSERT_QUERY,
+                binds: queryArgs,
+                complete: (err, stmt, rows) => {
+                    if (err) {
+                        logger_1.logger.error(err);
+                        return reject(err);
+                    }
+                    logger_1.logger.info(`Message ${messageId} logged.`);
+                    logger_1.logger.info(rows);
+                    resolve(err);
+                }
+            });
         });
         logger_1.logger.info(`Message id ${messageId} published.`);
     }));
+    yield Promise.all(publishPromises);
     yield (0, snowflake_1.closeConnection)();
     return results;
 });

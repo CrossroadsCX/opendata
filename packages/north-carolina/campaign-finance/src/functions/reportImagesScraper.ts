@@ -1,6 +1,7 @@
 import { PubSub } from '@google-cloud/pubsub'
+import { formatISO9075 } from 'date-fns'
 import puppeteer, { ElementHandle } from 'puppeteer'
-import { closeConnection, getConnection } from 'src/utils/snowflake'
+import { closeConnection, getConnection } from '..//utils/snowflake'
 import { logger } from '../utils/logger'
 
 const baseUrl = 'https://cf.ncsbe.gov'
@@ -139,7 +140,7 @@ export const reportImagesScraper: ReportImagesScraper = async (message) => {
 
   const connection = await getConnection()
 
-  results.forEach(async (request) => {
+  const publishPromises = results.map(async (request) => {
     const requestBuffer = Buffer.from(JSON.stringify(request))
     const messageId = await batchPublisher.publish(requestBuffer)
     const queryArgs = [
@@ -149,24 +150,31 @@ export const reportImagesScraper: ReportImagesScraper = async (message) => {
       request.committeeName,
       request.reportType,
       request.reportYear,
-      Date.now(),
-      Date.now(),
+      formatISO9075(Date.now()),
+      formatISO9075(Date.now()),
     ]
+    await new Promise((resolve, reject) => {
+      connection?.execute({
+        sqlText: INSERT_QUERY,
+        binds: queryArgs,
+        complete: (err, stmt, rows) => {
+          if (err) {
+            logger.error(err)
+            return reject(err)
+          }
 
-    connection?.execute({
-      sqlText: INSERT_QUERY,
-      binds: queryArgs,
-      complete: (err, stmt, rows) => {
-        if (err) logger.error(err)
-
-        logger.info(`Message ${messageId} logged.`)
-        logger.info(rows)
-      }
+          logger.info(`Message ${messageId} logged.`)
+          logger.info(rows)
+          resolve(err)
+        }
+      })
     })
 
-    logger.info(`Message id ${messageId} published.`)
 
+    logger.info(`Message id ${messageId} published.`)
   })
+
+  await Promise.all(publishPromises)
 
   await closeConnection()
 
