@@ -1,10 +1,8 @@
 import inquirer from 'inquirer'
 import path from 'path'
-import { exec as execCallback } from 'child_process'
-import { promisify } from 'util'
-import { minutesToHours } from 'date-fns'
+import { execSync } from 'child_process'
+import { Spinner } from 'cli-spinner'
 
-const exec = promisify(execCallback)
 const { GOOGLE_APPLICATION_CREDENTIALS } = process.env
 
 exports.command = 'deploy [name]'
@@ -13,12 +11,10 @@ exports.describe = 'Deploy a function'
 exports.handler = async () => {
 
   console.log('Building functions...')
-  const { stdout: buildLogs } = await exec('yarn build')
-  console.log(buildLogs)
+  execSync('yarn build').toString()
 
-  const { stdout, stderr } = await exec('npm prefix')
+  const rootPath = execSync('npm prefix').toString().trim()
 
-  const rootPath = stdout.trim()
   const functions = require(path.resolve(rootPath, 'index'))
   const functionNames = Object.keys(functions)
 
@@ -32,9 +28,5 @@ exports.handler = async () => {
 
   const { functionName } = answers
 
-  console.log(`Deploying ${functionName}. This may take up to 2 minutes...`)
-  const { stdout: deployLog, stderr: deployErr } = await exec(`gcloud functions deploy ${functionName}`)
-
-  console.log(deployLog)
-  console.log(deployErr)
+  execSync(`gcloud functions deploy ${functionName}`, { stdio: 'inherit' })
 }

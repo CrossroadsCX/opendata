@@ -1920,6 +1920,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/cli-spinner", [
+        ["npm:0.2.1", {
+          "packageLocation": "./.yarn/cache/@types-cli-spinner-npm-0.2.1-753546a939-9398ec5131.zip/node_modules/@types/cli-spinner/",
+          "packageDependencies": [
+            ["@types/cli-spinner", "npm:0.2.1"],
+            ["@types/node", "npm:17.0.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/connect", [
         ["npm:3.4.35", {
           "packageLocation": "./.yarn/cache/@types-connect-npm-3.4.35-7337eee0a3-fe81351470.zip/node_modules/@types/connect/",
@@ -4336,6 +4346,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@google-cloud/pubsub", "npm:2.18.5"],
             ["@google-cloud/secret-manager", "npm:3.10.1"],
             ["@google-cloud/storage", "npm:5.17.0"],
+            ["@types/cli-spinner", "npm:0.2.1"],
             ["@types/express", "npm:4.17.13"],
             ["@types/inquirer", "npm:8.2.0"],
             ["@types/node", "npm:17.0.8"],
@@ -4349,6 +4360,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@yarnpkg/pnpify", "npm:3.1.1-rc.10"],
             ["axios", "npm:0.24.0"],
             ["clean-webpack-plugin", "virtual:479fc6415906800614a0ec930f710bd43de7288f4cc24fdfcbcaf3bc33ffe015ef63473aa5cf7529b7cb27885c2f4329964ead039a6cd15479a1cb9b5dc00291#npm:4.0.0"],
+            ["cli-spinner", "npm:0.2.10"],
             ["date-fn", "npm:0.0.2"],
             ["date-fns", "npm:2.28.0"],
             ["eslint", "npm:8.6.0"],
@@ -4563,6 +4575,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["cli-cursor", "npm:3.1.0"],
             ["restore-cursor", "npm:3.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["cli-spinner", [
+        ["npm:0.2.10", {
+          "packageLocation": "./.yarn/cache/cli-spinner-npm-0.2.10-713c62792c-607592080c.zip/node_modules/cli-spinner/",
+          "packageDependencies": [
+            ["cli-spinner", "npm:0.2.10"]
           ],
           "linkType": "HARD",
         }]
