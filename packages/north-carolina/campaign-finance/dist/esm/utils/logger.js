@@ -3,7 +3,6 @@ import winston from 'winston';
 import { LoggingWinston as GCPLogging } from '@google-cloud/logging-winston';
 import SlackTransport from 'winston-slack-webhook-transport';
 import { getSecret } from '../gcp/secrets';
-const webhookUrl = getSecret('slack-webhook', 'open-campaign-finance');
 const logger = winston.createLogger({
     format: winston.format.json(),
     transports: [

@@ -1,7 +1,8 @@
-declare type RowData = {
+export declare type RowData = {
     committeeName: string;
     reportType: string;
     reportYear: string;
+    imageLink: string;
     rowImage: {
         href: string;
         text: string;

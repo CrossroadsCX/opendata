@@ -1,10 +1,12 @@
 import { __awaiter } from "tslib";
 import { PubSub } from '@google-cloud/pubsub';
 import puppeteer from 'puppeteer';
+import { closeConnection, getConnection } from 'src/utils/snowflake';
 import { logger } from '../utils/logger';
 const baseUrl = 'https://cf.ncsbe.gov';
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/';
 const topicName = 'report-image-requests';
+const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 const getRowData = (row) => __awaiter(void 0, void 0, void 0, function* () {
     const committeeName = yield row.$eval('td[aria-describedby="gridDocumentResults_CommitteeName"]', (td) => td.innerText);
     const reportYear = yield row.$eval('td[aria-describedby="gridDocumentResults_ReportYear"]', (td) => td.innerText);
@@ -61,11 +63,33 @@ export const reportImagesScraper = (message) => __awaiter(void 0, void 0, void 0
             maxMilliseconds: 10000,
         }
     });
+    const connection = yield getConnection();
     results.forEach((request) => __awaiter(void 0, void 0, void 0, function* () {
         const requestBuffer = Buffer.from(JSON.stringify(request));
         const messageId = yield batchPublisher.publish(requestBuffer);
+        const queryArgs = [
+            messageId,
+            request.imageLink,
+            'Pending',
+            request.committeeName,
+            request.reportType,
+            request.reportYear,
+            Date.now(),
+            Date.now(),
+        ];
+        connection === null || connection === void 0 ? void 0 : connection.execute({
+            sqlText: INSERT_QUERY,
+            binds: queryArgs,
+            complete: (err, stmt, rows) => {
+                if (err)
+                    logger.error(err);
+                logger.info(`Message ${messageId} logged.`);
+                logger.info(rows);
+            }
+        });
         logger.info(`Message id ${messageId} published.`);
     }));
+    yield closeConnection();
     return results;
 });
 //# sourceMappingURL=reportImagesScraper.js.map

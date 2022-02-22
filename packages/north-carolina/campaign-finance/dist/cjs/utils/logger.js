@@ -6,7 +6,6 @@ const winston_1 = (0, tslib_1.__importDefault)(require("winston"));
 const logging_winston_1 = require("@google-cloud/logging-winston");
 const winston_slack_webhook_transport_1 = (0, tslib_1.__importDefault)(require("winston-slack-webhook-transport"));
 const secrets_1 = require("../gcp/secrets");
-const webhookUrl = (0, secrets_1.getSecret)('slack-webhook', 'open-campaign-finance');
 const logger = winston_1.default.createLogger({
     format: winston_1.default.format.json(),
     transports: [

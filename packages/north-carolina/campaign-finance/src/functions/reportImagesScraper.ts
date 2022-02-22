@@ -1,15 +1,19 @@
 import { PubSub } from '@google-cloud/pubsub'
 import puppeteer, { ElementHandle } from 'puppeteer'
-import { logger, createSlackLogger } from '../utils/logger'
+import { closeConnection, getConnection } from 'src/utils/snowflake'
+import { logger } from '../utils/logger'
 
 const baseUrl = 'https://cf.ncsbe.gov'
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/'
 const topicName = 'report-image-requests'
 
-type RowData = {
+const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+
+export type RowData = {
   committeeName: string;
   reportType: string;
   reportYear: string;
+  imageLink: string;
   rowImage: {
     href: string;
     text: string;
@@ -117,7 +121,7 @@ export const reportImagesScraper: ReportImagesScraper = async (message) => {
 
   await browser.close()
 
-  const results = rowsMissingData.map((rowInfo) => {
+  const results: RowData[] = rowsMissingData.map((rowInfo) => {
     return {
       ...rowInfo,
       imageLink: `${baseUrl}${rowInfo.rowImage.href}`,
@@ -133,11 +137,38 @@ export const reportImagesScraper: ReportImagesScraper = async (message) => {
     }
   })
 
+  const connection = await getConnection()
+
   results.forEach(async (request) => {
     const requestBuffer = Buffer.from(JSON.stringify(request))
     const messageId = await batchPublisher.publish(requestBuffer)
+    const queryArgs = [
+      messageId,
+      request.imageLink,
+      'Pending',
+      request.committeeName,
+      request.reportType,
+      request.reportYear,
+      Date.now(),
+      Date.now(),
+    ]
+
+    connection?.execute({
+      sqlText: INSERT_QUERY,
+      binds: queryArgs,
+      complete: (err, stmt, rows) => {
+        if (err) logger.error(err)
+
+        logger.info(`Message ${messageId} logged.`)
+        logger.info(rows)
+      }
+    })
+
     logger.info(`Message id ${messageId} published.`)
+
   })
+
+  await closeConnection()
 
   return results
 }

@@ -4,10 +4,12 @@ exports.reportImagesScraper = void 0;
 const tslib_1 = require("tslib");
 const pubsub_1 = require("@google-cloud/pubsub");
 const puppeteer_1 = (0, tslib_1.__importDefault)(require("puppeteer"));
+const snowflake_1 = require("src/utils/snowflake");
 const logger_1 = require("../utils/logger");
 const baseUrl = 'https://cf.ncsbe.gov';
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/';
 const topicName = 'report-image-requests';
+const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 const getRowData = (row) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     const committeeName = yield row.$eval('td[aria-describedby="gridDocumentResults_CommitteeName"]', (td) => td.innerText);
     const reportYear = yield row.$eval('td[aria-describedby="gridDocumentResults_ReportYear"]', (td) => td.innerText);
@@ -64,11 +66,33 @@ const reportImagesScraper = (message) => (0, tslib_1.__awaiter)(void 0, void 0, 
             maxMilliseconds: 10000,
         }
     });
+    const connection = yield (0, snowflake_1.getConnection)();
     results.forEach((request) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
         const requestBuffer = Buffer.from(JSON.stringify(request));
         const messageId = yield batchPublisher.publish(requestBuffer);
+        const queryArgs = [
+            messageId,
+            request.imageLink,
+            'Pending',
+            request.committeeName,
+            request.reportType,
+            request.reportYear,
+            Date.now(),
+            Date.now(),
+        ];
+        connection === null || connection === void 0 ? void 0 : connection.execute({
+            sqlText: INSERT_QUERY,
+            binds: queryArgs,
+            complete: (err, stmt, rows) => {
+                if (err)
+                    logger_1.logger.error(err);
+                logger_1.logger.info(`Message ${messageId} logged.`);
+                logger_1.logger.info(rows);
+            }
+        });
         logger_1.logger.info(`Message id ${messageId} published.`);
     }));
+    yield (0, snowflake_1.closeConnection)();
     return results;
 });
 exports.reportImagesScraper = reportImagesScraper;
