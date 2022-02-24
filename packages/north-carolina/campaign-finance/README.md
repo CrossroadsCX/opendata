@@ -1,5 +1,8 @@
 # campaign-finance
 
+## CLI
+The CLI documentation can be found in the [cli source code readme](./src/cli/README.md)
+
 ## Infrastructure
 All infrastructure in this repository is built on Google Cloud Platform and is mostly utilizing its Pub/Sub Topics and Cloud Functions. The Pub/Sub topics serve as a message queue that the cloud functions are subscribed to to kick off events. The current implementation is described in more details in [the Infrastructure Documentation](./docs/Infrastructure.md).
 
