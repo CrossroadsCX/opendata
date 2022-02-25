@@ -16,9 +16,26 @@ interface DownloadReportImage {
 export const downloadReportImage: DownloadReportImage = async (event, context) => {
   logger.info(event)
   logger.info(context)
+  const { eventId } = context
+  logger.info(eventId)
   const imageDataString = Buffer.from(event.data, 'base64').toString()
   const imageData: ReportImageData = JSON.parse(imageDataString)
 
-  const { imageLink } = imageData
-  logger.info(imageLink)
+  const { committeeName, imageLink, reportYear, reportType } = imageData
+
+  const requestOptions = {
+    method: 'GET',
+    url: imageLink,
+  }
+
+  const options = {
+    contentType: 'application/pdf'
+  }
+
+  const filename = `${reportYear}/${reportType}/${committeeName}.pdf`
+
+  logger.info(`Streaming file from ${imageLink} to ${destBucket}`)
+
+  const result = await streamFileToGCS(requestOptions, destBucket, filename, options)
+  logger.info(result)
 }
