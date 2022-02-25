@@ -7,7 +7,7 @@ import { logger } from '../utils/logger';
 const baseUrl = 'https://cf.ncsbe.gov';
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/';
 const topicName = 'report-image-requests';
-const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, AMENDED, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 const getRowData = (row) => __awaiter(void 0, void 0, void 0, function* () {
     const committeeName = yield row.$eval('td[aria-describedby="gridDocumentResults_CommitteeName"]', (td) => td.innerText);
     const reportYear = yield row.$eval('td[aria-describedby="gridDocumentResults_ReportYear"]', (td) => td.innerText);
@@ -24,10 +24,12 @@ const getRowData = (row) => __awaiter(void 0, void 0, void 0, function* () {
             text: link.innerText,
         };
     });
+    const rowAmended = yield row.$eval('td[aria-describedby="gridDocumentResults_IsAmendment"', (td) => td.innerText);
     const result = {
         committeeName,
         reportType,
         reportYear,
+        rowAmended,
         rowImage,
         rowData,
     };
@@ -74,6 +76,7 @@ export const reportImagesScraper = (message) => __awaiter(void 0, void 0, void 0
             'Pending',
             request.committeeName,
             request.reportType,
+            request.rowAmended,
             request.reportYear,
             formatISO9075(Date.now()),
             formatISO9075(Date.now()),

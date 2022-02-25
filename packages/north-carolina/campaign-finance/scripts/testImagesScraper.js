@@ -1,7 +1,25 @@
-const { reportImagesScraper } = require('../index')
+const { PubSub } = require('@google-cloud/pubsub')
+
+const topicName = 'scrape-report-images'
 
 const main = async () => {
-  return reportImagesScraper({ attributes: { year: 2021, code: 'RPQTR1' }})
+  const pubsub = new PubSub()
+
+  const attributes = {
+    year: '2021',
+    code: 'RPQTR2'
+  }
+
+  const message = {
+    attributes,
+  }
+
+  const dataBuffer = Buffer.from(JSON.stringify(message))
+
+  const messageId = await pubsub.topic(topicName)
+    .publish(dataBuffer, attributes)
+
+  return messageId
 }
 
 main()

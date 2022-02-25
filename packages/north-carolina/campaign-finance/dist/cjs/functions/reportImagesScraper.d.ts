@@ -3,6 +3,7 @@ export declare type RowData = {
     reportType: string;
     reportYear: string;
     imageLink: string;
+    rowAmended: string;
     rowImage: {
         href: string;
         text: string;

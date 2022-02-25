@@ -9,7 +9,7 @@ export const downloadReportImage = (event, context) => __awaiter(void 0, void 0,
     logger.info(eventId);
     const imageDataString = Buffer.from(event.data, 'base64').toString();
     const imageData = JSON.parse(imageDataString);
-    const { committeeName, imageLink, reportYear, reportType } = imageData;
+    const { committeeName, imageLink, reportYear, reportType, rowAmended } = imageData;
     const requestOptions = {
         method: 'GET',
         url: imageLink,
@@ -17,7 +17,7 @@ export const downloadReportImage = (event, context) => __awaiter(void 0, void 0,
     const options = {
         contentType: 'application/pdf'
     };
-    const filename = `${reportYear}/${reportType}/${committeeName}.pdf`;
+    const filename = `${reportYear}/${reportType}/${committeeName}${rowAmended === 'Y' ? '__amended' : ''}.pdf`;
     logger.info(`Streaming file from ${imageLink} to ${destBucket}`);
     const result = yield streamFileToGCS(requestOptions, destBucket, filename, options);
     logger.info(result);

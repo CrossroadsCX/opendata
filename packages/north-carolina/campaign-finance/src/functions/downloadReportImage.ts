@@ -21,7 +21,7 @@ export const downloadReportImage: DownloadReportImage = async (event, context) =
   const imageDataString = Buffer.from(event.data, 'base64').toString()
   const imageData: ReportImageData = JSON.parse(imageDataString)
 
-  const { committeeName, imageLink, reportYear, reportType } = imageData
+  const { committeeName, imageLink, reportYear, reportType, rowAmended } = imageData
 
   const requestOptions = {
     method: 'GET',
@@ -32,7 +32,7 @@ export const downloadReportImage: DownloadReportImage = async (event, context) =
     contentType: 'application/pdf'
   }
 
-  const filename = `${reportYear}/${reportType}/${committeeName}.pdf`
+  const filename = `${reportYear}/${reportType}/${committeeName}${rowAmended === 'Y' ? '__amended' : ''}.pdf`
 
   logger.info(`Streaming file from ${imageLink} to ${destBucket}`)
 

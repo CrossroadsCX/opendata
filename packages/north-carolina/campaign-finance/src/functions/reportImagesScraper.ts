@@ -8,13 +8,14 @@ const baseUrl = 'https://cf.ncsbe.gov'
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/'
 const topicName = 'report-image-requests'
 
-const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, AMENDED, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
 
 export type RowData = {
   committeeName: string;
   reportType: string;
   reportYear: string;
   imageLink: string;
+  rowAmended: string;
   rowImage: {
     href: string;
     text: string;
@@ -22,7 +23,7 @@ export type RowData = {
   rowData: {
     href: string;
     text: string;
-  }
+  },
 }
 
 type ScraperInput = {
@@ -71,10 +72,15 @@ const getRowData = async (row: ElementHandle): Promise<RowData> => {
     }
   )
 
+  const rowAmended = await row.$eval('td[aria-describedby="gridDocumentResults_IsAmendment"',
+    (td) => td.innerText
+  )
+
   const result = {
     committeeName,
     reportType,
     reportYear,
+    rowAmended,
     rowImage,
     rowData,
   }
@@ -149,6 +155,7 @@ export const reportImagesScraper: ReportImagesScraper = async (message) => {
       'Pending',
       request.committeeName,
       request.reportType,
+      request.rowAmended,
       request.reportYear,
       formatISO9075(Date.now()),
       formatISO9075(Date.now()),
