@@ -49,7 +49,8 @@ export const streamFileToGCS = async (
     // logger.info("Result", result)
   } catch (err: unknown) {
     if (isNativeError(err)) {
-      logger.error('Download Error', err)
+      logger.error('Download Error:', err.message)
+      logger.error(err.stack)
     } else {
       logger.error('Unknown Error', err)
     }

@@ -10,6 +10,7 @@ const logger_1 = require("../utils/logger");
 const baseUrl = 'https://cf.ncsbe.gov';
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/';
 const topicName = 'report-image-requests';
+const logTopicName = 'snowflake-logs';
 const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, AMENDED, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 const getRowData = (row) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     const committeeName = yield row.$eval('td[aria-describedby="gridDocumentResults_CommitteeName"]', (td) => td.innerText);
@@ -67,7 +68,13 @@ const reportImagesScraper = (message) => (0, tslib_1.__awaiter)(void 0, void 0, 
         batching: {
             maxMessages: 10,
             maxMilliseconds: 10000,
-        }
+        },
+    });
+    const loggerBatchPublisher = pubsub.topic(logTopicName, {
+        batching: {
+            maxMessages: 10,
+            maxMilliseconds: 1000,
+        },
     });
     const connection = yield (0, snowflake_1.getConnection)();
     const publishPromises = results.map((request) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
@@ -84,22 +91,13 @@ const reportImagesScraper = (message) => (0, tslib_1.__awaiter)(void 0, void 0, 
             (0, date_fns_1.formatISO9075)(Date.now()),
             (0, date_fns_1.formatISO9075)(Date.now()),
         ];
-        yield new Promise((resolve, reject) => {
-            connection === null || connection === void 0 ? void 0 : connection.execute({
-                sqlText: INSERT_QUERY,
-                binds: queryArgs,
-                complete: (err, stmt, rows) => {
-                    if (err) {
-                        logger_1.logger.error(err);
-                        return reject(err);
-                    }
-                    logger_1.logger.info(`Message ${messageId} logged.`);
-                    logger_1.logger.info(rows);
-                    resolve(err);
-                }
-            });
-        });
-        logger_1.logger.info(`Message id ${messageId} published.`);
+        const snowflakeArgs = {
+            sqlText: INSERT_QUERY,
+            binds: queryArgs,
+        };
+        const snowflakeArgsBuffer = Buffer.from(JSON.stringify(snowflakeArgs));
+        const logId = yield batchPublisher.publish(snowflakeArgsBuffer);
+        logger_1.logger.info(`Message id ${messageId} published. Log event id: ${logId}`);
     }));
     yield Promise.all(publishPromises);
     yield (0, snowflake_1.closeConnection)();

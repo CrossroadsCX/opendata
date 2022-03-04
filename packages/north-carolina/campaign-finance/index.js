@@ -1,5 +1,6 @@
 const { buildNotifications } = require('./dist/cjs/functions/buildNotifications')
 const { downloadReportImage } = require('./dist/cjs/functions/downloadReportImage')
+const { logToSnowflake } = require('./dist/cjs/functions/logToSnowflake')
 const { reportImagesScraper } = require('./dist/cjs/functions/reportImagesScraper')
 const { reportsScraper } = require('./dist/cjs/functions/reportsScraper')
 const { transactionsScraper } = require('./dist/cjs/functions/transactionsScraper')
@@ -10,6 +11,7 @@ const { triggerTransactionsScraper } = require('./dist/cjs/functions/triggerTran
 module.exports = {
   buildNotifications,
   downloadReportImage,
+  logToSnowflake,
   reportImagesScraper,
   reportsScraper,
   transactionsScraper,

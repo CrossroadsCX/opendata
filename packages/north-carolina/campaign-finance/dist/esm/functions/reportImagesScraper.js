@@ -7,6 +7,7 @@ import { logger } from '../utils/logger';
 const baseUrl = 'https://cf.ncsbe.gov';
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/';
 const topicName = 'report-image-requests';
+const logTopicName = 'snowflake-logs';
 const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, AMENDED, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 const getRowData = (row) => __awaiter(void 0, void 0, void 0, function* () {
     const committeeName = yield row.$eval('td[aria-describedby="gridDocumentResults_CommitteeName"]', (td) => td.innerText);
@@ -64,7 +65,13 @@ export const reportImagesScraper = (message) => __awaiter(void 0, void 0, void 0
         batching: {
             maxMessages: 10,
             maxMilliseconds: 10000,
-        }
+        },
+    });
+    const loggerBatchPublisher = pubsub.topic(logTopicName, {
+        batching: {
+            maxMessages: 10,
+            maxMilliseconds: 1000,
+        },
     });
     const connection = yield getConnection();
     const publishPromises = results.map((request) => __awaiter(void 0, void 0, void 0, function* () {
@@ -81,22 +88,13 @@ export const reportImagesScraper = (message) => __awaiter(void 0, void 0, void 0
             formatISO9075(Date.now()),
             formatISO9075(Date.now()),
         ];
-        yield new Promise((resolve, reject) => {
-            connection === null || connection === void 0 ? void 0 : connection.execute({
-                sqlText: INSERT_QUERY,
-                binds: queryArgs,
-                complete: (err, stmt, rows) => {
-                    if (err) {
-                        logger.error(err);
-                        return reject(err);
-                    }
-                    logger.info(`Message ${messageId} logged.`);
-                    logger.info(rows);
-                    resolve(err);
-                }
-            });
-        });
-        logger.info(`Message id ${messageId} published.`);
+        const snowflakeArgs = {
+            sqlText: INSERT_QUERY,
+            binds: queryArgs,
+        };
+        const snowflakeArgsBuffer = Buffer.from(JSON.stringify(snowflakeArgs));
+        const logId = yield batchPublisher.publish(snowflakeArgsBuffer);
+        logger.info(`Message id ${messageId} published. Log event id: ${logId}`);
     }));
     yield Promise.all(publishPromises);
     yield closeConnection();

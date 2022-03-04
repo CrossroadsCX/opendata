@@ -7,6 +7,7 @@ import { logger } from '../utils/logger'
 const baseUrl = 'https://cf.ncsbe.gov'
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/'
 const topicName = 'report-image-requests'
+const logTopicName = 'snowflake-logs'
 
 const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, AMENDED, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
 
@@ -141,7 +142,14 @@ export const reportImagesScraper: ReportImagesScraper = async (message) => {
     batching: {
       maxMessages: 10,
       maxMilliseconds: 10000,
-    }
+    },
+  })
+
+  const loggerBatchPublisher = pubsub.topic(logTopicName, {
+    batching: {
+      maxMessages: 10,
+      maxMilliseconds: 1000,
+    },
   })
 
   const connection = await getConnection()
@@ -160,25 +168,17 @@ export const reportImagesScraper: ReportImagesScraper = async (message) => {
       formatISO9075(Date.now()),
       formatISO9075(Date.now()),
     ]
-    await new Promise((resolve, reject) => {
-      connection?.execute({
-        sqlText: INSERT_QUERY,
-        binds: queryArgs,
-        complete: (err, stmt, rows) => {
-          if (err) {
-            logger.error(err)
-            return reject(err)
-          }
 
-          logger.info(`Message ${messageId} logged.`)
-          logger.info(rows)
-          resolve(err)
-        }
-      })
-    })
+    const snowflakeArgs = {
+      sqlText: INSERT_QUERY,
+      binds: queryArgs,
+    }
 
+    const snowflakeArgsBuffer = Buffer.from(JSON.stringify(snowflakeArgs))
 
-    logger.info(`Message id ${messageId} published.`)
+    const logId = await batchPublisher.publish(snowflakeArgsBuffer)
+
+    logger.info(`Message id ${messageId} published. Log event id: ${logId}`)
   })
 
   await Promise.all(publishPromises)
