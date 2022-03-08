@@ -8,15 +8,11 @@ const streamFileToGCS_1 = require("../helpers/streamFileToGCS");
 const logger_1 = require("../utils/logger");
 const destBucket = 'raw-report-images';
 const loggingTopic = 'snowflake-logs';
-const UPDATE_QUERY = 'UPDATE SCRAPER_LOGS SET STATUS = ?, RESULT_URL = ?, UPDATED_AT = ? WHERE MESSAGE_ID = ?';
-const downloadReportImage = (event, context) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
-    logger_1.logger.info(event);
-    logger_1.logger.info(context);
-    const { eventId } = context;
-    logger_1.logger.info(eventId);
+const UPDATE_QUERY = 'INSERT INTO IMAGE_DOWNLOAD_LOGS (DID, RESULT_URL, UPDATED_AT) VALUES (?, ?, ?)';
+const downloadReportImage = (event) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     const imageDataString = Buffer.from(event.data, 'base64').toString();
     const imageData = JSON.parse(imageDataString);
-    const { committeeName, imageLink, reportYear, reportType, rowAmended } = imageData;
+    const { DID, committeeName, imageLink, reportYear, reportType, rowAmended } = imageData;
     const requestOptions = {
         method: 'GET',
         url: imageLink,
@@ -24,15 +20,13 @@ const downloadReportImage = (event, context) => (0, tslib_1.__awaiter)(void 0, v
     const options = {
         contentType: 'application/pdf'
     };
-    const filename = `${reportYear}/${reportType}/${committeeName}${rowAmended === 'Y' ? '__amended' : ''}.pdf`;
+    const filename = `${reportYear}/${reportType}/${DID}__${committeeName.replace('/', '-')}${rowAmended === 'Y' ? '__amended' : ''}.pdf`;
     logger_1.logger.info(`Streaming file from ${imageLink} to ${destBucket}`);
     const result = yield (0, streamFileToGCS_1.streamFileToGCS)(requestOptions, destBucket, filename, options);
-    logger_1.logger.info(result);
     const queryArgs = [
-        'Downloaded',
+        DID,
         `gs://${destBucket}/${filename}`,
-        (0, date_fns_1.formatISO9075)(Date.now()),
-        eventId,
+        (0, date_fns_1.formatISO9075)(Date.now())
     ];
     const pubsub = new pubsub_1.PubSub();
     const topic = pubsub.topic(loggingTopic);

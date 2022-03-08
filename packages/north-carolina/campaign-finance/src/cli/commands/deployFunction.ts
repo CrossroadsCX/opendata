@@ -9,9 +9,21 @@ exports.command = 'deploy [name]'
 exports.describe = 'Deploy a function'
 
 exports.handler = async () => {
+  const buildFunctions = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'buildConfirm',
+      message: 'Build functions?',
+      default: true,
+    }
+  ])
 
-  console.log('Building functions...')
-  execSync('yarn build').toString()
+  const { buildConfirm } = buildFunctions
+
+  if (buildConfirm) {
+    console.log('Building functions...')
+    execSync('yarn build')
+  }
 
   const rootPath = execSync('npm prefix').toString().trim()
 
@@ -20,13 +32,15 @@ exports.handler = async () => {
 
   const answers = await inquirer.prompt([
     {
-      type: 'list',
-      name: 'functionName',
+      type: 'checkbox',
+      name: 'functionsToDeploy',
       choices: functionNames,
     },
   ])
 
-  const { functionName } = answers
+  const { functionsToDeploy } = answers
 
-  execSync(`gcloud functions deploy ${functionName}`, { stdio: 'inherit' })
+  functionsToDeploy.forEach((functionName: string) => {
+    execSync(`gcloud functions deploy ${functionName}`, { stdio: 'inherit' })
+  })
 }

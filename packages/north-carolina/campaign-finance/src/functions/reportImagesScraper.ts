@@ -1,15 +1,18 @@
+import { Context } from '@google-cloud/functions-framework'
 import { PubSub } from '@google-cloud/pubsub'
 import { formatISO9075 } from 'date-fns'
 import puppeteer, { ElementHandle } from 'puppeteer'
-import { closeConnection, getConnection } from '..//utils/snowflake'
+import { getUrlParam } from '../utils/getUrlParam'
 import { logger } from '../utils/logger'
+
+const { NODE_ENV } = process.env
 
 const baseUrl = 'https://cf.ncsbe.gov'
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/'
 const topicName = 'report-image-requests'
 const logTopicName = 'snowflake-logs'
 
-const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, AMENDED, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+const INSERT_QUERY = 'INSERT INTO IMAGE_DOWNLOAD_REQUESTS (DID, IMAGE_URL, COMMITTEE_NAME, REPORT_TYPE, AMENDED, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
 
 export type RowData = {
   committeeName: string;
@@ -17,6 +20,7 @@ export type RowData = {
   reportYear: string;
   imageLink: string;
   rowAmended: string;
+  DID: string;
   rowImage: {
     href: string;
     text: string;
@@ -38,7 +42,7 @@ type ScraperInput = {
 }
 
 interface ReportImagesScraper {
-  ( data: ScraperInput ): Promise<RowData[]>
+  ( data: ScraperInput, context: Context ): Promise<void>
 }
 
 /**
@@ -129,38 +133,32 @@ export const reportImagesScraper: ReportImagesScraper = async (message) => {
 
   await browser.close()
 
+  logger.info(`Starting downloads for ${rowsMissingData.length} images.`)
+
   const results: RowData[] = rowsMissingData.map((rowInfo) => {
+    const imageLink = `${baseUrl}${rowInfo.rowImage.href}`
+    const DID = getUrlParam(imageLink, 'DID')
+    if (!DID) throw new Error(`Could not get DID for ${imageLink}`)
+
     return {
       ...rowInfo,
-      imageLink: `${baseUrl}${rowInfo.rowImage.href}`,
+      imageLink,
+      DID,
     }
   })
 
   const pubsub = new PubSub()
 
-  const batchPublisher = pubsub.topic(topicName, {
-    batching: {
-      maxMessages: 10,
-      maxMilliseconds: 10000,
-    },
-  })
+  const downloadTopic = pubsub.topic(topicName)
 
-  const loggerBatchPublisher = pubsub.topic(logTopicName, {
-    batching: {
-      maxMessages: 10,
-      maxMilliseconds: 1000,
-    },
-  })
-
-  const connection = await getConnection()
+  const loggingTopic = pubsub.topic(logTopicName)
 
   const publishPromises = results.map(async (request) => {
     const requestBuffer = Buffer.from(JSON.stringify(request))
-    const messageId = await batchPublisher.publish(requestBuffer)
+    await downloadTopic.publish(requestBuffer)
     const queryArgs = [
-      messageId,
+      request.DID,
       request.imageLink,
-      'Pending',
       request.committeeName,
       request.reportType,
       request.rowAmended,
@@ -176,14 +174,14 @@ export const reportImagesScraper: ReportImagesScraper = async (message) => {
 
     const snowflakeArgsBuffer = Buffer.from(JSON.stringify(snowflakeArgs))
 
-    const logId = await batchPublisher.publish(snowflakeArgsBuffer)
+    await loggingTopic.publish(snowflakeArgsBuffer)
 
-    logger.info(`Message id ${messageId} published. Log event id: ${logId}`)
+    return
   })
 
   await Promise.all(publishPromises)
 
-  await closeConnection()
+  logger.info(`Successfully published messages for ${publishPromises.length} download requests.`)
 
-  return results
+  return
 }

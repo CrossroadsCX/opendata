@@ -6,10 +6,12 @@ import { getSecret } from '../gcp/secrets';
 const logger = winston.createLogger({
     format: winston.format.json(),
     transports: [
-        new winston.transports.Console(),
         new GCPLogging(),
     ]
 });
+if (process.env.NODE_ENV !== 'production') {
+    logger.transports.push(new winston.transports.Console());
+}
 const createSlackLogger = () => __awaiter(void 0, void 0, void 0, function* () {
     const slackLogger = winston.createLogger({
         format: winston.format.simple(),

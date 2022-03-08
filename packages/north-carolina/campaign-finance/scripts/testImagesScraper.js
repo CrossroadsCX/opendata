@@ -21,19 +21,19 @@ const topicName = 'scrape-report-images'
 // ]
 const reportCodes = [
   'RPQTR1',
-  // 'RPQTR2',
-  // 'RPQTR3',
-  // 'RPQTR4',
-  // 'RPMYSA',
-  // 'RPYESA'
+  'RPQTR2',
+  'RPQTR3',
+  'RPQTR4',
+  'RPMYSA',
+  'RPYESA'
 ]
 
 const years = [
   '2016',
-  // '2017',
-  // '2018',
-  // '2019',
-  // '2020',
+  '2017',
+  '2018',
+  '2019',
+  '2020',
 ]
 
 const requests = []

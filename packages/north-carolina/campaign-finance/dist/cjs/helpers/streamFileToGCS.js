@@ -24,7 +24,7 @@ const streamFileToGCS = (requestOptions, bucketName, filename, options, metadata
                     reject(err);
                 });
                 fileWriteStream.on('finish', () => {
-                    logger_1.logger.info('File stream finished.');
+                    logger_1.logger.info(`File stream finished for ${filename}.`);
                     fileWriteStream.end();
                     return resolve(true);
                 });
@@ -33,9 +33,13 @@ const streamFileToGCS = (requestOptions, bucketName, filename, options, metadata
     }
     catch (err) {
         if (isNativeError(err)) {
-            logger_1.logger.error('Download Error', err);
+            logger_1.logger.error('Download Error:', err.message);
+            logger_1.logger.error(err.stack);
+            logger_1.logger.error(Object.keys(err));
         }
         else {
+            if (err && typeof err == 'object')
+                logger_1.logger.error(Object.keys(err));
             logger_1.logger.error('Unknown Error', err);
         }
         throw err;

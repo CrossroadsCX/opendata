@@ -1,9 +1,11 @@
+import { Context } from '@google-cloud/functions-framework';
 export declare type RowData = {
     committeeName: string;
     reportType: string;
     reportYear: string;
     imageLink: string;
     rowAmended: string;
+    DID: string;
     rowImage: {
         href: string;
         text: string;
@@ -23,7 +25,7 @@ declare type ScraperInput = {
     };
 };
 interface ReportImagesScraper {
-    (data: ScraperInput): Promise<RowData[]>;
+    (data: ScraperInput, context: Context): Promise<void>;
 }
 export declare const reportImagesScraper: ReportImagesScraper;
 export {};

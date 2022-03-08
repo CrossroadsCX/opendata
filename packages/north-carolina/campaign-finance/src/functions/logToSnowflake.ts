@@ -17,7 +17,8 @@ interface LogToSnowflake {
 
 export const logToSnowflake: LogToSnowflake = async (message) => {
   const inputString = Buffer.from(message.data, 'base64').toString()
-  const { sqlText, binds}: ConnectionArgs = JSON.parse(inputString)
+  const { sqlText, binds }: ConnectionArgs = JSON.parse(inputString)
+
   const connection = await getConnection()
 
   const rows = await new Promise((resolve, reject) => {

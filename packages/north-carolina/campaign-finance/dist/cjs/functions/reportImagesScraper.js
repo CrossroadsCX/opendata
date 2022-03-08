@@ -5,13 +5,14 @@ const tslib_1 = require("tslib");
 const pubsub_1 = require("@google-cloud/pubsub");
 const date_fns_1 = require("date-fns");
 const puppeteer_1 = (0, tslib_1.__importDefault)(require("puppeteer"));
-const snowflake_1 = require("..//utils/snowflake");
+const getUrlParam_1 = require("../utils/getUrlParam");
 const logger_1 = require("../utils/logger");
+const { NODE_ENV } = process.env;
 const baseUrl = 'https://cf.ncsbe.gov';
 const baseSearchUrl = 'https://cf.ncsbe.gov/CFDocLkup/DocumentResult/';
 const topicName = 'report-image-requests';
 const logTopicName = 'snowflake-logs';
-const INSERT_QUERY = 'INSERT INTO SCRAPER_LOGS (MESSAGE_ID, IMAGE_URL, STATUS, COMMITTEE_NAME, REPORT_TYPE, AMENDED, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+const INSERT_QUERY = 'INSERT INTO IMAGE_DOWNLOAD_REQUESTS (DID, IMAGE_URL, COMMITTEE_NAME, REPORT_TYPE, AMENDED, REPORT_YEAR, UPDATED_AT, CREATED_AT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 const getRowData = (row) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     const committeeName = yield row.$eval('td[aria-describedby="gridDocumentResults_CommitteeName"]', (td) => td.innerText);
     const reportYear = yield row.$eval('td[aria-describedby="gridDocumentResults_ReportYear"]', (td) => td.innerText);
@@ -60,30 +61,24 @@ const reportImagesScraper = (message) => (0, tslib_1.__awaiter)(void 0, void 0, 
         return !row.rowData.text;
     });
     yield browser.close();
+    logger_1.logger.info(`Starting downloads for ${rowsMissingData.length} images.`);
     const results = rowsMissingData.map((rowInfo) => {
-        return Object.assign(Object.assign({}, rowInfo), { imageLink: `${baseUrl}${rowInfo.rowImage.href}` });
+        const imageLink = `${baseUrl}${rowInfo.rowImage.href}`;
+        const DID = (0, getUrlParam_1.getUrlParam)(imageLink, 'DID');
+        if (!DID)
+            throw new Error(`Could not get DID for ${imageLink}`);
+        return Object.assign(Object.assign({}, rowInfo), { imageLink,
+            DID });
     });
     const pubsub = new pubsub_1.PubSub();
-    const batchPublisher = pubsub.topic(topicName, {
-        batching: {
-            maxMessages: 10,
-            maxMilliseconds: 10000,
-        },
-    });
-    const loggerBatchPublisher = pubsub.topic(logTopicName, {
-        batching: {
-            maxMessages: 10,
-            maxMilliseconds: 1000,
-        },
-    });
-    const connection = yield (0, snowflake_1.getConnection)();
+    const downloadTopic = pubsub.topic(topicName);
+    const loggingTopic = pubsub.topic(logTopicName);
     const publishPromises = results.map((request) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
         const requestBuffer = Buffer.from(JSON.stringify(request));
-        const messageId = yield batchPublisher.publish(requestBuffer);
+        yield downloadTopic.publish(requestBuffer);
         const queryArgs = [
-            messageId,
+            request.DID,
             request.imageLink,
-            'Pending',
             request.committeeName,
             request.reportType,
             request.rowAmended,
@@ -96,12 +91,12 @@ const reportImagesScraper = (message) => (0, tslib_1.__awaiter)(void 0, void 0, 
             binds: queryArgs,
         };
         const snowflakeArgsBuffer = Buffer.from(JSON.stringify(snowflakeArgs));
-        const logId = yield batchPublisher.publish(snowflakeArgsBuffer);
-        logger_1.logger.info(`Message id ${messageId} published. Log event id: ${logId}`);
+        yield loggingTopic.publish(snowflakeArgsBuffer);
+        return;
     }));
     yield Promise.all(publishPromises);
-    yield (0, snowflake_1.closeConnection)();
-    return results;
+    logger_1.logger.info(`Successfully published messages for ${publishPromises.length} download requests.`);
+    return;
 });
 exports.reportImagesScraper = reportImagesScraper;
 //# sourceMappingURL=reportImagesScraper.js.map

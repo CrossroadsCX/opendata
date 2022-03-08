@@ -5,15 +5,11 @@ import { streamFileToGCS } from '../helpers/streamFileToGCS';
 import { logger } from '../utils/logger';
 const destBucket = 'raw-report-images';
 const loggingTopic = 'snowflake-logs';
-const UPDATE_QUERY = 'UPDATE SCRAPER_LOGS SET STATUS = ?, RESULT_URL = ?, UPDATED_AT = ? WHERE MESSAGE_ID = ?';
-export const downloadReportImage = (event, context) => __awaiter(void 0, void 0, void 0, function* () {
-    logger.info(event);
-    logger.info(context);
-    const { eventId } = context;
-    logger.info(eventId);
+const UPDATE_QUERY = 'INSERT INTO IMAGE_DOWNLOAD_LOGS (DID, RESULT_URL, UPDATED_AT) VALUES (?, ?, ?)';
+export const downloadReportImage = (event) => __awaiter(void 0, void 0, void 0, function* () {
     const imageDataString = Buffer.from(event.data, 'base64').toString();
     const imageData = JSON.parse(imageDataString);
-    const { committeeName, imageLink, reportYear, reportType, rowAmended } = imageData;
+    const { DID, committeeName, imageLink, reportYear, reportType, rowAmended } = imageData;
     const requestOptions = {
         method: 'GET',
         url: imageLink,
@@ -21,15 +17,13 @@ export const downloadReportImage = (event, context) => __awaiter(void 0, void 0,
     const options = {
         contentType: 'application/pdf'
     };
-    const filename = `${reportYear}/${reportType}/${committeeName}${rowAmended === 'Y' ? '__amended' : ''}.pdf`;
+    const filename = `${reportYear}/${reportType}/${DID}__${committeeName.replace('/', '-')}${rowAmended === 'Y' ? '__amended' : ''}.pdf`;
     logger.info(`Streaming file from ${imageLink} to ${destBucket}`);
     const result = yield streamFileToGCS(requestOptions, destBucket, filename, options);
-    logger.info(result);
     const queryArgs = [
-        'Downloaded',
+        DID,
         `gs://${destBucket}/${filename}`,
-        formatISO9075(Date.now()),
-        eventId,
+        formatISO9075(Date.now())
     ];
     const pubsub = new PubSub();
     const topic = pubsub.topic(loggingTopic);

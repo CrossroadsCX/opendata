@@ -9,11 +9,13 @@ const secrets_1 = require("../gcp/secrets");
 const logger = winston_1.default.createLogger({
     format: winston_1.default.format.json(),
     transports: [
-        new winston_1.default.transports.Console(),
         new logging_winston_1.LoggingWinston(),
     ]
 });
 exports.logger = logger;
+if (process.env.NODE_ENV !== 'production') {
+    logger.transports.push(new winston_1.default.transports.Console());
+}
 const createSlackLogger = () => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
     const slackLogger = winston_1.default.createLogger({
         format: winston_1.default.format.simple(),

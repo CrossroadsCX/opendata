@@ -1,4 +1,3 @@
-import { Context } from '@google-cloud/functions-framework'
 import { PubSub } from '@google-cloud/pubsub'
 import { formatISO9075 } from 'date-fns'
 
@@ -8,25 +7,21 @@ import { logger } from '../utils/logger'
 
 const destBucket = 'raw-report-images'
 const loggingTopic = 'snowflake-logs'
-const UPDATE_QUERY = 'UPDATE SCRAPER_LOGS SET STATUS = ?, RESULT_URL = ?, UPDATED_AT = ? WHERE MESSAGE_ID = ?'
+const UPDATE_QUERY = 'INSERT INTO IMAGE_DOWNLOAD_LOGS (DID, RESULT_URL, UPDATED_AT) VALUES (?, ?, ?)'
 
 type DownloadReportImageEvent = {
   data: string
 }
 
 interface DownloadReportImage {
-  (event: DownloadReportImageEvent, context: Context): Promise<void>
+  (event: DownloadReportImageEvent): Promise<void>
 }
 
-export const downloadReportImage: DownloadReportImage = async (event, context) => {
-  logger.info(event)
-  logger.info(context)
-  const { eventId } = context
-  logger.info(eventId)
+export const downloadReportImage: DownloadReportImage = async (event) => {
   const imageDataString = Buffer.from(event.data, 'base64').toString()
   const imageData: ReportImageData = JSON.parse(imageDataString)
 
-  const { committeeName, imageLink, reportYear, reportType, rowAmended } = imageData
+  const { DID, committeeName, imageLink, reportYear, reportType, rowAmended } = imageData
 
   const requestOptions = {
     method: 'GET',
@@ -37,18 +32,16 @@ export const downloadReportImage: DownloadReportImage = async (event, context) =
     contentType: 'application/pdf'
   }
 
-  const filename = `${reportYear}/${reportType}/${committeeName}${rowAmended === 'Y' ? '__amended' : ''}.pdf`
+  const filename = `${reportYear}/${reportType}/${DID}__${committeeName.replace('/', '-')}${rowAmended === 'Y' ? '__amended' : ''}.pdf`
 
   logger.info(`Streaming file from ${imageLink} to ${destBucket}`)
 
   const result = await streamFileToGCS(requestOptions, destBucket, filename, options)
-  logger.info(result)
 
   const queryArgs = [
-    'Downloaded',
+    DID,
     `gs://${destBucket}/${filename}`,
-    formatISO9075(Date.now()),
-    eventId as string,
+    formatISO9075(Date.now())
   ]
 
   const pubsub = new PubSub()
