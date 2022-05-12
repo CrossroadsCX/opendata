@@ -1,0 +1,35 @@
+{
+  "name": "visualizations",
+  "packageManager": "yarn@3.1.1",
+  "dependencies": {
+    "d3": "^7.4.4",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@crossroadscx/eslint-config": "^0.0.8",
+    "@mdx-js/react": "^1.6.22",
+    "@storybook/addon-actions": "^6.4.22",
+    "@storybook/addon-docs": "^6.4.22",
+    "@storybook/addon-essentials": "^6.4.22",
+    "@storybook/addon-interactions": "^6.4.22",
+    "@storybook/addon-links": "^6.4.22",
+    "@storybook/react": "^6.4.22",
+    "@storybook/testing-library": "^0.0.11",
+    "@types/d3": "^7.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "babel-loader": "^8.2.5",
+    "eslint": "^8.15.0",
+    "eslint-import-resolver-node": "^0.3.6",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.4",
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "lint": "eslint --ext=tsx,ts,js src",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  }
+}
