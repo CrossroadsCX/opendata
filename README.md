@@ -1,5 +1,8 @@
-# opendata
+# CrossroadsCX Open Data
 Sets of open data tools and infrastructure for handling open data - from campaign finance to voter data
+
+## Discord
+Join our [Discord Community](https://discord.gg/webJUEhJdN) to join the conversation!
 
 ## Infrastructure
 All code provided in this repo has been designed to work with products provided by [Google Cloud Platform ( GCP )](https://cloud.google.com). We have done our best to decscribe the infrastructure these tools run on. If you still have questions, please open an issue requesting documentation updates.
