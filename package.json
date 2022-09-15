@@ -15,7 +15,8 @@
   },
   "workspaces": {
     "packages": [
-      "packages/north-carolina/campaign-finance"
+      "packages/north-carolina/campaign-finance",
+      "packages/visualizations"
     ]
   },
   "nohoist": [
