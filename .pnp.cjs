@@ -41,6 +41,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["@types/node", "npm:17.0.8"],
+            ["csv-parse", "npm:5.3.0"],
             ["dotenv", "npm:10.0.0"],
             ["typescript", "patch:typescript@npm%3A4.5.4#~builtin<compat/typescript>::version=4.5.4&hash=493e53"]
           ],
@@ -5034,6 +5035,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["cssstyle", "npm:2.3.0"],
             ["cssom", "npm:0.3.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["csv-parse", [
+        ["npm:5.3.0", {
+          "packageLocation": "./.yarn/cache/csv-parse-npm-5.3.0-92f0ce63f9-6754e85aef.zip/node_modules/csv-parse/",
+          "packageDependencies": [
+            ["csv-parse", "npm:5.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -10319,6 +10329,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["opendata", "workspace:."],
             ["@types/node", "npm:17.0.8"],
+            ["csv-parse", "npm:5.3.0"],
             ["dotenv", "npm:10.0.0"],
             ["typescript", "patch:typescript@npm%3A4.5.4#~builtin<compat/typescript>::version=4.5.4&hash=493e53"]
           ],
