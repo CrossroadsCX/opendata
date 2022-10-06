@@ -14,7 +14,7 @@ export type DataPoint = {
   value: number;
 }
 
-type LineData = {
+export type LineData = {
   name: string;
   color: string;
   items: DataPoint[]

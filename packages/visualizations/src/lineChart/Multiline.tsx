@@ -1,29 +1,14 @@
 /** MultilineChart.js */
-import React from "react";
-import * as d3 from "d3";
+import React from 'react';
+import * as d3 from 'd3';
 import './multiline.css'
+import { Dimensions, MultilineData, LineData, DataPoint } from './types'
 
 export type MultilineChartProps = {
-  data: {
-    name: string
-    color: string
-    items: {
-      date: Date
-      value: number
-    }[]
-  }[]
-  dimensions: {
-    width: number;
-    height: number;
-    margin: {
-      top: number;
-      right: number;
-      bottom: number;
-      left: number;
-    };
-  }
-  xLabel: string
-  yLabel: string
+  data: MultilineData
+  dimensions: Dimensions
+  xLabel?: string
+  yLabel?: string
 }
 
 
@@ -41,9 +26,10 @@ export const MultilineChart: React.FC<MultilineChartProps> = ({ data, dimensions
   React.useEffect(() => {
     if (data[0]) {
 
+      const xDomain = d3.extent(data[0].items, (d: DataPoint) => d.date)
       const xScale = d3
         .scaleTime()
-        .domain(d3.extent(data[0].items, (d) => d.date))
+        .domain(xDomain as Iterable<Date | number>)
         .range([50, 500])
         .nice()
 
@@ -57,38 +43,38 @@ export const MultilineChart: React.FC<MultilineChartProps> = ({ data, dimensions
         .nice()
       // Create root container where we will append all other chart elements
       const svgEl = d3.select(svgRef.current);
-      svgEl.selectAll("*").remove(); // Clear svg content before adding new elements
+      svgEl.selectAll('*').remove(); // Clear svg content before adding new elements
       const svg = svgEl
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
       // Add X grid lines with labels
       const xAxis = d3
         .axisBottom(xScale)
         .ticks(5)
         .tickSize(-width + margin.bottom);
       const xAxisGroup = svg
-        .append("g")
-        .attr("transform", `translate(0, ${height + 30 - margin.bottom})`)
+        .append('g')
+        .attr('transform', `translate(0, ${height + 30 - margin.bottom})`)
         .call(xAxis)
-        .call(g => g.select(".domain").remove())
-        .call(g => g.selectAll(".tick line").clone()
-          .attr("y2", margin.top + margin.bottom - height)
-          .attr("stroke-opacity", 0.1))
-        .call(g => g.append("text")
-          .attr("x", width / 2)
-          .attr("y", margin.bottom - 5)
-          .attr("fill", "currentColor")
-          .attr("text-anchor", "end")
-          .attr("font-weight", "bold")
-          .text(xLabel));
+        .call(g => g.select('.domain').remove())
+        .call(g => g.selectAll('.tick line').clone()
+          .attr('y2', margin.top + margin.bottom - height)
+          .attr('stroke-opacity', 0.1))
+        .call(g => g.append('text')
+          .attr('x', width / 2)
+          .attr('y', margin.bottom - 5)
+          .attr('fill', 'currentColor')
+          .attr('text-anchor', 'end')
+          .attr('font-weight', 'bold')
+          .text(xLabel || ''));
 
-      xAxisGroup.select(".domain").remove();
-      xAxisGroup.selectAll("line").attr("stroke", "rgba(0, 0, 0, 0.2)");
+      xAxisGroup.select('.domain').remove();
+      xAxisGroup.selectAll('line').attr('stroke', 'rgba(0, 0, 0, 0.2)');
       xAxisGroup
-        .selectAll("text")
-        .attr("opacity", 0.5)
-        .attr("color", "black")
-        .attr("font-size", "0.75rem");
+        .selectAll('text')
+        .attr('opacity', 0.5)
+        .attr('color', 'black')
+        .attr('font-size', '0.75rem');
       // Add Y grid lines with labels
       const yAxis = d3
         .axisLeft(yScale)
@@ -96,26 +82,26 @@ export const MultilineChart: React.FC<MultilineChartProps> = ({ data, dimensions
         .tickSize(-width)
         .tickFormat((val) => `${val}`)
 
-      const yAxisGroup = svg.append("g").call(yAxis)
-        .call(g => g.select(".domain").remove())
-        .call(g => g.selectAll(".tick line").clone()
-          .attr("x2", width - margin.left - margin.right)
-          .attr("stroke-opacity", 0.1))
-        .call(g => g.append("text")
-          .attr("x", -margin.left)
-          .attr("y", -20)
-          .attr("fill", "currentColor")
-          .attr("text-anchor", "start")
-          .attr("font-weight", "bold")
-          .text(yLabel))
+      const yAxisGroup = svg.append('g').call(yAxis)
+        .call(g => g.select('.domain').remove())
+        .call(g => g.selectAll('.tick line').clone()
+          .attr('x2', width - margin.left - margin.right)
+          .attr('stroke-opacity', 0.1))
+        .call(g => g.append('text')
+          .attr('x', -margin.left)
+          .attr('y', -20)
+          .attr('fill', 'currentColor')
+          .attr('text-anchor', 'start')
+          .attr('font-weight', 'bold')
+          .text(yLabel || ''))
 
-      yAxisGroup.select(".domain").remove();
-      yAxisGroup.selectAll("line").attr("stroke", "rgba(0, 0, 0, 0.2)");
+      yAxisGroup.select('.domain').remove();
+      yAxisGroup.selectAll('line').attr('stroke', 'rgba(0, 0, 0, 0.2)');
       yAxisGroup
-        .selectAll("text")
-        .attr("opacity", 0.5)
-        .attr("color", "black")
-        .attr("font-size", "0.75rem");
+        .selectAll('text')
+        .attr('opacity', 0.5)
+        .attr('color', 'black')
+        .attr('font-size', '0.75rem');
 
       // Draw the lines
       const line = d3
@@ -126,55 +112,54 @@ export const MultilineChart: React.FC<MultilineChartProps> = ({ data, dimensions
 
 
       svg
-        .selectAll(".line")
+        .selectAll('.line')
         .data(data)
         .enter()
-        .append("path")
-        .attr("fill", "none")
-        .attr("stroke", (d) => d.color)
-        .attr("stroke-width", 2)
-        .attr("d", (d) => line(d.items))
+        .append('path')
+        .attr('fill', 'none')
+        .attr('stroke', (d) => d.color)
+        .attr('stroke-width', 2)
+        .attr('d', (d: LineData) => line(d.items))
 
       data.map((actualData) =>
-        d3.select("svg")
-          .selectAll(".circle")
-          .append("g")
+        d3.select('svg')
+          .selectAll('.circle')
+          .append('g')
           .data(actualData.items)
           .enter()
-          .append("circle")
-          .attr("r", 4)
-          .attr("cx", d => xScale(d.date) + margin.left)
-          .attr("cy", d => yScale(d.value) + margin.bottom)
-          .style("fill", actualData.color)
+          .append('circle')
+          .attr('r', 4)
+          .attr('cx', d => xScale(d.date) + margin.left)
+          .attr('cy', d => yScale(d.value) + margin.bottom)
+          .style('fill', actualData.color)
       )
 
       data.map((actualData) =>
         svg.append('g')
-          .selectAll("text")
+          .selectAll('text')
           .data(actualData.items)
           .enter()
           .append('text')
-          .attr("opacity", 0.7)
-          .attr("color", "black")
-          .attr("font-size", "0.75rem")
-          .attr("fill", "currentColor")
-          .attr("text-anchor", "end")
-          .attr("x", d => xScale(d.date) + 30)
-          .attr("y", d => yScale(d.value) + margin.bottom - 40)
-          .text( d => d.value.toLocaleString('en-US', {
+          .attr('opacity', 0.5)
+          .attr('color', 'black')
+          .attr('font-size', '0.75rem')
+          .attr('fill', 'currentColor')
+          .attr('font-family', 'sans-serif')
+          .attr('text-anchor', 'middle')
+          .attr('x', d => xScale(d.date))
+          .attr('y', d => yScale(d.value) + margin.bottom - 40)
+          .text(d => d.value.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD',
             maximumFractionDigits: 0
           }))
+          .classed('label', true)
       )
-
-
-
     }
   }, [data]);
 
   return (
-    <div className="App">
+    <div className='App'>
       <svg ref={svgRef} width={svgWidth} height={svgHeight} />
     </div>
   )
