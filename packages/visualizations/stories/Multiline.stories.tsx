@@ -61,13 +61,13 @@ const financeReporting2 = [
 ]
 
 const financeReportingData = {
-  name: "Portfolio",
+  name: "Red",
   color: "red",
   items: financeReporting.map((d) => ({ ...d, date: new Date(d.date) }))
 };
 
 const financeReportingData2 = {
-  name: "Portfolio",
+  name: "Blue",
   color: "blue",
   items: financeReporting2.map((d) => ({ ...d, date: new Date(d.date) }))
 };
@@ -80,8 +80,8 @@ export default {
 const Template: Story<MultilineChartProps> = (args) => <MultilineChart {...args} />
 
 export const SingleLine = Template.bind({})
-SingleLine.args = { data: [financeReportingData], dimensions, xLabel: 'Year', yLabel:'Finance' }
+SingleLine.args = { data: [financeReportingData], dimensions, xLabel: 'Year', yLabel:'Contribution' }
 
 export const MultiLine = Template.bind({})
-MultiLine.args = { data: [financeReportingData, financeReportingData2], dimensions, xLabel: 'Year', yLabel:'Finance' }
+MultiLine.args = { data: [financeReportingData, financeReportingData2], dimensions, xLabel: 'Year', yLabel:'Contribution' }
 
