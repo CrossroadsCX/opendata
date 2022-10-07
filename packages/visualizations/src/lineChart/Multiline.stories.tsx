@@ -12,7 +12,7 @@ const dimensions = {
     bottom: 30,
     left: 60
   }
-};
+}
 
 const financeReporting = [
   {
@@ -64,13 +64,13 @@ const financeReportingData = {
   name: "Red",
   color: "red",
   items: financeReporting.map((d) => ({ ...d, date: new Date(d.date) }))
-};
+}
 
 const financeReportingData2 = {
   name: "Blue",
   color: "blue",
   items: financeReporting2.map((d) => ({ ...d, date: new Date(d.date) }))
-};
+}
 
 export default {
   title: 'Charts/LineChart',

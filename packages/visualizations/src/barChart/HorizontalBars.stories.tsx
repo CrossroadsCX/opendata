@@ -74,5 +74,5 @@ export default {
 
 const Template: Story<HorizontalBarsChartProps> = (args) => <HorizontalBarsChart {...args} />
 
-export const SingleLine = Template.bind({})
-SingleLine.args = { data: financeReportingData, dimensions, xLabel: 'Aumont', yLabel:'Organization' }
+export const HorizontalBars = Template.bind({})
+HorizontalBars.args = { data: financeReportingData, dimensions, xLabel: 'Aumont', yLabel:'Organization' }
