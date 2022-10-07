@@ -12,6 +12,7 @@ export type Dimensions = {
 export type DataPoint = {
   date: Date;
   value: number;
+  label?: string
 }
 
 export type LineData = {
