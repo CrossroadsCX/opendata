@@ -10,60 +10,60 @@ const dimensions = {
     top: 10,
     right: 30,
     bottom: 30,
-    left: 60
+    left: 150
   }
 };
 
 const financeReporting = [
   {
     value: 4394401,
-    label: 'AAA'
+    label: 'DEMOCRATIC ACTION'
   },
   {
     value: 985912,
-    label: 'BBB'
+    label: 'DAGA PAC'
   },
   {
     value: 5361978,
-    label: 'CCC'
+    label: 'NC REALTORS PAC'
   },
   {
     value: 2239235,
-    label: 'DDD'
+    label: 'EMILYS LIST'
   },
   {
     value: 8259794,
-    label: 'EEE'
+    label: 'FLIPPABLE'
   },
   {
     value: 219235,
-    label: 'FFF'
+    label: 'DUKE ENERGY CORP PAC'
   },
   {
     value: 1825974,
-    label: 'GGG'
+    label: 'NSCFAA PAC INC'
   },
   {
     value: 4394401,
-    label: 'HHH'
+    label: 'NC HOSPITAL ASSN PAC'
   },
   {
     value: 985912,
-    label: 'III'
+    label: 'SNITH ANDERSON PAC'
   },
   {
     value: 5361978,
-    label: 'JJJ'
+    label: 'NC FARM BUREAU PAC'
   },
   {
     value: 2239235,
-    label: 'KKK'
+    label: 'NC DENTAL SOCIETY PAC'
   }
 ]
 
 const financeReportingData = {
   name: "Expeditures",
-  color: "blue",
+  color: "steelblue",
   items: financeReporting
 };
 

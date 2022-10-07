@@ -1,7 +1,7 @@
 /** MultilineChart.js */
 import React from 'react';
 import * as d3 from 'd3';
-import './multiline.css'
+import './horizontalBars.css'
 import { Dimensions, BarData, DataPoint } from './types'
 
 export type HorizontalBarsChartProps = {
@@ -91,16 +91,19 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
         .ticks(10)
         .tickFormat((val) => `${val}`)
 
-      const yAxisGroup = svg.append('g').call(yAxis)
+
+      const yAxisGroup = svg.append('g')
+        .attr('transform', `translate(${margin.left - 130})`)
+        .call(yAxis)
         .call(g => g.select('.domain').remove())
         .call(g => g.selectAll('.tick line').clone()
           .attr('x2', width - margin.left - margin.right)
           .attr('stroke-width', 0))
         .call(g => g.append('text')
-          .attr('x', -margin.left)
+          .attr('x', -margin.left + 140)
           .attr('y', 0)
           .attr('fill', 'currentColor')
-          .attr('text-anchor', 'start')
+          .attr('text-anchor', 'end')
           .attr('font-weight', 'bold')
           .text(yLabel || ''))
 
@@ -110,9 +113,10 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
         .selectAll('text')
         .attr('opacity', 0.5)
         .attr('color', 'black')
-        .attr('font-size', '0.75rem');
+        .attr('font-size', '0.75rem')
 
 
+      // Draw Labels
       svg.selectAll("myRect")
         .data(data.items)
         .join("rect")
@@ -122,7 +126,7 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
         .attr("height", yScale.bandwidth())
         .attr("fill", data.color)
 
-
+      // Bar value labels
       svg.append('g')
         .selectAll('text')
         .data(data.items)
@@ -146,7 +150,7 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
   }, [data]);
 
   return (
-    <div className='App'>
+    <div className='chartContainer'>
       <svg ref={svgRef} width={svgWidth} height={svgHeight} />
     </div>
   )

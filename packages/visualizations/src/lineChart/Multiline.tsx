@@ -159,7 +159,7 @@ export const MultilineChart: React.FC<MultilineChartProps> = ({ data, dimensions
   }, [data]);
 
   return (
-    <div className='App'>
+    <div className='chartContainer'>
       <svg ref={svgRef} width={svgWidth} height={svgHeight} />
     </div>
   )
