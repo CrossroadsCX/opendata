@@ -2,17 +2,19 @@
 import React from 'react';
 import * as d3 from 'd3';
 import './multiline.css'
-import { Dimensions, MultilineData, LineData, DataPoint } from '../lineChart/types'
+import { Dimensions, BarData, DataPoint } from './types'
 
-export type MultilineChartProps = {
-  data: MultilineData
+export type HorizontalBarsChartProps = {
+  data: BarData
   dimensions: Dimensions
   xLabel?: string
   yLabel?: string
 }
 
 
-export const MultilineChart: React.FC<MultilineChartProps> = ({ data, dimensions, xLabel, yLabel }) => {
+export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
+  data, dimensions, xLabel, yLabel,
+}) => {
 
   const svgRef = React.useRef(null);
 
@@ -24,9 +26,9 @@ export const MultilineChart: React.FC<MultilineChartProps> = ({ data, dimensions
   const svgHeight = height + margin.top + margin.bottom + 20;
 
   React.useEffect(() => {
-    if (data[0]) {
+    if (data.items) {
 
-      const xDomain = d3.extent(data[0].items, (d: DataPoint) => d.value)
+      const xDomain = d3.extent(data.items, (d: DataPoint) => d.value)
       const xScale = d3
         .scaleLinear()
         .domain(xDomain as Iterable<Number>)
@@ -35,7 +37,7 @@ export const MultilineChart: React.FC<MultilineChartProps> = ({ data, dimensions
 
       const yScale = d3
         .scaleBand()
-        .domain(data[0].items.map(d => d.label as string))
+        .domain(data.items.map(d => d.label as string))
         .range([height, 0])
         .padding(.2)
 
@@ -112,36 +114,34 @@ export const MultilineChart: React.FC<MultilineChartProps> = ({ data, dimensions
 
 
       svg.selectAll("myRect")
-        .data(data[0].items)
+        .data(data.items)
         .join("rect")
         .attr("x", xScale(0))
         .attr("y", d => yScale(d.label as string))
         .attr("width", d => xScale(d.value))
         .attr("height", yScale.bandwidth())
-        .attr("fill", "blue")
+        .attr("fill", data.color)
 
 
-      data.map((actualData) =>
-        svg.append('g')
-          .selectAll('text')
-          .data(actualData.items)
-          .enter()
-          .append('text')
-          .attr('opacity', 0.5)
-          .attr('color', 'black')
-          .attr('font-size', '0.75rem')
-          .attr('fill', 'currentColor')
-          .attr('font-family', 'sans-serif')
-          .attr('text-anchor', 'start')
-          .attr("x", d => xScale(d.value) + 55)
-          .attr("y", d => yScale(d.label as string) + yScale.bandwidth() / 2)
-          .text(d => d.value.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            maximumFractionDigits: 0
-          }))
-          .classed('label', true)
-      )
+      svg.append('g')
+        .selectAll('text')
+        .data(data.items)
+        .enter()
+        .append('text')
+        .attr('opacity', 0.5)
+        .attr('color', 'black')
+        .attr('font-size', '0.75rem')
+        .attr('fill', 'currentColor')
+        .attr('font-family', 'sans-serif')
+        .attr('text-anchor', 'start')
+        .attr("x", d => xScale(d.value) + 55)
+        .attr("y", d => yScale(d.label as string) + yScale.bandwidth() / 2)
+        .text(d => d.value.toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          maximumFractionDigits: 0
+        }))
+        .classed('label', true)
     }
   }, [data]);
 

@@ -11,13 +11,11 @@ export type Dimensions = {
 
 export type DataPoint = {
   value: number;
-  label: string
+  label?: string
 }
 
-export type LineData = {
+export type BarData = {
   name: string;
   color: string;
   items: DataPoint[]
 }
-
-export type MultilineData = LineData[]

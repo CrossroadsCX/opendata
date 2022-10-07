@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import { MultilineChart, MultilineChartProps } from '../src/lineChart/Multiline'
+import { MultilineChart, MultilineChartProps } from './Multiline'
 
 const dimensions = {
   width: 600,
@@ -73,7 +73,7 @@ const financeReportingData2 = {
 };
 
 export default {
-  title: 'Charts/Multiline',
+  title: 'Charts/LineChart',
   component: MultilineChart,
 } as Meta
 
