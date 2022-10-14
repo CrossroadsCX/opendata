@@ -20,6 +20,7 @@
     "@storybook/testing-library": "^0.0.11",
     "@types/d3": "^7.1.0",
     "@types/react": "^18.0.9",
+    "@types/lodash": "^4.14.186",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "babel-loader": "^8.2.5",
     "eslint": "^8.15.0",
@@ -27,6 +28,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.4",
+    "lodash": "^4.17.21",
     "typescript": "^4.6.4"
   },
   "scripts": {

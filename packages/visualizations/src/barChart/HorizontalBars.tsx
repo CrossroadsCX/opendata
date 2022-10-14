@@ -64,7 +64,7 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
     
       const xAxisGroup = svg
         .append('g')
-        .attr('transform', `translate(0, ${height + 50 - margin.bottom})`)
+        .attr('transform', `translate(30, ${height + 50 - margin.bottom})`)
         .call(xAxis)
         .call(g => g.select('.domain').remove())
         .call(g => g.selectAll('.tick line').clone()
@@ -100,11 +100,11 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
 
 
       const yAxisGroup = svg.append('g')
-        .attr('transform', `translate(${margin.left - 130})`)
+        .attr('transform', `translate(${margin.left - 150})`)
         .call(yAxis)
         .call(g => g.select('.domain').remove())
         .call(g => g.append('text')
-          .attr('x', -margin.left + 140)
+          .attr('x', -margin.left + 210)
           .attr('y', 0)
           .attr('fill', 'currentColor')
           .attr('text-anchor', 'end')
@@ -126,7 +126,7 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
       svg.selectAll('myRect')
         .data(data.items)
         .join('rect')
-        .attr('x', xScale(0))
+        .attr('x', xScale(0) + 30)
         .attr('y', d => yScale(d.label) as number)
         .attr('width', d => xScale(d.value))
         .attr('height', yScale.bandwidth())
@@ -144,7 +144,7 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
         .attr('fill', 'currentColor')
         .attr('font-family', 'sans-serif')
         .attr('text-anchor', 'start')
-        .attr('x', d => xScale(d.value) + 55)
+        .attr('x', d => xScale(d.value) + 84)
         .attr('y', d => yScale(d.label) as number + yScale.bandwidth() / 2)
         .text(d => d.value.toLocaleString('en-US', {
           style: 'currency',

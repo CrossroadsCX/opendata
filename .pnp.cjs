@@ -48,6 +48,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.19.3"],
             ["@types/node", "npm:17.0.8"],
             ["dotenv", "npm:10.0.0"],
+            ["dsv-loader", "npm:2.0.0"],
             ["typescript", "patch:typescript@npm%3A4.5.4#~builtin<compat/typescript>::version=4.5.4&hash=493e53"]
           ],
           "linkType": "SOFT",
@@ -11814,6 +11815,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["big.js", [
+        ["npm:3.2.0", {
+          "packageLocation": "./.yarn/cache/big.js-npm-3.2.0-85bc444414-299449e405.zip/node_modules/big.js/",
+          "packageDependencies": [
+            ["big.js", "npm:3.2.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:5.2.2", {
           "packageLocation": "./.yarn/cache/big.js-npm-5.2.2-e147c30820-b89b6e8419.zip/node_modules/big.js/",
           "packageDependencies": [
@@ -13846,6 +13854,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["d3-dsv", [
+        ["npm:1.2.0", {
+          "packageLocation": "./.yarn/cache/d3-dsv-npm-1.2.0-8721ea23bf-96c6e3d5ca.zip/node_modules/d3-dsv/",
+          "packageDependencies": [
+            ["d3-dsv", "npm:1.2.0"],
+            ["commander", "npm:2.20.3"],
+            ["iconv-lite", "npm:0.4.24"],
+            ["rw", "npm:1.3.3"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.0.1", {
           "packageLocation": "./.yarn/cache/d3-dsv-npm-3.0.1-5d88fb8a85-5fc0723647.zip/node_modules/d3-dsv/",
           "packageDependencies": [
@@ -14811,6 +14829,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["dsv-loader", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/dsv-loader-npm-2.0.0-79cdb145d5-670f699efd.zip/node_modules/dsv-loader/",
+          "packageDependencies": [
+            ["dsv-loader", "npm:2.0.0"],
+            ["d3-dsv", "npm:1.2.0"],
+            ["loader-utils", "npm:0.2.17"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["duplexify", [
         ["npm:3.7.1", {
           "packageLocation": "./.yarn/cache/duplexify-npm-3.7.1-8f4f1e821f-3c2ed2223d.zip/node_modules/duplexify/",
@@ -14930,6 +14959,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["emojis-list", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/emojis-list-npm-2.1.0-e19a336e35-fb61fa6356.zip/node_modules/emojis-list/",
+          "packageDependencies": [
+            ["emojis-list", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.0.0", {
           "packageLocation": "./.yarn/cache/emojis-list-npm-3.0.0-7faa48e6fd-ddaaa02542.zip/node_modules/emojis-list/",
           "packageDependencies": [
@@ -20296,6 +20332,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["json5", [
+        ["npm:0.5.1", {
+          "packageLocation": "./.yarn/cache/json5-npm-0.5.1-dad9a6cdb1-9b85bf0695.zip/node_modules/json5/",
+          "packageDependencies": [
+            ["json5", "npm:0.5.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:1.0.1", {
           "packageLocation": "./.yarn/cache/json5-npm-1.0.1-647fc8794b-e76ea23dbb.zip/node_modules/json5/",
           "packageDependencies": [
@@ -20625,6 +20668,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["loader-utils", [
+        ["npm:0.2.17", {
+          "packageLocation": "./.yarn/cache/loader-utils-npm-0.2.17-1fe62fab05-3045c83ef8.zip/node_modules/loader-utils/",
+          "packageDependencies": [
+            ["loader-utils", "npm:0.2.17"],
+            ["big.js", "npm:3.2.0"],
+            ["emojis-list", "npm:2.1.0"],
+            ["json5", "npm:0.5.1"],
+            ["object-assign", "npm:4.1.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:1.4.0", {
           "packageLocation": "./.yarn/cache/loader-utils-npm-1.4.0-a56254a277-d150b15e7a.zip/node_modules/loader-utils/",
           "packageDependencies": [
@@ -22323,6 +22377,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.19.3"],
             ["@types/node", "npm:17.0.8"],
             ["dotenv", "npm:10.0.0"],
+            ["dsv-loader", "npm:2.0.0"],
             ["typescript", "patch:typescript@npm%3A4.5.4#~builtin<compat/typescript>::version=4.5.4&hash=493e53"]
           ],
           "linkType": "SOFT",
@@ -27707,6 +27762,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@storybook/react", "virtual:877e2d3914acadefe13dc9834afa84453c0468b8ccbb0bc8874c1d5f3d6077e686466f8484c0fc1f24a9d8c202e773aece3d33ee6730493307028ae6736dd2b1#npm:6.5.12"],
             ["@storybook/testing-library", "npm:0.0.11"],
             ["@types/d3", "npm:7.4.0"],
+            ["@types/lodash", "npm:4.14.186"],
             ["@types/react", "npm:18.0.21"],
             ["@typescript-eslint/eslint-plugin", "virtual:877e2d3914acadefe13dc9834afa84453c0468b8ccbb0bc8874c1d5f3d6077e686466f8484c0fc1f24a9d8c202e773aece3d33ee6730493307028ae6736dd2b1#npm:5.39.0"],
             ["babel-loader", "virtual:877e2d3914acadefe13dc9834afa84453c0468b8ccbb0bc8874c1d5f3d6077e686466f8484c0fc1f24a9d8c202e773aece3d33ee6730493307028ae6736dd2b1#npm:8.2.5"],
@@ -27716,6 +27772,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-import", "virtual:877e2d3914acadefe13dc9834afa84453c0468b8ccbb0bc8874c1d5f3d6077e686466f8484c0fc1f24a9d8c202e773aece3d33ee6730493307028ae6736dd2b1#npm:2.26.0"],
             ["eslint-plugin-jsx-a11y", "virtual:877e2d3914acadefe13dc9834afa84453c0468b8ccbb0bc8874c1d5f3d6077e686466f8484c0fc1f24a9d8c202e773aece3d33ee6730493307028ae6736dd2b1#npm:6.5.1"],
             ["eslint-plugin-react", "virtual:877e2d3914acadefe13dc9834afa84453c0468b8ccbb0bc8874c1d5f3d6077e686466f8484c0fc1f24a9d8c202e773aece3d33ee6730493307028ae6736dd2b1#npm:7.31.8"],
+            ["lodash", "npm:4.17.21"],
             ["prop-types", "npm:15.8.1"],
             ["react", "npm:18.2.0"],
             ["react-dom", "virtual:877e2d3914acadefe13dc9834afa84453c0468b8ccbb0bc8874c1d5f3d6077e686466f8484c0fc1f24a9d8c202e773aece3d33ee6730493307028ae6736dd2b1#npm:18.2.0"],

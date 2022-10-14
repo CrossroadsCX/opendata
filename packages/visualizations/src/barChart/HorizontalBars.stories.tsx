@@ -1,7 +1,10 @@
 
 import React from 'react'
+import { groupBy } from 'lodash'
 import { Story, Meta } from '@storybook/react'
-import { HorizontalBarsChart, HorizontalBarsChartProps} from './HorizontalBars'
+import { HorizontalBarsChart, HorizontalBarsChartProps } from './HorizontalBars'
+// @ts-ignore-line
+import sampleData from '../../data/campaign_finance_sample.csv'
 
 const dimensions = {
   width: 600,
@@ -10,56 +13,23 @@ const dimensions = {
     top: 10,
     right: 30,
     bottom: 30,
-    left: 150
+    left: 220
   }
 };
 
-const financeReporting = [
-  {
-    value: 4394401,
-    label: 'DEMOCRATIC ACTION'
-  },
-  {
-    value: 985912,
-    label: 'DAGA PAC'
-  },
-  {
-    value: 5361978,
-    label: 'NC REALTORS PAC'
-  },
-  {
-    value: 2239235,
-    label: 'EMILYS LIST'
-  },
-  {
-    value: 8259794,
-    label: 'FLIPPABLE'
-  },
-  {
-    value: 219235,
-    label: 'DUKE ENERGY CORP PAC'
-  },
-  {
-    value: 1825974,
-    label: 'NSCFAA PAC INC'
-  },
-  {
-    value: 4394401,
-    label: 'NC HOSPITAL ASSN PAC'
-  },
-  {
-    value: 985912,
-    label: 'SNITH ANDERSON PAC'
-  },
-  {
-    value: 5361978,
-    label: 'NC FARM BUREAU PAC'
-  },
-  {
-    value: 2239235,
-    label: 'NC DENTAL SOCIETY PAC'
+const groupedByCommittee = groupBy(sampleData, 'COMMITTEE_NAME')
+
+const keys = Object.keys(groupedByCommittee)
+
+const tenKeys = keys.slice(0, 10)
+
+const financeReporting = tenKeys.map((key) => {
+  return {
+    value: groupedByCommittee[key].reduce((acc, num) => acc + parseInt(num.AMOUNT), 0),
+    label: key
   }
-]
+}
+)
 
 const financeReportingData = {
   name: "Expeditures",
@@ -75,4 +45,4 @@ export default {
 const Template: Story<HorizontalBarsChartProps> = (args) => <HorizontalBarsChart {...args} />
 
 export const HorizontalBars = Template.bind({})
-HorizontalBars.args = { data: financeReportingData, dimensions, xLabel: 'Aumont', yLabel:'Organization' }
+HorizontalBars.args = { data: financeReportingData, dimensions, xLabel: 'Aumont', yLabel: 'Organization' }
