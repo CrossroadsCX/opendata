@@ -32,7 +32,7 @@ const financeReporting = tenKeys.map((key) => {
 )
 
 const financeReportingData = {
-  name: "Expeditures",
+  name: "Expenditures",
   color: "steelblue",
   items: financeReporting
 };
@@ -45,4 +45,4 @@ export default {
 const Template: Story<HorizontalBarsChartProps> = (args) => <HorizontalBarsChart {...args} />
 
 export const HorizontalBars = Template.bind({})
-HorizontalBars.args = { data: financeReportingData, dimensions, xLabel: 'Aumont', yLabel: 'Organization' }
+HorizontalBars.args = { data: financeReportingData, dimensions, xLabel: 'Amount', yLabel: 'Organization' }
