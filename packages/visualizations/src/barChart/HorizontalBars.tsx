@@ -23,16 +23,19 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
 
   const svgWidth = width + margin.left + margin.right
   const svgHeight = height + margin.top + margin.bottom + 20
+  const domainMax = svgWidth - margin.left - margin.right - svgWidth * .10
 
   React.useEffect(() => {
     if (data.items) {
+      // Sort to show on descendant order
+      data.items.sort((a, b) => b.value - a.value)
 
       // X Scale and max values
       const xDomain = d3.extent(data.items, (d: DataPoint) => d.value)
       const xScale = d3
         .scaleLinear()
         .domain(xDomain as Iterable<Number>)
-        .range([50, 500])
+        .range([0, domainMax])
         .nice()
 
       // Y Scale and max values
@@ -46,7 +49,7 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
       const svgEl = d3.select(svgRef.current)
 
       // Clear svg content before adding new elements
-      svgEl.selectAll('*').remove() 
+      svgEl.selectAll('*').remove()
       const svg = svgEl
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`)
@@ -61,7 +64,7 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
           maximumFractionDigits: 1
         }).format(val as number)}`)
 
-    
+
       const xAxisGroup = svg
         .append('g')
         .attr('transform', `translate(30, ${height + 50 - margin.bottom})`)
@@ -76,7 +79,7 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
           .attr('fill', 'currentColor')
           .attr('text-anchor', 'end')
           .attr('font-weight', 'bold')
-            .text(xLabel || ''))
+          .text(xLabel || ''))
 
       xAxisGroup.select('.domain').remove()
 
@@ -95,16 +98,16 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
 
       const yAxis = d3
         .axisLeft(yScale)
-        .ticks(10)
-        .tickFormat((val) => `${val}`)
+        .ticks(data.items.length)
+        .tickFormat((val) => val.length > 29 ? `${val.slice(0, 26)}...` : val)
 
 
       const yAxisGroup = svg.append('g')
-        .attr('transform', `translate(${margin.left - 150})`)
+        .attr('transform', `translate(${margin.left - 180})`)
         .call(yAxis)
         .call(g => g.select('.domain').remove())
         .call(g => g.append('text')
-          .attr('x', -margin.left + 210)
+          .attr('x', -margin.left + 190)
           .attr('y', 0)
           .attr('fill', 'currentColor')
           .attr('text-anchor', 'end')
@@ -114,7 +117,7 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
       yAxisGroup.select('.domain').remove()
 
       yAxisGroup.selectAll('line').attr('stroke', 'rgba(0, 0, 0, 0.2)')
-      
+
       yAxisGroup
         .selectAll('text')
         .attr('opacity', 0.5)
@@ -144,7 +147,7 @@ export const HorizontalBarsChart: React.FC<HorizontalBarsChartProps> = ({
         .attr('fill', 'currentColor')
         .attr('font-family', 'sans-serif')
         .attr('text-anchor', 'start')
-        .attr('x', d => xScale(d.value) + 84)
+        .attr('x', d => xScale(d.value) + 40)
         .attr('y', d => yScale(d.label) as number + yScale.bandwidth() / 2)
         .text(d => d.value.toLocaleString('en-US', {
           style: 'currency',

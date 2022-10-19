@@ -10,22 +10,22 @@ const dimensions = {
   width: 600,
   height: 300,
   margin: {
-    top: 10,
+    top: 30,
     right: 30,
     bottom: 30,
-    left: 220
+    left: 200,
   }
-};
+}
 
 const groupedByCommittee = groupBy(sampleData, 'COMMITTEE_NAME')
 
 const keys = Object.keys(groupedByCommittee)
 
-const tenKeys = keys.slice(0, 10)
+const tenKeys = keys.slice(10, 20)
 
 const financeReporting = tenKeys.map((key) => {
   return {
-    value: groupedByCommittee[key].reduce((acc, num) => acc + parseInt(num.AMOUNT), 0),
+    value: groupedByCommittee[key].reduce((acc, num) => acc + parseInt(num.AMOUNT as string), 0),
     label: key
   }
 }
