@@ -1,0 +1,14 @@
+
+.chartContainer {
+  background-color: white;
+  display: inline-block;
+}
+
+.label:hover {
+  opacity: 1;
+  box-shadow: 2px 2px;
+}
+
+rect:hover {
+  fill: rgb(86, 86, 130)
+}
